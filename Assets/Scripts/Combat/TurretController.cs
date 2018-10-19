@@ -9,15 +9,19 @@ public class TurretController : MonoBehaviour {
 
     [SerializeField]
     private TurretType turretType;
-    private Turret turret;
+    public Turret Turret { get; private set; }
 
     private IEnumerator fireCoroutine;
     private AudioSource audioSource;
     private bool isFiring = false;
-	void Start () {
+    private GameObject firePriority;
+
+   
+
+    void Start () {
         transform = this.gameObject.GetComponent<Transform>();
         audioSource = this.gameObject.GetComponent<AudioSource>();
-        this.turret = TurretFactory.getInstance().CreateTurret(turretType);
+        this.Turret = TurretFactory.getInstance().CreateTurret(turretType);
 
 	}
 	
@@ -36,25 +40,42 @@ public class TurretController : MonoBehaviour {
        
     }
 
+    public void setFirePriority(GameObject target)
+    {
+        this.firePriority = target;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(this.transform.position, this.Turret.Range);
+    }
     private IEnumerator FireSequence(GameObject target)
     {
-        while(true)
-        {
-            if(target == null)
-            {
-                isFiring = false;
-                break;
-            }
-            else if (Vector3.Distance(this.transform.position, target.transform.position) <= turret.Range)
-            {
-                isFiring = true;
-                Quaternion desRotation = Quaternion.LookRotation(target.transform.position - transform.position, Vector3.up);
-                GameObject bullet = Instantiate(this.turret.Bullet.Prefab, this.transform.position, desRotation);
 
-                bullet.GetComponent<BulletController>().Initiate(this.turret.Bullet);
-                audioSource.Play();
-            }
-            yield return new WaitForSeconds(this.turret.FireRate);
+        if(target == null)
+        {
+            isFiring = false;
         }
+        else if(this.firePriority != null && Vector3.Distance(this.transform.position, firePriority.transform.position) <= Turret.Range)
+        {
+            isFiring = true;
+            Quaternion desRotation = Quaternion.LookRotation(firePriority.transform.position - transform.position, Vector3.up);
+            GameObject bullet = Instantiate(this.Turret.Bullet.Prefab, this.transform.position, desRotation);
+
+            bullet.GetComponent<BulletController>().Initiate(this.Turret.Bullet);
+            audioSource.Play();
+        }
+        else if (Vector3.Distance(this.transform.position, target.transform.position) <= Turret.Range)
+        {
+            isFiring = true;
+            Quaternion desRotation = Quaternion.LookRotation(target.transform.position - transform.position, Vector3.up);
+            GameObject bullet = Instantiate(this.Turret.Bullet.Prefab, this.transform.position, desRotation);
+
+            bullet.GetComponent<BulletController>().Initiate(this.Turret.Bullet);
+            audioSource.Play();
+        }
+        yield return new WaitForSeconds(this.Turret.FireRate);
+        isFiring = false;
     }
 }

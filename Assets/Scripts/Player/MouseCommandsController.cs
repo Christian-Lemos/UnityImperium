@@ -12,17 +12,17 @@ public class MouseCommandsController : MonoBehaviour {
     /// </summary>
     [SerializeField]
     private List<GameObject> selectedGOs;
-
+    private int selectLayer;
 	void Start () {
         selectedGOs = new List<GameObject>();
-	}
+        selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map);
+    }
 	
 	void Update ()
     {
         ObjectSelector(); //left click
         FleetCommand(); //right click
 	}
-
     /// <summary>
     /// This method handles fleet's commands like move selected this to position
     /// </summary>
@@ -33,18 +33,16 @@ public class MouseCommandsController : MonoBehaviour {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit, 1000f))
+            if (Physics.Raycast(ray, out hit, 1000f, selectLayer))
             {
                 GameObject selected = (GameObject)hit.collider.gameObject;
                 if(selected.layer == (int) ObjectLayers.Map) //If right clicked on map
                 {
                     foreach (GameObject go in selectedGOs)
                     {
-                        ShipMovementController controller = go.GetComponent<ShipMovementController>();
-                        if(controller != null)
-                        {
-                            controller.MoveToPosition(hit.point, 1f);
-                        }
+                        ShipController controller = go.GetComponent<ShipController>();
+                        controller.MoveToPosition(hit.point, 1f);
+     
                     }
                 }
                 else if(selected.layer == (int)ObjectLayers.Ship)
