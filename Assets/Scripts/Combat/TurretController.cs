@@ -16,13 +16,11 @@ public class TurretController : MonoBehaviour {
     private bool isFiring = false;
     private GameObject firePriority;
 
-   
-
-    void Start () {
+    void Start ()
+    {
         transform = this.gameObject.GetComponent<Transform>();
         audioSource = this.gameObject.GetComponent<AudioSource>();
         this.Turret = TurretFactory.getInstance().CreateTurret(turretType);
-
 	}
 	
 	public void Fire(GameObject target)
@@ -52,7 +50,6 @@ public class TurretController : MonoBehaviour {
     }
     private IEnumerator FireSequence(GameObject target)
     {
-
         if(target == null)
         {
             isFiring = false;
@@ -77,5 +74,6 @@ public class TurretController : MonoBehaviour {
         }
         yield return new WaitForSeconds(this.Turret.FireRate);
         isFiring = false;
+        StopCoroutine(fireCoroutine);
     }
 }

@@ -61,7 +61,7 @@ public class ShipController : MonoBehaviour {
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(this.transform.position, this.ship.stats.FieldOfViewDistance);
+        Gizmos.DrawWireSphere(gameObject.transform.position, this.ship.stats.FieldOfViewDistance);
     }
 
     private void MovingStateControl()
@@ -123,11 +123,11 @@ public class ShipController : MonoBehaviour {
         this.moveOffset = destinationOffset;
         shipState = ShipState.Moving;
 
-        TurretController[] turrets = this.gameObject.GetComponentsInChildren<TurretController>(false);
+        /*TurretController[] turrets = this.gameObject.GetComponentsInChildren<TurretController>(false);
         foreach (TurretController turret in turrets)
         {
             turret.setFirePriority(null);
-        }
+        }*/
     }
 
     public void AttackTarget(GameObject target)
