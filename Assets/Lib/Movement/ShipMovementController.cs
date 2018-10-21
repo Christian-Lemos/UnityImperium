@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/// <summary>
+/// 
+/// </summary>
 public class ShipMovementController : MonoBehaviour
 {
     private ShipMovement shipMovement;

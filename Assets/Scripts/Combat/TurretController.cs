@@ -45,8 +45,16 @@ public class TurretController : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.transform.position, this.Turret.Range);
+        try
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(this.transform.position, this.Turret.Range);
+        }
+        catch
+        {
+
+        }
+        
     }
     private IEnumerator FireSequence(GameObject target)
     {

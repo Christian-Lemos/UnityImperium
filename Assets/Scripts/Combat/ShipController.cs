@@ -7,34 +7,39 @@ using Imperium.Movement;
 
 
 public class ShipController : MonoBehaviour {
+
+    
     public ShipType type;
+    private ShipState shipState = ShipState.Idle;
     private Ship ship;
+    private ShipMovement shipMovement;
 
     private new Transform transform;
 
     private GameObject target;
-    private ShipMovement shipMovement;
     private Vector3 moveDestination;
     private float moveOffset = 0f;
-    [SerializeField]
-    private ShipState shipState = ShipState.Idle;
+
     private GameObject gameController;
     private PlayerDatabase playerDatabase;
 
     private float lowestTurretRange;
+
     private void Start()
     {
         this.ship = ShipFactory.getInstance().CreateShip(type);
         this.transform = this.gameObject.GetComponent<Transform>();
         this.shipMovement = new ShipMovement(this.transform, 2f, 50f);
+
         gameController = GameObject.FindGameObjectWithTag("GameController");
         playerDatabase = gameController.GetComponent<PlayerDatabase>();
 
         lowestTurretRange = this.ship.stats.FieldOfViewDistance;
+
         TurretController[] turretControllers = this.gameObject.GetComponentsInChildren<TurretController>(false);
         foreach (TurretController turretController in turretControllers)
         {
-            if(turretController.Turret.Range > lowestTurretRange)
+            if (turretController.Turret.Range > lowestTurretRange)
             {
                 lowestTurretRange = turretController.Turret.Range;
             }
@@ -60,13 +65,20 @@ public class ShipController : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(gameObject.transform.position, this.ship.stats.FieldOfViewDistance);
+        try
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(gameObject.transform.position, this.ship.stats.FieldOfViewDistance);
+        }
+        catch
+        {
+
+        }
+       
     }
 
     private void MovingStateControl()
     {
-        Vector3 moveDestinationDirection = moveDestination - this.gameObject.transform.position;
         float distance = Vector3.Distance(moveDestination, this.gameObject.transform.position);
         if (distance > moveOffset)
         {
@@ -102,7 +114,7 @@ public class ShipController : MonoBehaviour {
         int thisPlayer = playerDatabase.getObjectPlayer(this.gameObject);
         foreach (Collider collider in colliders)
         {
-            if (true && !collider.gameObject.Equals(this.gameObject))
+            if (!playerDatabase.IsFromPlayer(collider.gameObject, thisPlayer) && !collider.gameObject.Equals(this.gameObject))
             {
                 float distance = Vector3.Distance(collider.gameObject.transform.position, transform.position);
                 if (distance >= closestDistance && distance <= this.ship.stats.FieldOfViewDistance)

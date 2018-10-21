@@ -6,9 +6,11 @@ public class PlayerDatabase : MonoBehaviour {
 
     public int playerCount;
     private List<GameObject>[] playerObjects;
-	
+    public static PlayerDatabase INSTANCE { get; private set; }
+
 	void Awake ()
     {
+        INSTANCE = this;
         playerObjects = new List<GameObject>[playerCount];
         for(int i = 0; i < playerCount; i++)
         {
@@ -17,17 +19,29 @@ public class PlayerDatabase : MonoBehaviour {
 	}
 	
 
+
     public void AddToPlayer(GameObject target, int player)
     {
-        List<GameObject> playerList = playerObjects[player];
-
-        if (playerList == null)
+        if(IsValidPlayer(player))
         {
-            throw new System.Exception("Player not found");
+            List<GameObject> playerList = playerObjects[player];
+            if (playerList.Find(x => x.Equals(target)) == null)
+            {
+                playerList.Add(target);
+            }
         }
-        else if(playerList.Find(x => x.Equals(target)) == null)
+    }
+
+    public bool IsValidPlayer(int player)
+    {
+        try
         {
-            playerList.Add(target);
+            List<GameObject> playerList = playerObjects[player];
+            return playerList != null;
+        }
+        catch
+        {
+            return false;
         }
     }
 
@@ -47,17 +61,17 @@ public class PlayerDatabase : MonoBehaviour {
 
     public bool IsFromPlayer(GameObject obj, int player)
     {
-        List<GameObject> playerList = playerObjects[player];
-
-        if(playerList == null)
+        if(IsValidPlayer(player))
         {
-            throw new System.Exception("Player not found");
-        }
-        else
-        {
+            List<GameObject> playerList = playerObjects[player];
             GameObject encontrado = playerList.Find(x => x.Equals(obj));
             return encontrado != null;
         }
+        else
+        {
+            throw new System.Exception("Player not found");
+        }
+        
 
     }
 

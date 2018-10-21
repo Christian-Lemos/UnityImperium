@@ -13,9 +13,12 @@ public class MouseCommandsController : MonoBehaviour {
     [SerializeField]
     private List<GameObject> selectedGOs;
     private int selectLayer;
+
+    private PlayerDatabase playerDatabase;
 	void Start () {
         selectedGOs = new List<GameObject>();
         selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map);
+        playerDatabase = PlayerDatabase.INSTANCE;
     }
 	
 	void Update ()
@@ -47,9 +50,14 @@ public class MouseCommandsController : MonoBehaviour {
                 }
                 else if(selected.layer == (int)ObjectLayers.Ship)
                 {
-                    foreach(GameObject go in selectedGOs)
+                    int selectedPlayer = playerDatabase.getObjectPlayer(selected);
+                    foreach (GameObject go in selectedGOs)
                     {
-                        go.GetComponent<ShipController>().AttackTarget(selected);
+                        if (!playerDatabase.IsFromPlayer(go, selectedPlayer))
+                        {
+                            go.GetComponent<ShipController>().AttackTarget(selected);
+                        }
+                        
                     }
                 }
             }

@@ -26,6 +26,11 @@ public class Spawner : MonoBehaviour {
 
     public GameObject SpawnShip(ShipType type, int player, Vector3 position, Quaternion rotation)
     {
+        if (!playerDatabase.IsValidPlayer(player))
+        {
+            throw new System.Exception("Not a valid player");
+        }
+
         GameObject prefab = true_associations[type];
         if(prefab == null)
         {
