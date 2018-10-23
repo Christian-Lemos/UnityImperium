@@ -31,15 +31,7 @@ public class BulletController : MonoBehaviour {
         {
             ShipController shipController = other.gameObject.GetComponent<ShipController>();
             shipController.TakeDamage(this.bullet.Damage);
-        }
-    }
-    private void OnCollisionEnter(Collision other)
-    {
-        Debug.Log("oi");
-        if (other.gameObject.layer == (int)ObjectLayers.Ship && !other.gameObject.Equals(this.source))
-        {
-            ShipController shipController = other.gameObject.GetComponent<ShipController>();
-            shipController.TakeDamage(this.bullet.Damage);
+            Destroy(this.gameObject);
         }
     }
 }
