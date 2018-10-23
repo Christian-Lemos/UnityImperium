@@ -8,12 +8,12 @@ namespace Imperium
     public class Ship
     {
         public string Name { get; set; }
-        public Stats stats;
+        public Stats shipStats { get; private set; }
 
         public Ship(string name, Stats stats)
         {
-            Name = name;    
-            this.stats = stats;
+            Name = name;
+            this.shipStats = stats;
         }
     }
 }

@@ -11,7 +11,7 @@ public class ShipController : MonoBehaviour {
     
     public ShipType type;
     private ShipState shipState = ShipState.Idle;
-    private Ship ship;
+    public Ship Ship { get; private set; }
     private ShipMovement shipMovement;
 
     private new Transform transform;
@@ -25,16 +25,18 @@ public class ShipController : MonoBehaviour {
 
     private float lowestTurretRange;
 
+   // public GameObject explosion;
+
     private void Start()
     {
-        this.ship = ShipFactory.getInstance().CreateShip(type);
+        this.Ship = ShipFactory.getInstance().CreateShip(type);
         this.transform = this.gameObject.GetComponent<Transform>();
         this.shipMovement = new ShipMovement(this.transform, 2f, 50f);
 
         gameController = GameObject.FindGameObjectWithTag("GameController");
         playerDatabase = gameController.GetComponent<PlayerDatabase>();
 
-        lowestTurretRange = this.ship.stats.FieldOfViewDistance;
+        lowestTurretRange = this.Ship.shipStats.FieldOfViewDistance;
 
         TurretController[] turretControllers = this.gameObject.GetComponentsInChildren<TurretController>(false);
         foreach (TurretController turretController in turretControllers)
@@ -44,6 +46,7 @@ public class ShipController : MonoBehaviour {
                 lowestTurretRange = turretController.Turret.Range;
             }
         }
+        StartCoroutine(ShieldRegeneration());
     }
 
     private void Update()
@@ -68,7 +71,7 @@ public class ShipController : MonoBehaviour {
         try
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(gameObject.transform.position, this.ship.stats.FieldOfViewDistance);
+            Gizmos.DrawWireSphere(gameObject.transform.position, this.Ship.shipStats.FieldOfViewDistance);
         }
         catch
         {
@@ -91,7 +94,7 @@ public class ShipController : MonoBehaviour {
     }
     private void AttackingStateControl()
     {
-        if(Vector3.Distance(target.transform.position, transform.position) <= this.ship.stats.FieldOfViewDistance)
+        if(Vector3.Distance(target.transform.position, transform.position) <= this.Ship.shipStats.FieldOfViewDistance)
         {
             FireTurrets(target);
         }
@@ -108,7 +111,7 @@ public class ShipController : MonoBehaviour {
     {
         int shipLayer = 1 << (int)ObjectLayers.Ship;
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, this.ship.stats.FieldOfViewDistance, shipLayer);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, this.Ship.shipStats.FieldOfViewDistance, shipLayer);
         GameObject closestTarget = null;
         float closestDistance = 0f;
         int thisPlayer = playerDatabase.getObjectPlayer(this.gameObject);
@@ -117,7 +120,7 @@ public class ShipController : MonoBehaviour {
             if (!playerDatabase.IsFromPlayer(collider.gameObject, thisPlayer) && !collider.gameObject.Equals(this.gameObject))
             {
                 float distance = Vector3.Distance(collider.gameObject.transform.position, transform.position);
-                if (distance >= closestDistance && distance <= this.ship.stats.FieldOfViewDistance)
+                if (distance >= closestDistance && distance <= this.Ship.shipStats.FieldOfViewDistance)
                 {
                     closestTarget = collider.gameObject;
                 }
@@ -158,6 +161,25 @@ public class ShipController : MonoBehaviour {
         
     }
 
+    public void TakeDamage(int damage)
+    {
+       
+        int shields = this.Ship.shipStats.Shields;
+        if (shields <= damage)
+        {
+            int hpDamage = shields - damage;
+            this.Ship.shipStats.Shields = 0;
+            this.Ship.shipStats.HP -= -hpDamage;
+            if(this.Ship.shipStats.HP <= 0)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+        else
+        {
+            this.Ship.shipStats.Shields -= damage;
+        }
+    }
 
 
     private void FireTurrets(GameObject target)
@@ -167,5 +189,27 @@ public class ShipController : MonoBehaviour {
         {
             turret.Fire(target);
         }
+    }
+
+    /*private void OnDestroy()
+    {
+        Instantiate(explosion, transform.position, Quaternion.identity);
+    }*/
+
+    private IEnumerator ShieldRegeneration()
+    {
+        while(true)
+        {
+            if (Ship.shipStats.Shields + this.Ship.shipStats.ShieldRegen > Ship.shipStats.MaxShields)
+            {
+                Ship.shipStats.Shields = Ship.shipStats.MaxShields;
+            }
+            else
+            {
+                Ship.shipStats.Shields += this.Ship.shipStats.ShieldRegen;
+            }
+            yield return new WaitForSeconds(1f);
+        }
+        
     }
 }

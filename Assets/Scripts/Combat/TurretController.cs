@@ -16,11 +16,14 @@ public class TurretController : MonoBehaviour {
     private bool isFiring = false;
     private GameObject firePriority;
 
+    private GameObject shipGO;
+
     void Start ()
     {
         transform = this.gameObject.GetComponent<Transform>();
         audioSource = this.gameObject.GetComponent<AudioSource>();
         this.Turret = TurretFactory.getInstance().CreateTurret(turretType);
+        this.shipGO = transform.parent.gameObject;
 	}
 	
 	public void Fire(GameObject target)
@@ -68,7 +71,7 @@ public class TurretController : MonoBehaviour {
             Quaternion desRotation = Quaternion.LookRotation(firePriority.transform.position - transform.position, Vector3.up);
             GameObject bullet = Instantiate(this.Turret.Bullet.Prefab, this.transform.position, desRotation);
 
-            bullet.GetComponent<BulletController>().Initiate(this.Turret.Bullet);
+            bullet.GetComponent<BulletController>().Initiate(this.shipGO, this.Turret.Bullet);
             audioSource.Play();
         }
         else if (Vector3.Distance(this.transform.position, target.transform.position) <= Turret.Range)
@@ -77,7 +80,7 @@ public class TurretController : MonoBehaviour {
             Quaternion desRotation = Quaternion.LookRotation(target.transform.position - transform.position, Vector3.up);
             GameObject bullet = Instantiate(this.Turret.Bullet.Prefab, this.transform.position, desRotation);
 
-            bullet.GetComponent<BulletController>().Initiate(this.Turret.Bullet);
+            bullet.GetComponent<BulletController>().Initiate(this.shipGO, this.Turret.Bullet);
             audioSource.Play();
         }
         yield return new WaitForSeconds(this.Turret.FireRate);
