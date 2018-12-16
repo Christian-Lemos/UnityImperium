@@ -11,7 +11,7 @@ public class ShipCanvasController : MonoBehaviour {
     private GameObject shipCanvasGO;
     private ShipCanvas shipCanvas;
 
-    private Camera camera;
+    private new Camera camera;
 
     private void Start()
     {
@@ -21,8 +21,8 @@ public class ShipCanvasController : MonoBehaviour {
         camera = Camera.main;
     }
 
-    // Update is called once per frame
-    void Update () {
+    
+    private void Update () {
         shipCanvas.HpSlider.value = (shipController.Ship.shipStats.HP * 100) / shipController.Ship.shipStats.MaxHP;
         shipCanvas.ShieldSlider.value = (shipController.Ship.shipStats.Shields * 100) / shipController.Ship.shipStats.MaxShields;
     }

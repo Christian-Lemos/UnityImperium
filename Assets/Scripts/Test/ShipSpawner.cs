@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 using Imperium.Enum;
 public class ShipSpawner : MonoBehaviour {
 
+    [SerializeField]
+    private ShipType shipType;
 
     public GameObject inputJogadorGO;
     private InputField inputJogador;
@@ -18,7 +20,7 @@ public class ShipSpawner : MonoBehaviour {
     
     private Vector3 lastClickedPosition = new Vector3(0, 0, 0);
 
-    private int mapLayer = 1 << (int)ObjectLayers.Map;
+    private readonly int mapLayer = 1 << (int)ObjectLayers.Map;
 
     private void Start()
     {
@@ -45,10 +47,10 @@ public class ShipSpawner : MonoBehaviour {
 
     private void SpawnShip()
     {
-        int jogador;
-        if(Int32.TryParse(inputJogador.text, out jogador))
+        int player;
+        if(Int32.TryParse(inputJogador.text, out player))
         {
-            spawner.SpawnShip(ShipType.Test, jogador, lastClickedPosition, Quaternion.identity);
+            spawner.SpawnShip(this.shipType, player, lastClickedPosition, Quaternion.identity);
         }
         else
         {

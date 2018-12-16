@@ -79,7 +79,7 @@ public class MouseCommandsController : MonoBehaviour {
                 GameObject selected = (GameObject)hit.collider.gameObject;
                 if (selected.layer == (int) ObjectLayers.Ship)
                 {
-                    if(Input.GetKey(KeyCode.LeftShift)) //If the player is pressid leftShift, the selected GO must be added to selected
+                    if (Input.GetKey(KeyCode.LeftShift)) //If the player is pressid leftShift, the selected GO must be added to selected
                     {
                         //If selected is already on the selected list, it will be removed;
                         foreach (GameObject go in selectedGOs)

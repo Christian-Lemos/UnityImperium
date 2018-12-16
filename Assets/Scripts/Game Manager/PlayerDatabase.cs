@@ -1,16 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Imperium.Persistence;
 public class PlayerDatabase : MonoBehaviour {
 
     public int playerCount;
     private List<GameObject>[] playerObjects;
     public static PlayerDatabase INSTANCE { get; private set; }
 
-	void Awake ()
+
+    void Awake ()
     {
         INSTANCE = this;
+        GameSceneData gameSceneData;
+        try
+        {
+            gameSceneData = SceneManager.Instance.CurrentGameSceneData;
+        }
+        catch
+        {
+            gameSceneData = new GameSceneData("Debug", 2);
+        }
+        
+        this.playerCount = gameSceneData.PlayerCount;
+        
+
         playerObjects = new List<GameObject>[playerCount];
         for(int i = 0; i < playerCount; i++)
         {
