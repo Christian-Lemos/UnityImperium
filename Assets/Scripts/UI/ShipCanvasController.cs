@@ -8,7 +8,9 @@ public class ShipCanvasController : MonoBehaviour {
     private GameObject shipCanvasPrefab;
     private ShipController shipController;
 
+    [SerializeField]
     private GameObject shipCanvasGO;
+    [SerializeField]
     private ShipCanvas shipCanvas;
 
     private new Camera camera;
@@ -23,8 +25,17 @@ public class ShipCanvasController : MonoBehaviour {
 
     
     private void Update () {
-        shipCanvas.HpSlider.value = (shipController.Ship.shipStats.HP * 100) / shipController.Ship.shipStats.MaxHP;
-        shipCanvas.ShieldSlider.value = (shipController.Ship.shipStats.Shields * 100) / shipController.Ship.shipStats.MaxShields;
+
+        try
+        {
+            shipCanvas.HpSlider.value = (shipController.Ship.shipStats.HP * 100) / shipController.Ship.shipStats.MaxHP;
+            shipCanvas.ShieldSlider.value = (shipController.Ship.shipStats.Shields * 100) / shipController.Ship.shipStats.MaxShields;
+        }
+        catch
+        {
+            
+        }
+        
     }
 
     private void LateUpdate()

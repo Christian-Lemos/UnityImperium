@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour {
     private CameraMovement cameraMovement;
 	// Use this for initialization
 	void Start () {
-        cameraMovement = new CameraMovement((Transform) this.gameObject.GetComponent<Transform>());
+        cameraMovement = new CameraMovement(this.gameObject.GetComponent<Transform>());
 	}
 	
 	// Update is called once per frame

@@ -114,7 +114,7 @@ public class ShipController : MonoBehaviour {
         Collider[] colliders = Physics.OverlapSphere(transform.position, this.Ship.shipStats.FieldOfViewDistance, shipLayer);
         GameObject closestTarget = null;
         float closestDistance = 0f;
-        int thisPlayer = playerDatabase.getObjectPlayer(this.gameObject);
+        int thisPlayer = playerDatabase.GetObjectPlayer(this.gameObject);
         foreach (Collider collider in colliders)
         {
             if (!playerDatabase.IsFromPlayer(collider.gameObject, thisPlayer) && !collider.gameObject.Equals(this.gameObject))
@@ -211,5 +211,11 @@ public class ShipController : MonoBehaviour {
             yield return new WaitForSeconds(1f);
         }
         
+    }
+
+    private void OnDestroy()
+    {
+        int thisPlayer = PlayerDatabase.INSTANCE.GetObjectPlayer(this.gameObject);
+        PlayerDatabase.INSTANCE.RemoveFromPlayer(this.gameObject, thisPlayer);
     }
 }

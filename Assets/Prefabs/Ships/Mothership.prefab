@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 65321029928430938}
   - component: {fileID: 65661100517722506}
   - component: {fileID: 65717608763790868}
+  - component: {fileID: 114561616086197366}
   m_Layer: 10
   m_Name: Mothership
   m_TagString: Untagged
@@ -1173,6 +1174,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turretType: 0
+--- !u!114 &114561616086197366
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1332735339862588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccb0cc50a218c04a9d6d3c0cb2a2e20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  assosiations:
+  - shipType: 0
+    ResourcesPerSecound: 1
+  - shipType: 1
+    ResourcesPerSecound: 1
 --- !u!114 &114819413954623146
 MonoBehaviour:
   m_ObjectHideFlags: 1

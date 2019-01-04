@@ -50,7 +50,7 @@ public class MouseCommandsController : MonoBehaviour {
                 }
                 else if(selected.layer == (int)ObjectLayers.Ship)
                 {
-                    int selectedPlayer = playerDatabase.getObjectPlayer(selected);
+                    int selectedPlayer = playerDatabase.GetObjectPlayer(selected);
                     foreach (GameObject go in selectedGOs)
                     {
                         if (!playerDatabase.IsFromPlayer(go, selectedPlayer))

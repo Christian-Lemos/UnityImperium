@@ -8,7 +8,7 @@ public class SceneManager : MonoBehaviour {
 
     public static SceneManager Instance { get; private set; }
 
-    //private PersistantDataManager persistantDataManager;
+    private PersistantDataManager persistantDataManager;
 
     public GameSceneData CurrentGameSceneData;
 
@@ -19,13 +19,13 @@ public class SceneManager : MonoBehaviour {
 
     void Start () {
         DontDestroyOnLoad(this.gameObject);
-        //persistantDataManager = PersistantDataManager.Instance;
+        persistantDataManager = PersistantDataManager.Instance;
 	}
 
     public void CreateNewGame(int playerCount)
     {
-        GameSceneData data = new GameSceneData("New Game", playerCount);
-        //persistantDataManager.CreateGameSceneData(data);
+        GameSceneData data = GameSceneData.NewGameDefault();
+        persistantDataManager.CreateGameSceneData(data);
         this.CurrentGameSceneData = data;
         UnityEngine.SceneManagement.SceneManager.LoadScene("game", LoadSceneMode.Single);
     }
