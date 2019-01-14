@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Imperium.Enum;
+using Imperium;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// This class handles commands set by mouse
@@ -12,19 +15,49 @@ public class MouseCommandsController : MonoBehaviour {
     /// </summary>
     [SerializeField]
     private List<GameObject> selectedGOs;
+    [SerializeField]
+    private GameObject selectPanel;
+
+    [SerializeField]
+    private GameObject constructionSection;
+
+    [SerializeField]
+    private GameObject constructionButtonPrefab;
+
+
+    private Spawner spawner;
+
+    private float constructionButtonPrefabOriginalPosX;
+    private float constructionButtonPrefabWidth;
+
+
     private int selectLayer;
 
     private PlayerDatabase playerDatabase;
+
+
 	void Start () {
         selectedGOs = new List<GameObject>();
         selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map);
         playerDatabase = PlayerDatabase.INSTANCE;
+
+        RectTransform rectTransform = constructionButtonPrefab.GetComponent<RectTransform>();
+
+        constructionButtonPrefabWidth = rectTransform.sizeDelta.x;
+        constructionButtonPrefabOriginalPosX = rectTransform.position.x;
+
+        spawner = GameObject.FindGameObjectWithTag("GameController").GetComponent<Spawner>();
+
     }
 	
 	void Update ()
     {
-        ObjectSelector(); //left click
-        FleetCommand(); //right click
+        if(!EventSystem.current.IsPointerOverGameObject())
+        {
+            ObjectSelector(); //left click
+            FleetCommand(); //right click
+        }
+        
 	}
     /// <summary>
     /// This method handles fleet's commands like move selected this to position
@@ -76,7 +109,7 @@ public class MouseCommandsController : MonoBehaviour {
 
             if (Physics.Raycast(ray, out hit, 1000f))
             {
-                GameObject selected = (GameObject)hit.collider.gameObject;
+                GameObject selected = hit.collider.gameObject;
                 if (selected.layer == (int) ObjectLayers.Ship)
                 {
                     if (Input.GetKey(KeyCode.LeftShift)) //If the player is pressid leftShift, the selected GO must be added to selected
@@ -104,6 +137,58 @@ public class MouseCommandsController : MonoBehaviour {
                     selectedGOs.Clear();
                 }
             }
+            ShowConstructionOptions();
         }
+    }
+
+
+    private void ShowConstructionOptions()
+    {
+
+        foreach (Transform child in constructionSection.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        if (selectedGOs.Count == 1)
+        {
+            Constructor constructor = selectedGOs[0].GetComponent<Constructor>();
+
+            if(constructor != null)
+            {
+                List<Constructor.ShipConstruction> shipConstructions = constructor.ShipConstructions;
+
+                int size = shipConstructions.Count;
+
+                for(int i = 0; i < size; i++)
+                {
+                    Ship ship = ShipFactory.getInstance().CreateShip(shipConstructions[i].ConstructionType);
+                    float buttonPositionX = (constructionButtonPrefabOriginalPosX - 10) + (constructionButtonPrefabWidth * i) + 10; //10 It's the offset between buttons
+
+                    GameObject button = Instantiate(constructionButtonPrefab, constructionSection.transform);
+
+                    RectTransform rectTransform = button.GetComponent<RectTransform>();
+                   
+                    rectTransform.anchoredPosition3D = new Vector3(buttonPositionX, rectTransform.localPosition.y, rectTransform.localPosition.z);
+
+                    //Debug.Log("( " + constructionButtonPrefabOriginalPosX + "- 10 )" + " + " + "( " + constructionButtonPrefabWidth + " * " + i + ") + 10 = " + buttonPositionX);
+
+                    button.GetComponentInChildren<RawImage>().texture = ship.ShipIcon;
+                    button.SetActive(true);
+
+                    SetShipConstructionButtonClickCallback(constructor, button, shipConstructions[i]);
+
+                }
+            }
+        }
+        
+    }
+
+    private void SetShipConstructionButtonClickCallback(Constructor constructor, GameObject button, Constructor.ShipConstruction shipConstruction)
+    {
+        button.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            constructor.BuildShip(shipConstruction.ConstructionType);
+        });
     }
 }

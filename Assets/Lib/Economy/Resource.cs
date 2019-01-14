@@ -19,15 +19,15 @@ namespace Imperium.Economy
             {
                 case ResourceType.Metal:
                     Name = "Metal";
-                    Icon = Resources.Load("icons/metal_icon") as Texture;
+                    Icon = Resources.Load("icons" + System.IO.Path.DirectorySeparatorChar + "metal_icon") as Texture;
                     break;
                 case ResourceType.Crystal:
                     Name = "Crystal";
-                    Icon = Resources.Load("icons/crystal_icon") as Texture;
+                    Icon = Resources.Load("icons" + System.IO.Path.DirectorySeparatorChar + "crystal_icon") as Texture;
                     break;
                 case ResourceType.Energy:
                     Name = "Energy";
-                    Icon = Resources.Load("icons/energy_icon") as Texture;
+                    Icon = Resources.Load("icons" + System.IO.Path.DirectorySeparatorChar + "energy_icon") as Texture;
                     break;
             }
             

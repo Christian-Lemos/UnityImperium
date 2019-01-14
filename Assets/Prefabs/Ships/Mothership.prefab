@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 65661100517722506}
   - component: {fileID: 65717608763790868}
   - component: {fileID: 114561616086197366}
+  - component: {fileID: 114971546702801344}
   m_Layer: 10
   m_Name: Mothership
   m_TagString: Untagged
@@ -312,7 +313,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1332735339862588}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.089194, y: -0.00000012997461, z: -1.0903062}
+  m_LocalPosition: {x: -10.16464, y: -0.0000021216586, z: -17.797764}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4024834895408580}
@@ -1126,6 +1127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipCanvasPrefab: {fileID: 1106345427989614, guid: 595fa28626b256e4e8cb70c8cf8c6165,
     type: 2}
+  shipCanvasGO: {fileID: 0}
+  shipCanvas: {fileID: 0}
 --- !u!114 &114052343501750038
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1214,3 +1217,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turretType: 0
+--- !u!114 &114971546702801344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1332735339862588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dcefba142413e24982ba06c95d5bc2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawner: {fileID: 0}
+  ShipConstructions:
+  - ConstructionType: 0
+    ConstructionTime: 0
+    ResourceCosts:
+    - resourceType: 0
+      total: 0
+    - resourceType: 0
+      total: 0
+  relativeConstructionSpawn: {x: 0, y: 0, z: 0}

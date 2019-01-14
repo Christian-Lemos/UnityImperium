@@ -16,6 +16,7 @@ namespace Imperium
             Stats stats;
             
             string shipName;
+
             switch (type)
             {
                 case (ShipType.Test):
@@ -30,7 +31,7 @@ namespace Imperium
                     throw new System.Exception("Type of ship not supported");
             }
 
-            return new Ship(shipName, stats);
+            return new Ship(shipName, stats, "ship_icon");
         }
 
     }

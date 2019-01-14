@@ -28,8 +28,8 @@ public class ShipCanvasController : MonoBehaviour {
 
         try
         {
-            shipCanvas.HpSlider.value = (shipController.Ship.shipStats.HP * 100) / shipController.Ship.shipStats.MaxHP;
-            shipCanvas.ShieldSlider.value = (shipController.Ship.shipStats.Shields * 100) / shipController.Ship.shipStats.MaxShields;
+            shipCanvas.HpSlider.value = (shipController.Ship.ShipStats.HP * 100) / shipController.Ship.ShipStats.MaxHP;
+            shipCanvas.ShieldSlider.value = (shipController.Ship.ShipStats.Shields * 100) / shipController.Ship.ShipStats.MaxShields;
         }
         catch
         {

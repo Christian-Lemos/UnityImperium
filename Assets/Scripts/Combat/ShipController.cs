@@ -36,7 +36,7 @@ public class ShipController : MonoBehaviour {
         gameController = GameObject.FindGameObjectWithTag("GameController");
         playerDatabase = gameController.GetComponent<PlayerDatabase>();
 
-        lowestTurretRange = this.Ship.shipStats.FieldOfViewDistance;
+        lowestTurretRange = this.Ship.ShipStats.FieldOfViewDistance;
 
         TurretController[] turretControllers = this.gameObject.GetComponentsInChildren<TurretController>(false);
         foreach (TurretController turretController in turretControllers)
@@ -71,7 +71,7 @@ public class ShipController : MonoBehaviour {
         try
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(gameObject.transform.position, this.Ship.shipStats.FieldOfViewDistance);
+            Gizmos.DrawWireSphere(gameObject.transform.position, this.Ship.ShipStats.FieldOfViewDistance);
         }
         catch
         {
@@ -94,7 +94,7 @@ public class ShipController : MonoBehaviour {
     }
     private void AttackingStateControl()
     {
-        if(Vector3.Distance(target.transform.position, transform.position) <= this.Ship.shipStats.FieldOfViewDistance)
+        if(Vector3.Distance(target.transform.position, transform.position) <= this.Ship.ShipStats.FieldOfViewDistance)
         {
             FireTurrets(target);
         }
@@ -111,7 +111,7 @@ public class ShipController : MonoBehaviour {
     {
         int shipLayer = 1 << (int)ObjectLayers.Ship;
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, this.Ship.shipStats.FieldOfViewDistance, shipLayer);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, this.Ship.ShipStats.FieldOfViewDistance, shipLayer);
         GameObject closestTarget = null;
         float closestDistance = 0f;
         int thisPlayer = playerDatabase.GetObjectPlayer(this.gameObject);
@@ -120,7 +120,7 @@ public class ShipController : MonoBehaviour {
             if (!playerDatabase.IsFromPlayer(collider.gameObject, thisPlayer) && !collider.gameObject.Equals(this.gameObject))
             {
                 float distance = Vector3.Distance(collider.gameObject.transform.position, transform.position);
-                if (distance >= closestDistance && distance <= this.Ship.shipStats.FieldOfViewDistance)
+                if (distance >= closestDistance && distance <= this.Ship.ShipStats.FieldOfViewDistance)
                 {
                     closestTarget = collider.gameObject;
                 }
@@ -164,20 +164,20 @@ public class ShipController : MonoBehaviour {
     public void TakeDamage(int damage)
     {
        
-        int shields = this.Ship.shipStats.Shields;
+        int shields = this.Ship.ShipStats.Shields;
         if (shields <= damage)
         {
             int hpDamage = shields - damage;
-            this.Ship.shipStats.Shields = 0;
-            this.Ship.shipStats.HP -= -hpDamage;
-            if(this.Ship.shipStats.HP <= 0)
+            this.Ship.ShipStats.Shields = 0;
+            this.Ship.ShipStats.HP -= -hpDamage;
+            if(this.Ship.ShipStats.HP <= 0)
             {
                 Destroy(this.gameObject);
             }
         }
         else
         {
-            this.Ship.shipStats.Shields -= damage;
+            this.Ship.ShipStats.Shields -= damage;
         }
     }
 
@@ -200,13 +200,13 @@ public class ShipController : MonoBehaviour {
     {
         while(true)
         {
-            if (Ship.shipStats.Shields + this.Ship.shipStats.ShieldRegen > Ship.shipStats.MaxShields)
+            if (Ship.ShipStats.Shields + this.Ship.ShipStats.ShieldRegen > Ship.ShipStats.MaxShields)
             {
-                Ship.shipStats.Shields = Ship.shipStats.MaxShields;
+                Ship.ShipStats.Shields = Ship.ShipStats.MaxShields;
             }
             else
             {
-                Ship.shipStats.Shields += this.Ship.shipStats.ShieldRegen;
+                Ship.ShipStats.Shields += this.Ship.ShipStats.ShieldRegen;
             }
             yield return new WaitForSeconds(1f);
         }

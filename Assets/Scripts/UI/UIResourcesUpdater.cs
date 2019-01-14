@@ -52,7 +52,7 @@ public class UIResourcesUpdater : MonoBehaviour {
             texts.Add(resource.Type, obj.GetComponentInChildren<Text>());
 
             i++;
-        };
+        }
     }
 
 
