@@ -10,7 +10,6 @@ using Imperium.Economy;
 public class UIResourcesUpdater : MonoBehaviour {
 
 
-    private PlayerDatabase database;
 
     [SerializeField]
     private GameObject UIResourcePrefab;
@@ -21,13 +20,12 @@ public class UIResourcesUpdater : MonoBehaviour {
 
     private void Start()
     {
-        database = PlayerDatabase.INSTANCE;
 
-        for(int j = 0; j < PlayerDatabase.INSTANCE.gameSceneData.players.Count; j++)
+        for(int j = 0; j < PlayerDatabase.Instance.gameSceneData.players.Count; j++)
         {
-            if(PlayerDatabase.INSTANCE.gameSceneData.players[j].playerType == PlayerType.Real)
+            if(PlayerDatabase.Instance.gameSceneData.players[j].playerType == PlayerType.Real)
             {
-                player = PlayerDatabase.INSTANCE.gameSceneData.players[j].PlayerNumber;
+                player = PlayerDatabase.Instance.gameSceneData.players[j].PlayerNumber;
             }
         }
 
@@ -58,7 +56,7 @@ public class UIResourcesUpdater : MonoBehaviour {
 
     private void Update()
     {
-        Dictionary<ResourceType, int> currentResources = PlayerDatabase.INSTANCE.GetPlayerResources(player);
+        Dictionary<ResourceType, int> currentResources = PlayerDatabase.Instance.GetPlayerResources(player);
         foreach (KeyValuePair<ResourceType, int> entry in currentResources)
         {
             this.texts[entry.Key].text = entry.Value.ToString();

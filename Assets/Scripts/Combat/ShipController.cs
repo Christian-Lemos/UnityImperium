@@ -215,7 +215,7 @@ public class ShipController : MonoBehaviour {
 
     private void OnDestroy()
     {
-        int thisPlayer = PlayerDatabase.INSTANCE.GetObjectPlayer(this.gameObject);
-        PlayerDatabase.INSTANCE.RemoveFromPlayer(this.gameObject, thisPlayer);
+        int thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(this.gameObject);
+        PlayerDatabase.Instance.RemoveFromPlayer(this.gameObject, thisPlayer);
     }
 }

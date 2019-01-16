@@ -9,6 +9,6 @@ namespace Imperium.Economy
     public class ResourceCost
     {
         public ResourceType resourceType;
-        public int total;
+        public int quantity;
     }
 }

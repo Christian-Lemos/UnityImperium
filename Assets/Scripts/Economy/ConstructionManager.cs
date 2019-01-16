@@ -70,8 +70,11 @@ public class ConstructionManager : MonoBehaviour {
     {
         while(onGoingShipConstruction.ShipConstructions.Count != 0)
         {
-            Debug.Log("Count: " + onGoingShipConstruction.ShipConstructions.Count);
-            Debug.Log("Time: " + onGoingShipConstruction.ShipConstructions[0].ConstructionTime);
+            if(onGoingShipConstruction.constructor == null)
+            {
+                break;
+            }
+
             if (onGoingShipConstruction.ShipConstructions[0].ConstructionTime <= 0)
             {
                 SpawnShipConstruction(onGoingShipConstruction.constructor, onGoingShipConstruction.ShipConstructions[0]);
@@ -84,7 +87,7 @@ public class ConstructionManager : MonoBehaviour {
 
             yield return new WaitForSeconds(1f);
         }
-
+        
         shipConstructions.Remove(onGoingShipConstruction.constructor);
 
 
@@ -95,7 +98,7 @@ public class ConstructionManager : MonoBehaviour {
 
     private void SpawnShipConstruction(Constructor constructor, ShipConstruction shipConstruction)
     {
-        int player = PlayerDatabase.INSTANCE.GetObjectPlayer(constructor.gameObject);
+        int player = PlayerDatabase.Instance.GetObjectPlayer(constructor.gameObject);
         Vector3 thisPosition = constructor.gameObject.transform.position;
         Vector3 spawnPosition = new Vector3(thisPosition.x + constructor.relativeConstructionSpawn.x, thisPosition.y + constructor.relativeConstructionSpawn.y, thisPosition.z + constructor.relativeConstructionSpawn.z);
         Spawner.Instance.SpawnShip(shipConstruction.ConstructionType, player, spawnPosition, Quaternion.identity);

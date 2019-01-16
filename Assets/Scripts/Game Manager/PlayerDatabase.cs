@@ -11,12 +11,12 @@ public class PlayerDatabase : MonoBehaviour {
     public List<List<GameObject>> playerObjects = new List<List<GameObject>>();
 
     private List<Dictionary<ResourceType, int>> playerResources = new List<Dictionary<ResourceType, int>>();
-    public static PlayerDatabase INSTANCE { get; private set; }
+    public static PlayerDatabase Instance { get; private set; }
     public GameSceneData gameSceneData;
     private Spawner spawner;
     void Awake ()
     {
-        INSTANCE = this;
+        Instance = this;
         try
         {
             gameSceneData = SceneManager.Instance.CurrentGameSceneData;

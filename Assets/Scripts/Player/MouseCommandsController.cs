@@ -25,7 +25,6 @@ public class MouseCommandsController : MonoBehaviour {
     private GameObject constructionButtonPrefab;
 
 
-    private Spawner spawner;
 
     private float constructionButtonPrefabOriginalPosX;
     private float constructionButtonPrefabWidth;
@@ -39,15 +38,12 @@ public class MouseCommandsController : MonoBehaviour {
 	void Start () {
         selectedGOs = new List<GameObject>();
         selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map);
-        playerDatabase = PlayerDatabase.INSTANCE;
+        playerDatabase = PlayerDatabase.Instance;
 
         RectTransform rectTransform = constructionButtonPrefab.GetComponent<RectTransform>();
 
         constructionButtonPrefabWidth = rectTransform.sizeDelta.x;
         constructionButtonPrefabOriginalPosX = rectTransform.position.x;
-
-        spawner = GameObject.FindGameObjectWithTag("GameController").GetComponent<Spawner>();
-
     }
 	
 	void Update ()
