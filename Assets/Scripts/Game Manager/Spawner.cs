@@ -14,6 +14,8 @@ public class Spawner : MonoBehaviour {
     private Dictionary<ShipType, GameObject> true_associations = new Dictionary<ShipType, GameObject>();
     private PlayerDatabase playerDatabase;
 
+    public static Spawner Instance;
+
     private void Awake()
     {
         playerDatabase = GetComponent<PlayerDatabase>();
@@ -21,6 +23,7 @@ public class Spawner : MonoBehaviour {
         {
             true_associations.Add(assosiations[i].shipType, assosiations[i].prefab);
         }
+        Instance = this;
     }
 
 

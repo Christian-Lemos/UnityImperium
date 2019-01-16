@@ -156,7 +156,7 @@ public class MouseCommandsController : MonoBehaviour {
 
             if(constructor != null)
             {
-                List<Constructor.ShipConstruction> shipConstructions = constructor.ShipConstructions;
+                List<ConstructionManager.ShipConstruction> shipConstructions = constructor.ShipConstructions;
 
                 int size = shipConstructions.Count;
 
@@ -184,7 +184,7 @@ public class MouseCommandsController : MonoBehaviour {
         
     }
 
-    private void SetShipConstructionButtonClickCallback(Constructor constructor, GameObject button, Constructor.ShipConstruction shipConstruction)
+    private void SetShipConstructionButtonClickCallback(Constructor constructor, GameObject button, ConstructionManager.ShipConstruction shipConstruction)
     {
         button.GetComponent<Button>().onClick.AddListener(() =>
         {
