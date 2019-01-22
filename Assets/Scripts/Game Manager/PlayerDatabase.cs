@@ -8,14 +8,14 @@ public class PlayerDatabase : MonoBehaviour {
 
     public int playerCount;
     
-    public List<List<GameObject>> playerObjects = new List<List<GameObject>>();
-
+    public List<HashSet<GameObject>> playerObjects = new List<HashSet<GameObject>>();
     private List<Dictionary<ResourceType, int>> playerResources = new List<Dictionary<ResourceType, int>>();
     public static PlayerDatabase Instance { get; private set; }
     public GameSceneData gameSceneData;
     private Spawner spawner;
     void Awake ()
     {
+        
         Instance = this;
         try
         {
@@ -34,7 +34,7 @@ public class PlayerDatabase : MonoBehaviour {
         
         for (int i = 0; i < playerCount; i++)
         {
-            playerObjects.Add (new List<GameObject>());
+            playerObjects.Add (new HashSet<GameObject>());
             playerResources.Add(new Dictionary<ResourceType, int>());
 
             foreach (ResourceType resource in System.Enum.GetValues(typeof(ResourceType)))
@@ -57,7 +57,6 @@ public class PlayerDatabase : MonoBehaviour {
 
         StartCoroutine(PassiveResoursesAdderIEnumerator());
     }
-   
 
     public void AddResourcesToPlayer(ResourceType resourceType, int total, int player)
     {
@@ -77,10 +76,11 @@ public class PlayerDatabase : MonoBehaviour {
     {
         if(IsValidPlayer(player))
         {
-            List<GameObject> playerList = playerObjects[player];
-            if (playerList.Find(x => x.Equals(target)) == null)
+            HashSet<GameObject> playerSet = playerObjects[player];
+
+            if(!playerSet.Contains(target))
             {
-                playerList.Add(target);
+                playerSet.Add(target);
             }
         }
     }
@@ -89,8 +89,8 @@ public class PlayerDatabase : MonoBehaviour {
     {
         try
         {
-            List<GameObject> playerList = playerObjects[player];
-            return playerList != null;
+            HashSet<GameObject> playerSet = playerObjects[player];
+            return playerSet != null;
         }
         catch
         {
@@ -100,15 +100,15 @@ public class PlayerDatabase : MonoBehaviour {
 
     public void RemoveFromPlayer(GameObject target, int player)
     {
-        List<GameObject> playerList = playerObjects[player];
+        HashSet<GameObject> playerSet = playerObjects[player];
 
-        if (playerList == null)
+        if (playerSet == null)
         {
             throw new System.Exception("Player not found");
         }
-        else if (playerList.Find(x => x.Equals(target)))
+        else
         {
-            playerList.Remove(target);
+            playerSet.Remove(target);
         }
     }
 
@@ -116,16 +116,13 @@ public class PlayerDatabase : MonoBehaviour {
     {
         if(IsValidPlayer(player))
         {
-            List<GameObject> playerList = playerObjects[player];
-            GameObject encontrado = playerList.Find(x => x.Equals(obj));
-            return encontrado != null;
+            HashSet<GameObject> playerSet = playerObjects[player];
+            return playerSet.Contains(obj);
         }
         else
         {
             throw new System.Exception("Player not found");
         }
-        
-
     }
 
     public bool AreFromSamePlayer(GameObject obj_a, GameObject obj_b)
@@ -139,8 +136,8 @@ public class PlayerDatabase : MonoBehaviour {
     {
         for(int i = 0; i < playerObjects.Count; i++)
         {
-            GameObject found = playerObjects[i].Find(x => x.Equals(obj));
-            if(found != null)
+            
+            if(playerObjects[i].Contains(obj))
             {
                 return i;
             }
@@ -162,16 +159,14 @@ public class PlayerDatabase : MonoBehaviour {
         }
     }
 
-  
-
     private IEnumerator AddResourcesToPlayerIEnumerator(int player)
     {
-        for (int i = 0; i < playerObjects[player].Count; i++)
+        foreach(GameObject obj in playerObjects[player])
         {
-            PassiveResourceAdder adder = playerObjects[player][i].GetComponent<PassiveResourceAdder>();
+            PassiveResourceAdder adder = obj.GetComponent<PassiveResourceAdder>();
             if (adder != null)
             {
-                foreach(KeyValuePair<ResourceType, int> entry in adder.true_associations)
+                foreach (KeyValuePair<ResourceType, int> entry in adder.true_associations)
                 {
                     AddResourcesToPlayer(entry.Key, entry.Value, player);
                 }

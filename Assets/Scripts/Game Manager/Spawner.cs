@@ -4,14 +4,24 @@ using UnityEngine;
 using Imperium.Enum;
 public class Spawner : MonoBehaviour {
     [System.Serializable]
-    public struct Assosiation
+    public struct ShipAssosiation
     {
         public ShipType shipType;
         public GameObject prefab;
     }
-    public Assosiation[] assosiations;
+    public ShipAssosiation[] ship_assosiations;
 
-    private Dictionary<ShipType, GameObject> true_associations = new Dictionary<ShipType, GameObject>();
+    [System.Serializable]
+    public struct StationAssosiation
+    {
+        public StationType stationType;
+        public GameObject prefab;
+    }
+    public StationAssosiation[] station_assosiations;
+
+    public Dictionary<ShipType, GameObject> true_ship_associations = new Dictionary<ShipType, GameObject>();
+    public Dictionary<StationType, GameObject> true_station_associations = new Dictionary<StationType, GameObject>();
+
     private PlayerDatabase playerDatabase;
 
     public static Spawner Instance;
@@ -19,10 +29,15 @@ public class Spawner : MonoBehaviour {
     private void Awake()
     {
         playerDatabase = GetComponent<PlayerDatabase>();
-        for(int i = 0; i < assosiations.Length; i++)
+        for(int i = 0; i < ship_assosiations.Length; i++)
         {
-            true_associations.Add(assosiations[i].shipType, assosiations[i].prefab);
+            true_ship_associations.Add(ship_assosiations[i].shipType, ship_assosiations[i].prefab);
         }
+        for (int i = 0; i < station_assosiations.Length; i++)
+        {
+            true_station_associations.Add(station_assosiations[i].stationType, station_assosiations[i].prefab);
+        }
+
         Instance = this;
     }
 
@@ -34,7 +49,7 @@ public class Spawner : MonoBehaviour {
             throw new System.Exception("Not a valid player");
         }
 
-        GameObject prefab = true_associations[type];
+        GameObject prefab = true_ship_associations[type];
         if(prefab == null)
         {
             throw new System.Exception("Ship type not supported");
@@ -44,6 +59,30 @@ public class Spawner : MonoBehaviour {
             GameObject newShip = Instantiate(prefab, position, rotation);
             playerDatabase.AddToPlayer(newShip, player);
             return newShip;
+        }
+    }
+
+    public GameObject SpawnStation(StationType type, int player, Vector3 position, Quaternion rotation, int constructionProgress)
+    {
+        if (!playerDatabase.IsValidPlayer(player))
+        {
+            throw new System.Exception("Not a valid player");
+        }
+
+        GameObject prefab = true_station_associations[type];
+        
+        if (prefab == null)
+        {
+            throw new System.Exception("Station type not supported");
+        }
+        else
+        {
+            GameObject newStation = Instantiate(prefab, position, rotation);
+            playerDatabase.AddToPlayer(newStation, player);
+            newStation.GetComponent<StationController>().constructed = constructionProgress == 100;
+            newStation.GetComponent<StationController>().constructionProgress = constructionProgress;
+            newStation.SetActive(true);
+            return newStation;
         }
     }
 }

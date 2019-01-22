@@ -54,10 +54,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4685744250787048}
   - component: {fileID: 54507993439934640}
-  - component: {fileID: 114131888860473118}
   - component: {fileID: 65321029928430938}
   - component: {fileID: 65661100517722506}
   - component: {fileID: 65717608763790868}
+  - component: {fileID: 114131888860473118}
   - component: {fileID: 114561616086197366}
   - component: {fileID: 114971546702801344}
   m_Layer: 10
@@ -313,7 +313,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1332735339862588}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.16464, y: -0.0000021216586, z: -17.797764}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4024834895408580}
@@ -1164,6 +1164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb7caaa6a5a8fe408ae51f298c469b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lowestTurretRange: 0
   type: 1
 --- !u!114 &114397283204831242
 MonoBehaviour:
@@ -1228,13 +1229,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dcefba142413e24982ba06c95d5bc2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 0}
   ShipConstructions:
-  - ConstructionType: 0
-    ConstructionTime: 5
-    ResourceCosts:
+  - shipType: 0
+    constructionTime: 5
+    resourceCosts:
     - resourceType: 0
-      total: 0
+      quantity: 1
+    - resourceType: 1
+      quantity: 1
+  - shipType: 2
+    constructionTime: 0
+    resourceCosts:
     - resourceType: 0
-      total: 0
+      quantity: 1
+    - resourceType: 1
+      quantity: 1
   relativeConstructionSpawn: {x: 0, y: 0, z: 0}

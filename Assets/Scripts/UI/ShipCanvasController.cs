@@ -6,7 +6,7 @@ public class ShipCanvasController : MonoBehaviour {
 
     [SerializeField]
     private GameObject shipCanvasPrefab;
-    private ShipController shipController;
+    private ObjectController objectController;
 
     [SerializeField]
     private GameObject shipCanvasGO;
@@ -17,7 +17,7 @@ public class ShipCanvasController : MonoBehaviour {
 
     private void Start()
     {
-        shipController = this.gameObject.transform.parent.gameObject.GetComponent<ShipController>();
+        objectController = this.gameObject.transform.parent.gameObject.GetComponent<ObjectController>();
         shipCanvasGO = Instantiate(shipCanvasPrefab, this.gameObject.transform);
         shipCanvas = shipCanvasGO.GetComponent<ShipCanvas>();
         camera = Camera.main;
@@ -28,8 +28,8 @@ public class ShipCanvasController : MonoBehaviour {
 
         try
         {
-            shipCanvas.HpSlider.value = (shipController.Ship.ShipStats.HP * 100) / shipController.Ship.ShipStats.MaxHP;
-            shipCanvas.ShieldSlider.value = (shipController.Ship.ShipStats.Shields * 100) / shipController.Ship.ShipStats.MaxShields;
+            shipCanvas.HpSlider.value = (objectController.stats.HP * 100) / objectController.stats.MaxHP;
+            shipCanvas.ShieldSlider.value = (objectController.stats.Shields * 100) / objectController.stats.MaxShields;
         }
         catch
         {

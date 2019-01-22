@@ -8,9 +8,47 @@ namespace Imperium
     public class Stats
     {
         public int MaxHP { get; set; }
-        public int HP { get; set; }
+
+        private int hp;
+        public int HP
+        {
+            get
+            {
+                return hp;
+            }
+            set
+            {
+                if(value > MaxHP)
+                {
+                    hp = MaxHP;
+                }
+                else
+                {
+                    hp = value;
+                }
+            }
+        }
         public int MaxShields { get; set; }
-        public int Shields { get; set; }
+
+        private int shields;
+        public int Shields
+        {
+            get
+            {
+                return shields;
+            }
+            set
+            {
+                if (value > MaxShields)
+                {
+                    shields = MaxShields;
+                }
+                else
+                {
+                    shields = value;
+                }
+            }
+        }
         public int ShieldRegen { get; set; }
         public float FieldOfViewDistance { get; set; }
 
@@ -34,6 +72,8 @@ namespace Imperium
             ShieldRegen = shieldRegen;
             FieldOfViewDistance = fieldOfViewDistanc;
         }
+
+
     }
 }
 

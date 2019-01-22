@@ -16,22 +16,29 @@ namespace Imperium
             Stats stats;
             
             string shipName;
-
+            string shipIcon;
             switch (type)
             {
                 case (ShipType.Test):
                     stats = new Stats(200, 200, 10, 10f);
                     shipName = "Test Ship";
+                    shipIcon = "ship_icon";
                     break;
                 case (ShipType.MotherShip):
                     stats = new Stats(2000, 1500, 15, 15f);
                     shipName = "MotherShip";
+                    shipIcon = "ship_icon";
+                    break;
+                case (ShipType.ConstructionShip):
+                    stats = new Stats(100, 100, 5, 15f);
+                    shipName = "Construction Ship";
+                    shipIcon = "construction_ship_icon";
                     break;
                 default:
                     throw new System.Exception("Type of ship not supported");
             }
 
-            return new Ship(shipName, stats, "ship_icon");
+            return new Ship(shipName, stats, shipIcon);
         }
 
     }

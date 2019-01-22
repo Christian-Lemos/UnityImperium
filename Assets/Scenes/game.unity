@@ -622,6 +622,21 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 2}
+      propertyPath: assosiations.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 2}
+      propertyPath: ship_assosiations.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 2}
+      propertyPath: station_assosiations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4152529043857510, guid: 2380862eb8f4b5e438f25fff5ade826e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 4.66
@@ -654,6 +669,51 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 2}
+      propertyPath: assosiations.Array.data[2].shipType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 2}
+      propertyPath: assosiations.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 1486607332098058, guid: 5ad90ab0db860034987d69bb8f6e7fe5,
+        type: 2}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 2}
+      propertyPath: ship_assosiations.Array.data[1].shipType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 2}
+      propertyPath: ship_assosiations.Array.data[2].shipType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 2}
+      propertyPath: station_assosiations.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 1249487277988724, guid: 82e0a040e5e4ecf4d93f94e67b3657df,
+        type: 2}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 2}
+      propertyPath: ship_assosiations.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 1486607332098058, guid: 5ad90ab0db860034987d69bb8f6e7fe5,
+        type: 2}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 2}
+      propertyPath: ship_assosiations.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 1332735339862588, guid: f0f46b064e060aa4997cf861702971ff,
+        type: 2}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 2}
+      propertyPath: ship_assosiations.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 1306210491191302, guid: 38ab961b9a81d714cb68baa4b6bf2c6d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2380862eb8f4b5e438f25fff5ade826e, type: 2}
   m_IsPrefabAsset: 0

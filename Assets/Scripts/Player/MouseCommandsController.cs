@@ -5,6 +5,7 @@ using Imperium.Enum;
 using Imperium;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Imperium.Economy;
 
 /// <summary>
 /// This class handles commands set by mouse
@@ -34,6 +35,22 @@ public class MouseCommandsController : MonoBehaviour {
 
     private PlayerDatabase playerDatabase;
 
+    private class PossibleStationConstruction
+    {
+        public GameObject gameObject;
+        public StationConstruction stationConstruction;
+        public StationConstructor stationConstructor;
+
+        public PossibleStationConstruction(GameObject gameObject, StationConstruction stationConstruction, StationConstructor stationConstructor)
+        {
+            this.gameObject = gameObject;
+            this.stationConstruction = stationConstruction;
+            this.stationConstructor = stationConstructor;
+        }
+    }
+
+    private PossibleStationConstruction possibleStation;
+
 
 	void Start () {
         selectedGOs = new List<GameObject>();
@@ -50,8 +67,17 @@ public class MouseCommandsController : MonoBehaviour {
     {
         if(!EventSystem.current.IsPointerOverGameObject())
         {
-            ObjectSelector(); //left click
-            FleetCommand(); //right click
+            
+
+            if(possibleStation != null)
+            {
+                StationConstructionToCursor();
+            }
+            else
+            {
+                ObjectSelector(); //left click
+                FleetCommand(); //right click
+            }
         }
         
 	}
@@ -148,23 +174,22 @@ public class MouseCommandsController : MonoBehaviour {
 
         if (selectedGOs.Count == 1)
         {
-            Constructor constructor = selectedGOs[0].GetComponent<Constructor>();
+            ShipConstructor constructor = selectedGOs[0].GetComponent<ShipConstructor>();
 
-            if(constructor != null)
+            if (constructor != null)
             {
-                List<ConstructionManager.ShipConstruction> shipConstructions = constructor.ShipConstructions;
-
+                List<ShipConstruction> shipConstructions = constructor.ShipConstructions;
                 int size = shipConstructions.Count;
 
-                for(int i = 0; i < size; i++)
+                for (int i = 0; i < size; i++)
                 {
-                    Ship ship = ShipFactory.getInstance().CreateShip(shipConstructions[i].ConstructionType);
+                    Ship ship = ShipFactory.getInstance().CreateShip(shipConstructions[i].shipType);
                     float buttonPositionX = (constructionButtonPrefabOriginalPosX - 10) + (constructionButtonPrefabWidth * i) + 10; //10 It's the offset between buttons
 
                     GameObject button = Instantiate(constructionButtonPrefab, constructionSection.transform);
 
                     RectTransform rectTransform = button.GetComponent<RectTransform>();
-                   
+
                     rectTransform.anchoredPosition3D = new Vector3(buttonPositionX, rectTransform.localPosition.y, rectTransform.localPosition.z);
 
                     //Debug.Log("( " + constructionButtonPrefabOriginalPosX + "- 10 )" + " + " + "( " + constructionButtonPrefabWidth + " * " + i + ") + 10 = " + buttonPositionX);
@@ -176,15 +201,89 @@ public class MouseCommandsController : MonoBehaviour {
 
                 }
             }
+            else
+            {
+                StationConstructor stationConstructor = selectedGOs[0].GetComponent<StationConstructor>();  
+                if(stationConstructor != null)
+                {
+                    List<StationConstruction> stationConstructions = stationConstructor.stationConstructions;
+                    int size = stationConstructions.Count;
+                    for (int i = 0; i < size; i++)
+                    {
+                        Station station = StationFactory.getInstance().CreateStation(stationConstructions[i].stationType);
+                        float buttonPositionX = (constructionButtonPrefabOriginalPosX - 10) + (constructionButtonPrefabWidth * i) + 10; //10 It's the offset between buttons
+
+                        GameObject button = Instantiate(constructionButtonPrefab, constructionSection.transform);
+
+                        RectTransform rectTransform = button.GetComponent<RectTransform>();
+
+                        rectTransform.anchoredPosition3D = new Vector3(buttonPositionX, rectTransform.localPosition.y, rectTransform.localPosition.z);
+
+                        //Debug.Log("( " + constructionButtonPrefabOriginalPosX + "- 10 )" + " + " + "( " + constructionButtonPrefabWidth + " * " + i + ") + 10 = " + buttonPositionX);
+
+                        button.GetComponentInChildren<RawImage>().texture = station.StationIcon;
+                        button.SetActive(true);
+
+                        //SetShipConstructionButtonClickCallback(constructor, button, stationConstructions[i]);
+                        SetStationConstructionButtonClickCallback(stationConstructor, button, stationConstructions[i]);
+
+                    }
+                }
+            }
         }
         
     }
 
-    private void SetShipConstructionButtonClickCallback(Constructor constructor, GameObject button, ConstructionManager.ShipConstruction shipConstruction)
+    private void SetShipConstructionButtonClickCallback(ShipConstructor constructor, GameObject button, ShipConstruction shipConstruction)
     {
         button.GetComponent<Button>().onClick.AddListener(() =>
         {
-            constructor.BuildShip(shipConstruction.ConstructionType);
+            constructor.BuildShip(shipConstruction.shipType);
         });
+    }
+
+    private void SetStationConstructionButtonClickCallback(StationConstructor stationConstructor, GameObject button, StationConstruction stationConstruction)
+    {
+        button.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            GameObject stationPrefab = Spawner.Instance.true_station_associations[stationConstruction.stationType];
+
+            Vector3 spawnPosition = stationConstructor.gameObject.transform.position;
+
+            GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
+            Destroy(station.GetComponent<StationController>());
+
+            if(this.possibleStation != null)
+            {
+                Destroy(possibleStation.gameObject);
+            }
+
+
+            possibleStation = new PossibleStationConstruction(station, stationConstruction, stationConstructor);
+            
+        });
+    }
+
+    private void StationConstructionToCursor()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 1000f, 1 << (int)ObjectLayers.Map))
+        {
+            possibleStation.gameObject.transform.position = hit.point;
+            if (Input.GetMouseButtonDown(0))//Left click
+            {
+                possibleStation.stationConstructor.BuildStation(possibleStation.stationConstruction.stationType, hit.point);
+                Destroy(possibleStation.gameObject);
+                possibleStation = null;
+            }
+            else if(Input.GetMouseButtonDown(1))//right click
+            {
+                Destroy(possibleStation.gameObject);
+                possibleStation = null;
+            }
+            
+        }
     }
 }

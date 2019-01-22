@@ -3,5 +3,6 @@
     Idle,
     Moving,
     Following, 
-    Attacking
+    Attacking,
+    Building
 }
