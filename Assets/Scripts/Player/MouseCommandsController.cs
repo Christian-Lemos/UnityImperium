@@ -270,6 +270,7 @@ public class MouseCommandsController : MonoBehaviour {
             Vector3 spawnPosition = stationConstructor.gameObject.transform.position;
 
             GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
+            station.GetComponentInChildren<ObjectStatsCanvasController>().gameObject.SetActive(false);
             Destroy(station.GetComponent<StationController>());
 
             TurretController[] turretControllers = station.GetComponentsInChildren<TurretController>();

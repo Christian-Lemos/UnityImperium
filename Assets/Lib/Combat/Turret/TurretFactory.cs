@@ -14,7 +14,7 @@ namespace Imperium.Combat.Turret
             switch(turretType)
             {
                 case TurretType.Test:
-                    return new Turret(0.5f, 70, 15f, BulletType.Test);
+                    return new Turret(0.5f, 70, 40f, BulletType.Test);
                 default:
                     throw new System.Exception("Turret type not supported");
             }
