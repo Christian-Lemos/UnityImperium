@@ -3,38 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using Imperium.Persistence;
 using Imperium.Enum;
-[RequireComponent(typeof(Spawner))]
+
 public class PlayerDatabase : MonoBehaviour {
 
-    public int playerCount;
     
     public List<HashSet<GameObject>> playerObjects = new List<HashSet<GameObject>>();
     private List<Dictionary<ResourceType, int>> playerResources = new List<Dictionary<ResourceType, int>>();
     public static PlayerDatabase Instance { get; private set; }
-    public GameSceneData gameSceneData;
-    private Spawner spawner;
+    
     void Awake ()
     {
-        
         Instance = this;
-        try
-        {
-            gameSceneData = SceneManager.Instance.CurrentGameSceneData;
-        }
-        catch
-        {
-            gameSceneData = GameSceneData.NewGameDefault();
-        }
-
-        this.playerCount = gameSceneData.players.Count;
+    }
 
 
+    public void SetUpDatabase(int playerCount)
+    {
         //playerObjects = new List<GameObject>[playerCount];
         //playerResources = new Dictionary<ResourceType, int>[playerCount];
-        
+
         for (int i = 0; i < playerCount; i++)
         {
-            playerObjects.Add (new HashSet<GameObject>());
+            playerObjects.Add(new HashSet<GameObject>());
             playerResources.Add(new Dictionary<ResourceType, int>());
 
             foreach (ResourceType resource in System.Enum.GetValues(typeof(ResourceType)))
@@ -42,19 +32,6 @@ public class PlayerDatabase : MonoBehaviour {
                 playerResources[i].Add(resource, 0);
             }
         }
-    }
-
-    private void Start()
-    {
-        spawner = GetComponent<Spawner>();
-        foreach (PlayerPersistance playerPersistance in gameSceneData.players)
-        {
-            foreach (ShipPersistence shipPersistence in playerPersistance.Ships)
-            {
-                spawner.SpawnShip(shipPersistence.shipType, playerPersistance.PlayerNumber, shipPersistence.position, Quaternion.identity);
-            }
-        }
-
         StartCoroutine(PassiveResoursesAdderIEnumerator());
     }
 
@@ -146,6 +123,18 @@ public class PlayerDatabase : MonoBehaviour {
         return -1;
     }
     
+    public bool IsAtDatabase(GameObject obj)
+    {
+        for (int i = 0; i < playerObjects.Count; i++)
+        {
+            if(playerObjects[i].Contains(obj))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public IEnumerator PassiveResoursesAdderIEnumerator()
     {
         while(true)

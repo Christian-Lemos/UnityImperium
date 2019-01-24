@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Imperium.Economy;
 using Imperium.Enum;
+
+[RequireComponent(typeof(ShipController))]
+[DisallowMultipleComponent]
 public class StationConstructor : MonoBehaviour {
 
 
@@ -11,6 +14,7 @@ public class StationConstructor : MonoBehaviour {
     public bool Building;
 
     private IEnumerator buildingCoroutine;
+
 
 
     public void BuildStation(StationType type, Vector3 position)
@@ -60,8 +64,11 @@ public class StationConstructor : MonoBehaviour {
 
     public void StopBuilding()
     {
-        StopCoroutine(this.buildingCoroutine);
-        this.Building = false;
+        if(this.Building)
+        {
+            StopCoroutine(this.buildingCoroutine);
+            this.Building = false;
+        }
     }
 
 

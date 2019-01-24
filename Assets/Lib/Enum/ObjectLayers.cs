@@ -5,6 +5,7 @@ namespace Imperium.Enum
     {
         Map = 9,
         Ship = 10,
+        Station = 11,
         UI = 5
     }
 }

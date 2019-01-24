@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114150497846309370}
   - component: {fileID: 114063207122363726}
   - component: {fileID: 114962969850159042}
+  - component: {fileID: 114121210284327604}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -36,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1650328200139088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.66, y: 0, z: 7.36}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -53,11 +54,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99dc25b762055e34ea970c4df197ab92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assosiations:
+  ship_assosiations:
   - shipType: 0
     prefab: {fileID: 1306210491191302, guid: 38ab961b9a81d714cb68baa4b6bf2c6d, type: 2}
   - shipType: 1
     prefab: {fileID: 1332735339862588, guid: f0f46b064e060aa4997cf861702971ff, type: 2}
+  - shipType: 2
+    prefab: {fileID: 1486607332098058, guid: 5ad90ab0db860034987d69bb8f6e7fe5, type: 2}
+  station_assosiations:
+  - stationType: 0
+    prefab: {fileID: 1249487277988724, guid: 82e0a040e5e4ecf4d93f94e67b3657df, type: 2}
+--- !u!114 &114121210284327604
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1650328200139088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3595c3b424ab6994f9f2862fa5773922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameSceneData:
+    Name: 
+    MapSize: {x: 0, y: 0}
+    players: []
 --- !u!114 &114150497846309370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -69,11 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def10ae0f2ea3bc46a10b57a8eaee8fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCount: 2
-  gameSceneData:
-    Name: 
-    MapSize: {x: 0, y: 0}
-    players: []
 --- !u!114 &114962969850159042
 MonoBehaviour:
   m_ObjectHideFlags: 1

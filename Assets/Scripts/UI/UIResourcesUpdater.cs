@@ -21,11 +21,11 @@ public class UIResourcesUpdater : MonoBehaviour {
     private void Start()
     {
 
-        for(int j = 0; j < PlayerDatabase.Instance.gameSceneData.players.Count; j++)
+        for(int j = 0; j < GameInitializer.Instance.gameSceneData.players.Count; j++)
         {
-            if(PlayerDatabase.Instance.gameSceneData.players[j].playerType == PlayerType.Real)
+            if(GameInitializer.Instance.gameSceneData.players[j].playerType == PlayerType.Real)
             {
-                player = PlayerDatabase.Instance.gameSceneData.players[j].PlayerNumber;
+                player = GameInitializer.Instance.gameSceneData.players[j].PlayerNumber;
             }
         }
 

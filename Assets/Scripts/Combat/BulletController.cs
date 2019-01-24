@@ -18,7 +18,7 @@ public class BulletController : MonoBehaviour {
         Destroy(this.gameObject, 10f);
     }
 
-	// Update is called once per frame
+
 	void FixedUpdate () {
 		if(initialized)
         {
@@ -27,10 +27,10 @@ public class BulletController : MonoBehaviour {
 	}
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == (int)ObjectLayers.Ship && !other.gameObject.Equals(this.source))
+        if((other.gameObject.layer == (int)ObjectLayers.Ship || other.gameObject.layer == (int)ObjectLayers.Station) && !other.gameObject.Equals(this.source))
         {
-            ShipController shipController = other.gameObject.GetComponent<ShipController>();
-            shipController.TakeDamage(this.bullet.Damage);
+            ObjectController objectController = other.gameObject.GetComponent<ObjectController>();
+            objectController.TakeDamage(this.bullet.Damage);
             Destroy(this.gameObject);
         }
     }

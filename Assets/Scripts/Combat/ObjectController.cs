@@ -1,16 +1,19 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Imperium;
 using Imperium.Enum;
-using Imperium.Misc;
-using Imperium.Combat;
+
+[DisallowMultipleComponent]
 public abstract class ObjectController : MonoBehaviour {
 
 
 
+    private readonly int fireLayer = 1 << (int)ObjectLayers.Ship | 1 << (int)ObjectLayers.Station;
+
     public Stats stats;
     public float lowestTurretRange;
+
+    public abstract void AttackTarget(GameObject target);
 
     public void TakeDamage(int damage)
     {
@@ -34,18 +37,17 @@ public abstract class ObjectController : MonoBehaviour {
 
     protected void FireAtClosestTarget()
     {
-        int shipLayer = 1 << (int)ObjectLayers.Ship;
-       // Debug.Log(this.gameObject);
+        
+        // Debug.Log(this.gameObject);
         //Debug.Log(this.gameObject.transform);
-        //Debug.Log(stats);
-
-        Collider[] colliders = Physics.OverlapSphere(this.gameObject.transform.position, stats.FieldOfViewDistance, shipLayer);
+        //Debug.Log(statsfireLayer
+        Collider[] colliders = Physics.OverlapSphere(this.gameObject.transform.position, stats.FieldOfViewDistance, fireLayer);
         GameObject closestTarget = null;
         float closestDistance = 0f;
         int thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(this.gameObject);
         foreach (Collider collider in colliders)
         {
-            if (!PlayerDatabase.Instance.IsFromPlayer(collider.gameObject, thisPlayer) && !collider.gameObject.Equals(this.gameObject))
+            if (collider.gameObject.GetComponent<ObjectController>() != null && !PlayerDatabase.Instance.IsFromPlayer(collider.gameObject, thisPlayer) && !collider.gameObject.Equals(this.gameObject))
             {
                 float distance = Vector3.Distance(collider.gameObject.transform.position, this.gameObject.transform.position);
                 if (distance >= closestDistance && distance <= stats.FieldOfViewDistance)

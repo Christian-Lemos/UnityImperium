@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class ShipCanvas : MonoBehaviour {
+public class ObjectStatsCanvas : MonoBehaviour {
 
     [SerializeField]
     private GameObject HPSliderGO;

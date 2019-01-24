@@ -16,7 +16,7 @@ public class StationController : ObjectController
 
         lowestTurretRange = base.GetLowestTurretRange();
 
-        int stationHP = (int)(this.station.StationStats.MaxHP * constructionProgress) / 100;
+        this.station.StationStats.HP = (int)(this.station.StationStats.MaxHP * constructionProgress) / 100;
 
         if (constructionProgress >= 100)
         {
@@ -32,6 +32,7 @@ public class StationController : ObjectController
 
     private void Update()
     {
+
         if (constructed)
         {
             FireAtClosestTarget();
@@ -49,6 +50,18 @@ public class StationController : ObjectController
         {
             constructed = true;
             StartCoroutine(ShieldRegeneration());
+        }
+    }
+
+    public override void AttackTarget(GameObject target)
+    {
+        if (!target.Equals(this.gameObject))
+        {
+            TurretController[] turrets = this.gameObject.GetComponentsInChildren<TurretController>(false);
+            foreach (TurretController turret in turrets)
+            {
+                turret.SetFirePriority(target);
+            }
         }
     }
 }

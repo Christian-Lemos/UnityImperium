@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 114278931470886514}
   - component: {fileID: 114453971118942634}
   m_Layer: 5
-  m_Name: ShipCanvas
+  m_Name: ObjectStatsSliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

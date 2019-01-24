@@ -10,6 +10,7 @@ public class ShipController : ObjectController {
 
 
     public ShipType type;
+    [SerializeField]
     private ShipState shipState = ShipState.Idle;
     public Ship Ship { get; private set; }
     private ShipMovement shipMovement;
@@ -18,6 +19,7 @@ public class ShipController : ObjectController {
     private Vector3 moveDestination;
     private float moveOffset = 0f;
 
+    public StationConstructor stationConstructor;
 
     // public GameObject explosion;
 
@@ -30,16 +32,9 @@ public class ShipController : ObjectController {
 
         lowestTurretRange = base.GetLowestTurretRange();
 
-
+        stationConstructor = GetComponent<StationConstructor>();
 
         StartCoroutine(ShieldRegeneration());
-
-        StationConstructor stationConstructor = GetComponent<StationConstructor>();
-
-        /*if(stationConstructor != null)
-        {
-            stationConstructor.BuildStation(StationType.TestStation);   
-        }*/
     }
 
     private void Update()
@@ -47,12 +42,15 @@ public class ShipController : ObjectController {
         switch (shipState)
         {
             case ShipState.Moving:
+                StopBuildingStation();
                 MovingStateControl();
                 break;
             case ShipState.Attacking:
+                StopBuildingStation();
                 AttackingStateControl();
                 break;
             case ShipState.Idle:
+                StopBuildingStation();
                 IdleStateControl();
                 break;
             case ShipState.Building:
@@ -118,15 +116,19 @@ public class ShipController : ObjectController {
 
     private void AttackingStateControl()
     {
-        if(Vector3.Distance(target.transform.position, transform.position) <= this.Ship.ShipStats.FieldOfViewDistance)
+        if(this.target != null)
         {
-            FireTurrets(target);
-        }
+            if (Vector3.Distance(target.transform.position, transform.position) <= this.Ship.ShipStats.FieldOfViewDistance)
+            {
+                FireTurrets(target);
+            }
 
-        //MoveToPosition(target.transform.position, lowestTurretRange / 2);
-        this.moveDestination = target.transform.position;
-        this.moveOffset = lowestTurretRange / 2;
-        MovingStateControl();
+            //MoveToPosition(target.transform.position, lowestTurretRange / 2);
+            this.moveDestination = target.transform.position;
+            this.moveOffset = lowestTurretRange / 2;
+            MovingStateControl();
+        }
+        
     }
     private void IdleStateControl()
     {
@@ -145,7 +147,7 @@ public class ShipController : ObjectController {
         }*/
     }
 
-    public void AttackTarget(GameObject target)
+    public override void AttackTarget(GameObject target)
     {
         if(!target.Equals(this.gameObject))
         {
@@ -155,16 +157,26 @@ public class ShipController : ObjectController {
             TurretController[] turrets = this.gameObject.GetComponentsInChildren<TurretController>(false);
             foreach (TurretController turret in turrets)
             {
-                turret.setFirePriority(target);
+                turret.SetFirePriority(target);
             }
         }
     }
 
     public void BuildStation(GameObject station)
     {
+        if(this.stationConstructor != null)
+        {
+
+        }
         this.moveOffset = 2f;
         this.target = station;
         this.shipState = ShipState.Building;
+    }
+
+    public void SetIdle()
+    {
+        this.target = null;
+        this.shipState = ShipState.Idle;
     }
 
 
@@ -175,6 +187,14 @@ public class ShipController : ObjectController {
         foreach (TurretController turret in turrets)
         {
             turret.Fire(target);
+        }
+    }
+
+    private void StopBuildingStation()
+    {
+        if(this.stationConstructor != null)
+        {
+            stationConstructor.StopBuilding();
         }
     }
 

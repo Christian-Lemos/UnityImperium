@@ -22,13 +22,11 @@ public class Spawner : MonoBehaviour {
     public Dictionary<ShipType, GameObject> true_ship_associations = new Dictionary<ShipType, GameObject>();
     public Dictionary<StationType, GameObject> true_station_associations = new Dictionary<StationType, GameObject>();
 
-    private PlayerDatabase playerDatabase;
 
     public static Spawner Instance;
 
     private void Awake()
     {
-        playerDatabase = GetComponent<PlayerDatabase>();
         for(int i = 0; i < ship_assosiations.Length; i++)
         {
             true_ship_associations.Add(ship_assosiations[i].shipType, ship_assosiations[i].prefab);
@@ -44,7 +42,7 @@ public class Spawner : MonoBehaviour {
 
     public GameObject SpawnShip(ShipType type, int player, Vector3 position, Quaternion rotation)
     {
-        if (!playerDatabase.IsValidPlayer(player))
+        if (!PlayerDatabase.Instance.IsValidPlayer(player))
         {
             throw new System.Exception("Not a valid player");
         }
@@ -57,14 +55,15 @@ public class Spawner : MonoBehaviour {
         else
         {
             GameObject newShip = Instantiate(prefab, position, rotation);
-            playerDatabase.AddToPlayer(newShip, player);
+            PlayerDatabase.Instance.AddToPlayer(newShip, player);
+            newShip.name += " " + player;
             return newShip;
         }
     }
 
     public GameObject SpawnStation(StationType type, int player, Vector3 position, Quaternion rotation, int constructionProgress)
     {
-        if (!playerDatabase.IsValidPlayer(player))
+        if (!PlayerDatabase.Instance.IsValidPlayer(player))
         {
             throw new System.Exception("Not a valid player");
         }
@@ -78,10 +77,11 @@ public class Spawner : MonoBehaviour {
         else
         {
             GameObject newStation = Instantiate(prefab, position, rotation);
-            playerDatabase.AddToPlayer(newStation, player);
+            PlayerDatabase.Instance.AddToPlayer(newStation, player);
             newStation.GetComponent<StationController>().constructed = constructionProgress == 100;
             newStation.GetComponent<StationController>().constructionProgress = constructionProgress;
             newStation.SetActive(true);
+            newStation.name += " " + player;
             return newStation;
         }
     }

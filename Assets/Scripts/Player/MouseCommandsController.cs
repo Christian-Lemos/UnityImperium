@@ -16,16 +16,17 @@ public class MouseCommandsController : MonoBehaviour {
     /// </summary>
     [SerializeField]
     private List<GameObject> selectedGOs;
-    [SerializeField]
-    private GameObject selectPanel;
+    
+
+
+    public GameObject selectPanel;
+    public GameObject constructionSection;
 
     [SerializeField]
-    private GameObject constructionSection;
-
-    [SerializeField]
-    private GameObject constructionButtonPrefab;
+    public GameObject constructionButtonPrefab;
 
 
+    public int player;
 
     private float constructionButtonPrefabOriginalPosX;
     private float constructionButtonPrefabWidth;
@@ -54,7 +55,7 @@ public class MouseCommandsController : MonoBehaviour {
 
 	void Start () {
         selectedGOs = new List<GameObject>();
-        selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map);
+        selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map) | (1 << (int)ObjectLayers.Station);
         playerDatabase = PlayerDatabase.Instance;
 
         RectTransform rectTransform = constructionButtonPrefab.GetComponent<RectTransform>();
@@ -67,8 +68,6 @@ public class MouseCommandsController : MonoBehaviour {
     {
         if(!EventSystem.current.IsPointerOverGameObject())
         {
-            
-
             if(possibleStation != null)
             {
                 StationConstructionToCursor();
@@ -79,7 +78,6 @@ public class MouseCommandsController : MonoBehaviour {
                 FleetCommand(); //right click
             }
         }
-        
 	}
     /// <summary>
     /// This method handles fleet's commands like move selected this to position
@@ -93,14 +91,19 @@ public class MouseCommandsController : MonoBehaviour {
 
             if (Physics.Raycast(ray, out hit, 1000f, selectLayer))
             {
-                GameObject selected = (GameObject)hit.collider.gameObject;
+                GameObject selected = hit.collider.gameObject;
                 if(selected.layer == (int) ObjectLayers.Map) //If right clicked on map
                 {
+                    //Moves all the selected ships
                     foreach (GameObject go in selectedGOs)
                     {
-                        ShipController controller = go.GetComponent<ShipController>();
-                        controller.MoveToPosition(hit.point, 1f);
-     
+                        ShipController shipController = go.GetComponent<ShipController>();
+
+                        if(shipController != null)
+                        {
+                            shipController.MoveToPosition(hit.point, 1f);
+                        }
+                       
                     }
                 }
                 else if(selected.layer == (int)ObjectLayers.Ship)
@@ -113,6 +116,22 @@ public class MouseCommandsController : MonoBehaviour {
                             go.GetComponent<ShipController>().AttackTarget(selected);
                         }
                         
+                    }
+                }
+                else if(selected.layer == (int)ObjectLayers.Station)
+                {
+                    
+                    StationController stationController = selected.GetComponent<StationController>();
+
+                    if(stationController.constructed == false)
+                    {
+                        foreach (GameObject go in selectedGOs)
+                        {
+                            if (go.GetComponent<StationConstructor>() != null)
+                            {
+                                go.GetComponent<ShipController>().BuildStation(selected);
+                            }
+                        }
                     }
                 }
             }
@@ -132,7 +151,7 @@ public class MouseCommandsController : MonoBehaviour {
             if (Physics.Raycast(ray, out hit, 1000f))
             {
                 GameObject selected = hit.collider.gameObject;
-                if (selected.layer == (int) ObjectLayers.Ship)
+                if (selected.layer == (int) ObjectLayers.Ship || selected.layer == (int)ObjectLayers.Station)
                 {
                     if (Input.GetKey(KeyCode.LeftShift)) //If the player is pressid leftShift, the selected GO must be added to selected
                     {
@@ -253,12 +272,20 @@ public class MouseCommandsController : MonoBehaviour {
             GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
             Destroy(station.GetComponent<StationController>());
 
+            TurretController[] turretControllers = station.GetComponentsInChildren<TurretController>();
+            foreach(TurretController turretController in turretControllers)
+            {
+                turretController.gameObject.SetActive(false);
+            }
+
+            station.layer = 0;
             if(this.possibleStation != null)
             {
                 Destroy(possibleStation.gameObject);
             }
 
 
+            station.SetActive(true);
             possibleStation = new PossibleStationConstruction(station, stationConstruction, stationConstructor);
             
         });
