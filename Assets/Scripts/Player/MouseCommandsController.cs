@@ -1,23 +1,21 @@
-﻿using System.Collections;
+﻿using Imperium;
+using Imperium.Economy;
+using Imperium.Enum;
 using System.Collections.Generic;
 using UnityEngine;
-using Imperium.Enum;
-using Imperium;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using Imperium.Economy;
+using UnityEngine.UI;
 
 /// <summary>
 /// This class handles commands set by mouse
 /// </summary>
-public class MouseCommandsController : MonoBehaviour {
+public class MouseCommandsController : MonoBehaviour
+{
     /// <summary>
     /// This is the list of selected game objects
     /// </summary>
     [SerializeField]
     private List<GameObject> selectedGOs;
-    
-
 
     public GameObject selectPanel;
     public GameObject constructionSection;
@@ -25,12 +23,10 @@ public class MouseCommandsController : MonoBehaviour {
     [SerializeField]
     public GameObject constructionButtonPrefab;
 
-
     public int player;
 
     private float constructionButtonPrefabOriginalPosX;
     private float constructionButtonPrefabWidth;
-
 
     private int selectLayer;
 
@@ -52,8 +48,8 @@ public class MouseCommandsController : MonoBehaviour {
 
     private PossibleStationConstruction possibleStation;
 
-
-	void Start () {
+    private void Start()
+    {
         selectedGOs = new List<GameObject>();
         selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map) | (1 << (int)ObjectLayers.Station);
         playerDatabase = PlayerDatabase.Instance;
@@ -63,12 +59,12 @@ public class MouseCommandsController : MonoBehaviour {
         constructionButtonPrefabWidth = rectTransform.sizeDelta.x;
         constructionButtonPrefabOriginalPosX = rectTransform.position.x;
     }
-	
-	void Update ()
+
+    private void Update()
     {
-        if(!EventSystem.current.IsPointerOverGameObject())
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            if(possibleStation != null)
+            if (possibleStation != null)
             {
                 StationConstructionToCursor();
             }
@@ -78,13 +74,14 @@ public class MouseCommandsController : MonoBehaviour {
                 FleetCommand(); //right click
             }
         }
-	}
+    }
+
     /// <summary>
     /// This method handles fleet's commands like move selected this to position
     /// </summary>
     private void FleetCommand()
     {
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -92,47 +89,47 @@ public class MouseCommandsController : MonoBehaviour {
             if (Physics.Raycast(ray, out hit, 1000f, selectLayer))
             {
                 GameObject selected = hit.collider.gameObject;
-                if(selected.layer == (int) ObjectLayers.Map) //If right clicked on map
-                {
-                    //Moves all the selected ships
-                    foreach (GameObject go in selectedGOs)
-                    {
-                        ShipController shipController = go.GetComponent<ShipController>();
 
-                        if(shipController != null)
-                        {
-                            shipController.MoveToPosition(hit.point, 1f);
-                        }
-                       
-                    }
-                }
-                else if(selected.layer == (int)ObjectLayers.Ship)
+                switch (selected.layer)
                 {
-                    int selectedPlayer = playerDatabase.GetObjectPlayer(selected);
-                    foreach (GameObject go in selectedGOs)
-                    {
-                        if (!playerDatabase.IsFromPlayer(go, selectedPlayer))
-                        {
-                            go.GetComponent<ShipController>().AttackTarget(selected);
-                        }
-                        
-                    }
-                }
-                else if(selected.layer == (int)ObjectLayers.Station)
-                {
-                    
-                    StationController stationController = selected.GetComponent<StationController>();
-
-                    if(stationController.constructed == false)
-                    {
+                    case (int)ObjectLayers.Map:
+                        //Moves all the selected ships
                         foreach (GameObject go in selectedGOs)
                         {
-                            if (go.GetComponent<StationConstructor>() != null)
+                            ShipController shipController = go.GetComponent<ShipController>();
+
+                            if (shipController != null)
                             {
-                                go.GetComponent<ShipController>().BuildStation(selected);
+                                shipController.MoveToPosition(hit.point, 1f, !Input.GetKey(KeyCode.LeftShift));
                             }
                         }
-                    }
+                        break;
+
+                    case (int)ObjectLayers.Ship:
+                        int selectedPlayer = playerDatabase.GetObjectPlayer(selected);
+                        foreach (GameObject go in selectedGOs)
+                        {
+                            if (!playerDatabase.IsFromPlayer(go, selectedPlayer))
+                            {
+                                go.GetComponent<ShipController>().AttackTarget(selected, !Input.GetKey(KeyCode.LeftShift));
+                            }
+                        }
+                        break;
+
+                    case (int)ObjectLayers.Station:
+                        StationController stationController = selected.GetComponent<StationController>();
+
+                        if (stationController.constructed == false)
+                        {
+                            foreach (GameObject go in selectedGOs)
+                            {
+                                if (go.GetComponent<StationConstructor>() != null)
+                                {
+                                    go.GetComponent<ShipController>().BuildStation(selected, !Input.GetKey(KeyCode.LeftShift));
+                                }
+                            }
+                        }
+                        break;
                 }
             }
         }
@@ -151,7 +148,7 @@ public class MouseCommandsController : MonoBehaviour {
             if (Physics.Raycast(ray, out hit, 1000f))
             {
                 GameObject selected = hit.collider.gameObject;
-                if (selected.layer == (int) ObjectLayers.Ship || selected.layer == (int)ObjectLayers.Station)
+                if (selected.layer == (int)ObjectLayers.Ship || selected.layer == (int)ObjectLayers.Station)
                 {
                     if (Input.GetKey(KeyCode.LeftShift)) //If the player is pressid leftShift, the selected GO must be added to selected
                     {
@@ -171,7 +168,6 @@ public class MouseCommandsController : MonoBehaviour {
                         selectedGOs.Clear();
                         selectedGOs.Add(selected);
                     }
-                    
                 }
                 else //Clear the selected list if clicked on no ships
                 {
@@ -182,10 +178,8 @@ public class MouseCommandsController : MonoBehaviour {
         }
     }
 
-
     private void ShowConstructionOptions()
     {
-
         foreach (Transform child in constructionSection.transform)
         {
             GameObject.Destroy(child.gameObject);
@@ -217,13 +211,12 @@ public class MouseCommandsController : MonoBehaviour {
                     button.SetActive(true);
 
                     SetShipConstructionButtonClickCallback(constructor, button, shipConstructions[i]);
-
                 }
             }
             else
             {
-                StationConstructor stationConstructor = selectedGOs[0].GetComponent<StationConstructor>();  
-                if(stationConstructor != null)
+                StationConstructor stationConstructor = selectedGOs[0].GetComponent<StationConstructor>();
+                if (stationConstructor != null)
                 {
                     List<StationConstruction> stationConstructions = stationConstructor.stationConstructions;
                     int size = stationConstructions.Count;
@@ -245,12 +238,10 @@ public class MouseCommandsController : MonoBehaviour {
 
                         //SetShipConstructionButtonClickCallback(constructor, button, stationConstructions[i]);
                         SetStationConstructionButtonClickCallback(stationConstructor, button, stationConstructions[i]);
-
                     }
                 }
             }
         }
-        
     }
 
     private void SetShipConstructionButtonClickCallback(ShipConstructor constructor, GameObject button, ShipConstruction shipConstruction)
@@ -274,21 +265,19 @@ public class MouseCommandsController : MonoBehaviour {
             Destroy(station.GetComponent<StationController>());
 
             TurretController[] turretControllers = station.GetComponentsInChildren<TurretController>();
-            foreach(TurretController turretController in turretControllers)
+            foreach (TurretController turretController in turretControllers)
             {
                 turretController.gameObject.SetActive(false);
             }
 
             station.layer = 0;
-            if(this.possibleStation != null)
+            if (possibleStation != null)
             {
                 Destroy(possibleStation.gameObject);
             }
 
-
             station.SetActive(true);
             possibleStation = new PossibleStationConstruction(station, stationConstruction, stationConstructor);
-            
         });
     }
 
@@ -306,12 +295,11 @@ public class MouseCommandsController : MonoBehaviour {
                 Destroy(possibleStation.gameObject);
                 possibleStation = null;
             }
-            else if(Input.GetMouseButtonDown(1))//right click
+            else if (Input.GetMouseButtonDown(1))//right click
             {
                 Destroy(possibleStation.gameObject);
                 possibleStation = null;
             }
-            
         }
     }
 }

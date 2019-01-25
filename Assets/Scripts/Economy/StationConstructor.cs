@@ -43,7 +43,7 @@ public class StationConstructor : MonoBehaviour {
                 }
 
                 GameObject station = Spawner.Instance.SpawnStation(stationConstruction.stationType, player, position, Quaternion.identity, 1);
-                this.GetComponent<ShipController>().BuildStation(station);
+                this.GetComponent<ShipController>().BuildStation(station, true);
                 return;
             }
         }

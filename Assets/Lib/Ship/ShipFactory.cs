@@ -34,6 +34,11 @@ namespace Imperium
                     shipName = "Construction Ship";
                     shipIcon = "construction_ship_icon";
                     break;
+                case (ShipType.Freighter):
+                    stats = new Stats(100, 100, 5, 45f);
+                    shipName = "Freighter";
+                    shipIcon = "freighter_icon";
+                    break;
                 default:
                     throw new System.Exception("Type of ship not supported");
             }

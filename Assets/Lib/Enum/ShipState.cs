@@ -4,5 +4,6 @@
     Moving,
     Following, 
     Attacking,
-    Building
+    Building,
+    Mining
 }

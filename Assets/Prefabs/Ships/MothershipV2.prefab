@@ -1462,6 +1462,13 @@ MonoBehaviour:
       quantity: 1
     - resourceType: 1
       quantity: 1
+  - shipType: 3
+    constructionTime: 5
+    resourceCosts:
+    - resourceType: 0
+      quantity: 1
+    - resourceType: 1
+      quantity: 1
   relativeConstructionSpawn: {x: 0, y: 0, z: 0}
 --- !u!114 &114911984964031694
 MonoBehaviour:

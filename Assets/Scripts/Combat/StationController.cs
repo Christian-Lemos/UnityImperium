@@ -53,7 +53,7 @@ public class StationController : ObjectController
         }
     }
 
-    public override void AttackTarget(GameObject target)
+    public void AttackTarget(GameObject target)
     {
         if (!target.Equals(this.gameObject))
         {

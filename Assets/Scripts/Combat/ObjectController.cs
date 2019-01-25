@@ -13,8 +13,6 @@ public abstract class ObjectController : MonoBehaviour {
     public Stats stats;
     public float lowestTurretRange;
 
-    public abstract void AttackTarget(GameObject target);
-
     public void TakeDamage(int damage)
     {
 

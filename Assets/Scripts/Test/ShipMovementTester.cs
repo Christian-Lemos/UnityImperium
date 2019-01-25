@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Imperium.Movement;
+using Imperium.Navigation;
 
 [RequireComponent(typeof(ShipMovementController))]
 public class ShipMovementTester : MonoBehaviour {

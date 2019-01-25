@@ -2,7 +2,7 @@
 {
     public enum ShipType
     {
-        Test, MotherShip, ConstructionShip
+        Test, MotherShip, ConstructionShip, Freighter
     }
 }
 

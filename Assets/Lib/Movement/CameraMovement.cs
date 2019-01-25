@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Imperium.Movement
+namespace Imperium.Navigation
 {
 
     /// <summary>
