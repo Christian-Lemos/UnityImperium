@@ -1,29 +1,23 @@
-﻿using System.Collections;
+﻿using Imperium.Economy;
+using Imperium.Enum;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Imperium.Enum;
-using Imperium.Economy;
 
+public class UIResourcesUpdater : MonoBehaviour
+{
+    private int player;
 
-
-public class UIResourcesUpdater : MonoBehaviour {
-
-
+    private Dictionary<ResourceType, Text> texts = new Dictionary<ResourceType, Text>();
 
     [SerializeField]
     private GameObject UIResourcePrefab;
 
-    private Dictionary<ResourceType, Text> texts = new Dictionary<ResourceType, Text>();
-
-    private int player;
-
     private void Start()
     {
-
-        for(int j = 0; j < GameInitializer.Instance.gameSceneData.players.Count; j++)
+        for (int j = 0; j < GameInitializer.Instance.gameSceneData.players.Count; j++)
         {
-            if(GameInitializer.Instance.gameSceneData.players[j].playerType == PlayerType.Real)
+            if (GameInitializer.Instance.gameSceneData.players[j].playerType == PlayerType.Real)
             {
                 player = GameInitializer.Instance.gameSceneData.players[j].PlayerNumber;
             }
@@ -32,7 +26,7 @@ public class UIResourcesUpdater : MonoBehaviour {
         //player = PlayerDatabase.INSTANCE.gameSceneData.RealPlayer;
 
         float x_axis_offset = UIResourcePrefab.GetComponent<RectTransform>().localPosition.x;
-        if(x_axis_offset > 0)
+        if (x_axis_offset > 0)
         {
             x_axis_offset *= -1;
         }
@@ -40,7 +34,7 @@ public class UIResourcesUpdater : MonoBehaviour {
         foreach (ResourceType resourceType in System.Enum.GetValues(typeof(ResourceType)))
         {
             Resource resource = new Resource(resourceType);
-            GameObject obj = Instantiate(UIResourcePrefab, this.transform);
+            GameObject obj = Instantiate(UIResourcePrefab, transform);
             RectTransform rectTransform = obj.GetComponent<RectTransform>();
 
             rectTransform.localPosition = new Vector3(rectTransform.localPosition.x - x_axis_offset * i, rectTransform.localPosition.y, rectTransform.localPosition.z);
@@ -53,13 +47,12 @@ public class UIResourcesUpdater : MonoBehaviour {
         }
     }
 
-
     private void Update()
     {
         Dictionary<ResourceType, int> currentResources = PlayerDatabase.Instance.GetPlayerResources(player);
         foreach (KeyValuePair<ResourceType, int> entry in currentResources)
         {
-            this.texts[entry.Key].text = entry.Value.ToString();
+            texts[entry.Key].text = entry.Value.ToString();
         }
     }
 }

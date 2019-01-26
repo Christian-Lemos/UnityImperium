@@ -1,29 +1,100 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Imperium;
+﻿using Imperium;
 using Imperium.Enum;
 using Imperium.Navigation;
+using UnityEngine;
 
-
-public class ShipController : ObjectController {
-
-
-    public ShipType type;
-
-    public Ship Ship { get; private set; }
-    private ShipMovement shipMovement;
-
+public class ShipController : ObjectController
+{
+    public FleetCommandQueue fleetCommandQueue = new FleetCommandQueue();
     public StationConstructor stationConstructor;
+    public ShipType type;
+    private ShipMovement shipMovement;
+    public Ship Ship { get; private set; }
 
-    public List<FleetCommand> fleetCommands = new List<FleetCommand>();
+    public void AttackTarget(GameObject target, bool resetCommands, bool loopCommands)
+    {
+        if (!target.Equals(gameObject))
+        {
+            FleetCommand fleetCommand = new AttackCommand(gameObject, target, shipMovement);
+
+            AddCommand(resetCommands, fleetCommand);
+
+            fleetCommandQueue.loopFleetCommands = loopCommands;
+
+            TurretController[] turrets = gameObject.GetComponentsInChildren<TurretController>(false);
+            foreach (TurretController turret in turrets)
+            {
+                turret.SetFirePriority(target);
+            }
+        }
+    }
+
+    public void BuildStation(GameObject station, bool resetCommands, bool loopCommands)
+    {
+        FleetCommand fleetCommand = new BuildCommand(gameObject, station, shipMovement);
+        AddCommand(resetCommands, fleetCommand);
+        fleetCommandQueue.loopFleetCommands = loopCommands;
+    }
+
+    public void FireTurrets(GameObject target)
+    {
+        TurretController[] turrets = gameObject.GetComponentsInChildren<TurretController>(false);
+        foreach (TurretController turret in turrets)
+        {
+            turret.Fire(target);
+        }
+    }
+
+    public void MoveToPosition(Vector3 destination, float destinationOffset, bool resetCommands, bool loopCommands)
+    {
+        FleetCommand fleetCommand = new MoveCommand(gameObject, destination, destinationOffset, shipMovement);
+        AddCommand(resetCommands, fleetCommand);
+        fleetCommandQueue.loopFleetCommands = loopCommands;
+    }
+
+    public void SetIdle()
+    {
+        fleetCommandQueue.ResetCommands();
+        fleetCommandQueue.loopFleetCommands = false;
+    }
+
+    private void AddCommand(bool resetCommands, FleetCommand fleetCommand)
+    {
+        Debug.Log("Added: " + fleetCommand);
+        if (resetCommands)
+        {
+            fleetCommandQueue.ResetCommands();
+            fleetCommandQueue.fleetCommands.Add(fleetCommand);
+        }
+        else
+        {
+            fleetCommandQueue.fleetCommands.Add(fleetCommand);
+        }
+
+        if (fleetCommandQueue.CurrentFleetCommand == null)
+        {
+            fleetCommandQueue.CurrentFleetCommand = fleetCommand;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        try
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(gameObject.transform.position, Ship.ShipStats.FieldOfViewDistance);
+        }
+        catch
+        {
+        }
+    }
 
     private void Start()
     {
-        this.Ship = ShipFactory.getInstance().CreateShip(type);
-        this.stats = this.Ship.ShipStats;
+        Ship = ShipFactory.getInstance().CreateShip(type);
+        stats = Ship.ShipStats;
 
-        this.shipMovement = new ShipMovement(this.gameObject.transform, 2f, 50f);
+        shipMovement = new ShipMovement(gameObject.transform, 2f, 50f);
 
         lowestTurretRange = base.GetLowestTurretRange();
 
@@ -32,109 +103,26 @@ public class ShipController : ObjectController {
         StartCoroutine(ShieldRegeneration());
     }
 
-
-
     private void Update()
     {
-        if(fleetCommands.Count > 0)
+        if (fleetCommandQueue.fleetCommands.Count > 0)
         {
-            FleetCommand fleetCommand = this.fleetCommands[0];
+            FleetCommand fleetCommand = fleetCommandQueue.CurrentFleetCommand;
 
-            if (fleetCommand == null)
+            if (!fleetCommand.IsFinished())
             {
-                SetIdle();
-            }
-            else if (!fleetCommand.IsFinished())
-            {
-                
                 fleetCommand.ExecuteCommand();
             }
             else
             {
-                this.fleetCommands.RemoveAt(0);
+                FleetCommand next = fleetCommandQueue.SetNextFleetCommand();
+                if (next == null)
+                {
+                    SetIdle();
+                }
             }
         }
-        
+
+        FireAtClosestTarget();
     }
-
-    private void OnDrawGizmos()
-    {
-        try
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(gameObject.transform.position, this.Ship.ShipStats.FieldOfViewDistance);
-        }
-        catch
-        {
-
-        }
-
-    }
-   
-
-    public void AttackTarget(GameObject target, bool resetCommands)
-    {
-        if(!target.Equals(this.gameObject))
-        {
-            FleetCommand fleetCommand = new AttackCommand(this.gameObject, target, this.shipMovement);
-            
-            AddCommand(resetCommands, fleetCommand);
-
-            TurretController[] turrets = this.gameObject.GetComponentsInChildren<TurretController>(false);
-            foreach (TurretController turret in turrets)
-            {
-                turret.SetFirePriority(target);
-            }
-        }
-    }
-
-    
-    public void MoveToPosition(Vector3 destination, float destinationOffset, bool resetCommands)
-    {
-        FleetCommand fleetCommand = new MoveCommand(this.gameObject, destination, destinationOffset, this.shipMovement);
-        AddCommand(resetCommands, fleetCommand);
-    }
-
-
-    public void BuildStation(GameObject station, bool resetCommands)
-    {
-        FleetCommand fleetCommand = new BuildCommand(this.gameObject, station, this.shipMovement);
-        AddCommand(resetCommands, fleetCommand);
-    }
-
-    
-    public void FireTurrets(GameObject target)
-    {
-        TurretController[] turrets = this.gameObject.GetComponentsInChildren<TurretController>(false);
-        foreach (TurretController turret in turrets)
-        {
-            turret.Fire(target);
-        }
-    }
-
-    private void AddCommand(bool resetCommands, FleetCommand fleetCommand)
-    {
-        
-        if (resetCommands)
-        {
-            this.fleetCommands.Clear();
-            this.fleetCommands.Add(fleetCommand);
-        }
-        else
-        {
-            
-            this.fleetCommands.Add(fleetCommand);
-        }
-    }
-
-    public void SetIdle()
-    {
-        this.fleetCommands.Clear();
-    }
-    /*private void OnDestroy()
-    {
-        Instantiate(explosion, transform.position, Quaternion.identity);
-    }*/
-
-
 }

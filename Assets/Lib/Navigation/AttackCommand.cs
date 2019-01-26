@@ -1,18 +1,16 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Imperium.Navigation
 {
-
     public class AttackCommand : FleetCommand
     {
         private ShipController shipController;
 
         public AttackCommand(GameObject source, GameObject target, ShipMovement shipMovement) : base(source, target, shipMovement)
         {
-            this.shipController = source.GetComponent<ShipController>();
+            shipController = source.GetComponent<ShipController>();
             base.destination = target.transform.position;
-            this.destinationOffset = this.shipController.lowestTurretRange / 2;
+            destinationOffset = shipController.lowestTurretRange / 2;
         }
 
         public override void ExecuteCommand()
@@ -20,10 +18,9 @@ namespace Imperium.Navigation
             if (base.target != null)
             {
                 base.destination = target.transform.position;
-                this.destinationOffset = this.shipController.lowestTurretRange / 2;
-                
+                destinationOffset = shipController.lowestTurretRange / 2;
 
-                if (Vector3.Distance(target.transform.position, source.transform.position) <= this.shipController.Ship.ShipStats.FieldOfViewDistance)
+                if (Vector3.Distance(target.transform.position, source.transform.position) <= shipController.Ship.ShipStats.FieldOfViewDistance)
                 {
                     shipController.FireTurrets(base.target);
                 }
@@ -32,7 +29,7 @@ namespace Imperium.Navigation
 
                 if (distance > base.destinationOffset)
                 {
-                    this.shipMovement.MoveToPosition(base.destination);
+                    shipMovement.MoveToPosition(base.destination);
                 }
             }
         }
@@ -42,5 +39,4 @@ namespace Imperium.Navigation
             return base.target == null;
         }
     }
-
 }

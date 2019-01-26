@@ -11,70 +11,30 @@ using UnityEngine.UI;
 /// </summary>
 public class MouseCommandsController : MonoBehaviour
 {
+    [SerializeField]
+    public GameObject constructionButtonPrefab;
+
+    public GameObject constructionSection;
+
+    public int player;
+
+    public GameObject selectPanel;
+
+    private float constructionButtonPrefabOriginalPosX;
+
+    private float constructionButtonPrefabWidth;
+
+    private PlayerDatabase playerDatabase;
+
+    private PossibleStationConstruction possibleStation;
+
     /// <summary>
     /// This is the list of selected game objects
     /// </summary>
     [SerializeField]
     private List<GameObject> selectedGOs;
 
-    public GameObject selectPanel;
-    public GameObject constructionSection;
-
-    [SerializeField]
-    public GameObject constructionButtonPrefab;
-
-    public int player;
-
-    private float constructionButtonPrefabOriginalPosX;
-    private float constructionButtonPrefabWidth;
-
     private int selectLayer;
-
-    private PlayerDatabase playerDatabase;
-
-    private class PossibleStationConstruction
-    {
-        public GameObject gameObject;
-        public StationConstruction stationConstruction;
-        public StationConstructor stationConstructor;
-
-        public PossibleStationConstruction(GameObject gameObject, StationConstruction stationConstruction, StationConstructor stationConstructor)
-        {
-            this.gameObject = gameObject;
-            this.stationConstruction = stationConstruction;
-            this.stationConstructor = stationConstructor;
-        }
-    }
-
-    private PossibleStationConstruction possibleStation;
-
-    private void Start()
-    {
-        selectedGOs = new List<GameObject>();
-        selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map) | (1 << (int)ObjectLayers.Station);
-        playerDatabase = PlayerDatabase.Instance;
-
-        RectTransform rectTransform = constructionButtonPrefab.GetComponent<RectTransform>();
-
-        constructionButtonPrefabWidth = rectTransform.sizeDelta.x;
-        constructionButtonPrefabOriginalPosX = rectTransform.position.x;
-    }
-
-    private void Update()
-    {
-        if (!EventSystem.current.IsPointerOverGameObject())
-        {
-            if (possibleStation != null)
-            {
-                StationConstructionToCursor();
-            }
-            else
-            {
-                ObjectSelector(); //left click
-                FleetCommand(); //right click
-            }
-        }
-    }
 
     /// <summary>
     /// This method handles fleet's commands like move selected this to position
@@ -100,7 +60,7 @@ public class MouseCommandsController : MonoBehaviour
 
                             if (shipController != null)
                             {
-                                shipController.MoveToPosition(hit.point, 1f, !Input.GetKey(KeyCode.LeftShift));
+                                shipController.MoveToPosition(hit.point, 1f, !Input.GetKey(KeyCode.LeftShift), false);
                             }
                         }
                         break;
@@ -111,7 +71,7 @@ public class MouseCommandsController : MonoBehaviour
                         {
                             if (!playerDatabase.IsFromPlayer(go, selectedPlayer))
                             {
-                                go.GetComponent<ShipController>().AttackTarget(selected, !Input.GetKey(KeyCode.LeftShift));
+                                go.GetComponent<ShipController>().AttackTarget(selected, !Input.GetKey(KeyCode.LeftShift), false);
                             }
                         }
                         break;
@@ -125,7 +85,7 @@ public class MouseCommandsController : MonoBehaviour
                             {
                                 if (go.GetComponent<StationConstructor>() != null)
                                 {
-                                    go.GetComponent<ShipController>().BuildStation(selected, !Input.GetKey(KeyCode.LeftShift));
+                                    go.GetComponent<ShipController>().BuildStation(selected, !Input.GetKey(KeyCode.LeftShift), false);
                                 }
                             }
                         }
@@ -176,6 +136,43 @@ public class MouseCommandsController : MonoBehaviour
             }
             ShowConstructionOptions();
         }
+    }
+
+    private void SetShipConstructionButtonClickCallback(ShipConstructor constructor, GameObject button, ShipConstruction shipConstruction)
+    {
+        button.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            constructor.BuildShip(shipConstruction.shipType);
+        });
+    }
+
+    private void SetStationConstructionButtonClickCallback(StationConstructor stationConstructor, GameObject button, StationConstruction stationConstruction)
+    {
+        button.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            GameObject stationPrefab = Spawner.Instance.true_station_associations[stationConstruction.stationType];
+
+            Vector3 spawnPosition = stationConstructor.gameObject.transform.position;
+
+            GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
+            station.GetComponentInChildren<ObjectStatsCanvasController>().gameObject.SetActive(false);
+            Destroy(station.GetComponent<StationController>());
+
+            TurretController[] turretControllers = station.GetComponentsInChildren<TurretController>();
+            foreach (TurretController turretController in turretControllers)
+            {
+                turretController.gameObject.SetActive(false);
+            }
+
+            station.layer = 0;
+            if (possibleStation != null)
+            {
+                Destroy(possibleStation.gameObject);
+            }
+
+            station.SetActive(true);
+            possibleStation = new PossibleStationConstruction(station, stationConstruction, stationConstructor);
+        });
     }
 
     private void ShowConstructionOptions()
@@ -244,41 +241,16 @@ public class MouseCommandsController : MonoBehaviour
         }
     }
 
-    private void SetShipConstructionButtonClickCallback(ShipConstructor constructor, GameObject button, ShipConstruction shipConstruction)
+    private void Start()
     {
-        button.GetComponent<Button>().onClick.AddListener(() =>
-        {
-            constructor.BuildShip(shipConstruction.shipType);
-        });
-    }
+        selectedGOs = new List<GameObject>();
+        selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map) | (1 << (int)ObjectLayers.Station);
+        playerDatabase = PlayerDatabase.Instance;
 
-    private void SetStationConstructionButtonClickCallback(StationConstructor stationConstructor, GameObject button, StationConstruction stationConstruction)
-    {
-        button.GetComponent<Button>().onClick.AddListener(() =>
-        {
-            GameObject stationPrefab = Spawner.Instance.true_station_associations[stationConstruction.stationType];
+        RectTransform rectTransform = constructionButtonPrefab.GetComponent<RectTransform>();
 
-            Vector3 spawnPosition = stationConstructor.gameObject.transform.position;
-
-            GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
-            station.GetComponentInChildren<ObjectStatsCanvasController>().gameObject.SetActive(false);
-            Destroy(station.GetComponent<StationController>());
-
-            TurretController[] turretControllers = station.GetComponentsInChildren<TurretController>();
-            foreach (TurretController turretController in turretControllers)
-            {
-                turretController.gameObject.SetActive(false);
-            }
-
-            station.layer = 0;
-            if (possibleStation != null)
-            {
-                Destroy(possibleStation.gameObject);
-            }
-
-            station.SetActive(true);
-            possibleStation = new PossibleStationConstruction(station, stationConstruction, stationConstructor);
-        });
+        constructionButtonPrefabWidth = rectTransform.sizeDelta.x;
+        constructionButtonPrefabOriginalPosX = rectTransform.position.x;
     }
 
     private void StationConstructionToCursor()
@@ -291,8 +263,12 @@ public class MouseCommandsController : MonoBehaviour
             possibleStation.gameObject.transform.position = hit.point;
             if (Input.GetMouseButtonDown(0))//Left click
             {
-                possibleStation.stationConstructor.BuildStation(possibleStation.stationConstruction.stationType, hit.point);
                 Destroy(possibleStation.gameObject);
+
+                GameObject station = possibleStation.stationConstructor.BuildStation(possibleStation.stationConstruction.stationType, hit.point);
+
+                possibleStation.stationConstructor.GetComponent<ShipController>().BuildStation(station, !Input.GetKey(KeyCode.LeftShift), false);
+
                 possibleStation = null;
             }
             else if (Input.GetMouseButtonDown(1))//right click
@@ -300,6 +276,36 @@ public class MouseCommandsController : MonoBehaviour
                 Destroy(possibleStation.gameObject);
                 possibleStation = null;
             }
+        }
+    }
+
+    private void Update()
+    {
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            if (possibleStation != null)
+            {
+                StationConstructionToCursor();
+            }
+            else
+            {
+                ObjectSelector(); //left click
+                FleetCommand(); //right click
+            }
+        }
+    }
+
+    private class PossibleStationConstruction
+    {
+        public GameObject gameObject;
+        public StationConstruction stationConstruction;
+        public StationConstructor stationConstructor;
+
+        public PossibleStationConstruction(GameObject gameObject, StationConstruction stationConstruction, StationConstructor stationConstructor)
+        {
+            this.gameObject = gameObject;
+            this.stationConstruction = stationConstruction;
+            this.stationConstructor = stationConstructor;
         }
     }
 }

@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Imperium.Enum;
+﻿using Imperium.Enum;
+
 namespace Imperium.Persistence
 {
     [System.Serializable]
     public class ResourcePersistance
     {
-        public ResourceType ResourceType;
         public int Quantity;
+        public ResourceType ResourceType;
 
         public ResourcePersistance(ResourceType resourceType, int quantity)
         {
@@ -17,4 +15,3 @@ namespace Imperium.Persistence
         }
     }
 }
-

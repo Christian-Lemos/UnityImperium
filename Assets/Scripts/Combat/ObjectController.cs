@@ -1,53 +1,48 @@
-﻿using System.Collections;
-using UnityEngine;
-using Imperium;
+﻿using Imperium;
 using Imperium.Enum;
+using System.Collections;
+using UnityEngine;
 
 [DisallowMultipleComponent]
-public abstract class ObjectController : MonoBehaviour {
-
-
-
-    private readonly int fireLayer = 1 << (int)ObjectLayers.Ship | 1 << (int)ObjectLayers.Station;
-
-    public Stats stats;
+public abstract class ObjectController : MonoBehaviour
+{
     public float lowestTurretRange;
+    public Stats stats;
+    private readonly int fireLayer = 1 << (int)ObjectLayers.Ship | 1 << (int)ObjectLayers.Station;
 
     public void TakeDamage(int damage)
     {
-
-        int shields = this.stats.Shields;
+        int shields = stats.Shields;
         if (shields <= damage)
         {
             int hpDamage = shields - damage;
-            this.stats.Shields = 0;
-            this.stats.HP -= -hpDamage;
-            if (this.stats.HP <= 0)
+            stats.Shields = 0;
+            stats.HP -= -hpDamage;
+            if (stats.HP <= 0)
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
         else
         {
-            this.stats.Shields -= damage;
+            stats.Shields -= damage;
         }
     }
 
     protected void FireAtClosestTarget()
     {
-        
         // Debug.Log(this.gameObject);
         //Debug.Log(this.gameObject.transform);
         //Debug.Log(statsfireLayer
-        Collider[] colliders = Physics.OverlapSphere(this.gameObject.transform.position, stats.FieldOfViewDistance, fireLayer);
+        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, stats.FieldOfViewDistance, fireLayer);
         GameObject closestTarget = null;
         float closestDistance = 0f;
-        int thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(this.gameObject);
+        int thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
         foreach (Collider collider in colliders)
         {
-            if (collider.gameObject.GetComponent<ObjectController>() != null && !PlayerDatabase.Instance.IsFromPlayer(collider.gameObject, thisPlayer) && !collider.gameObject.Equals(this.gameObject))
+            if (collider.gameObject.GetComponent<ObjectController>() != null && !PlayerDatabase.Instance.IsFromPlayer(collider.gameObject, thisPlayer) && !collider.gameObject.Equals(gameObject))
             {
-                float distance = Vector3.Distance(collider.gameObject.transform.position, this.gameObject.transform.position);
+                float distance = Vector3.Distance(collider.gameObject.transform.position, gameObject.transform.position);
                 if (distance >= closestDistance && distance <= stats.FieldOfViewDistance)
                 {
                     closestTarget = collider.gameObject;
@@ -62,8 +57,8 @@ public abstract class ObjectController : MonoBehaviour {
 
     protected float GetLowestTurretRange()
     {
-        float lowest = this.stats.FieldOfViewDistance;
-        TurretController[] turretControllers = this.gameObject.GetComponentsInChildren<TurretController>(false);
+        float lowest = stats.FieldOfViewDistance;
+        TurretController[] turretControllers = gameObject.GetComponentsInChildren<TurretController>(false);
         foreach (TurretController turretController in turretControllers)
         {
             if (turretController.Turret.Range > lowest)
@@ -72,11 +67,7 @@ public abstract class ObjectController : MonoBehaviour {
             }
         }
         return lowest;
-
     }
-
-
-    
 
     protected IEnumerator ShieldRegeneration()
     {
@@ -92,12 +83,11 @@ public abstract class ObjectController : MonoBehaviour {
             }
             yield return new WaitForSeconds(1f);
         }
-
     }
 
     private void FireTurrets(GameObject target)
     {
-        TurretController[] turrets = this.gameObject.GetComponentsInChildren<TurretController>(false);
+        TurretController[] turrets = gameObject.GetComponentsInChildren<TurretController>(false);
         foreach (TurretController turret in turrets)
         {
             turret.Fire(target);
@@ -108,13 +98,11 @@ public abstract class ObjectController : MonoBehaviour {
     {
         try
         {
-            int thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(this.gameObject);
-            PlayerDatabase.Instance.RemoveFromPlayer(this.gameObject, thisPlayer);
+            int thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
+            PlayerDatabase.Instance.RemoveFromPlayer(gameObject, thisPlayer);
         }
         catch
         {
-
         }
-        
     }
-} 
+}

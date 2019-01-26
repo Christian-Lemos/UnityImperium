@@ -1,26 +1,40 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Imperium.Enum;
+using System;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using Imperium.Enum;
-public class ShipSpawner : MonoBehaviour {
+using UnityEngine.UI;
+
+public class ShipSpawner : MonoBehaviour
+{
+    public GameObject buttonGO;
+
+    public GameObject inputJogadorGO;
+
+    private readonly int mapLayer = 1 << (int)ObjectLayers.Map;
+
+    private Button button;
+
+    private InputField inputJogador;
+
+    private Vector3 lastClickedPosition = new Vector3(0, 0, 0);
 
     [SerializeField]
     private ShipType shipType;
 
-    public GameObject inputJogadorGO;
-    private InputField inputJogador;
-
-    public GameObject buttonGO;
-    private Button button;
-
     private Spawner spawner;
-    
-    private Vector3 lastClickedPosition = new Vector3(0, 0, 0);
 
-    private readonly int mapLayer = 1 << (int)ObjectLayers.Map;
+    private void SpawnShip()
+    {
+        int player;
+        if (Int32.TryParse(inputJogador.text, out player))
+        {
+            spawner.SpawnShip(shipType, player, lastClickedPosition, Quaternion.identity);
+        }
+        else
+        {
+            Debug.Log("Failed to convert " + inputJogador.text + " to integer");
+        }
+    }
 
     private void Start()
     {
@@ -33,7 +47,7 @@ public class ShipSpawner : MonoBehaviour {
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -42,21 +56,5 @@ public class ShipSpawner : MonoBehaviour {
                 lastClickedPosition = hit.point;
             }
         }
-        
     }
-
-    private void SpawnShip()
-    {
-        int player;
-        if(Int32.TryParse(inputJogador.text, out player))
-        {
-            spawner.SpawnShip(this.shipType, player, lastClickedPosition, Quaternion.identity);
-        }
-        else
-        {
-            Debug.Log("Failed to convert " + inputJogador.text + " to integer");
-        }
-    }
-
-
 }

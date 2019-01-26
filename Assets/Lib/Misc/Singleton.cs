@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 namespace Imperium.Misc
 {
     public abstract class Singleton<T> where T : class
     {
-        private static T INSTANCE = null;
         private static readonly object INSTANCE_LOCK = new object();
+        private static T INSTANCE = null;
 
         public static T getInstance()
         {
@@ -22,4 +20,3 @@ namespace Imperium.Misc
         }
     }
 }
-

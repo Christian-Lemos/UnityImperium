@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Imperium.Economy;
 using UnityEngine;
-using Imperium.Economy;
-[RequireComponent(typeof(ObjectController))]
-public class ResourceControllerStorage : MonoBehaviour {
 
+[RequireComponent(typeof(ObjectController))]
+public class ResourceControllerStorage : MonoBehaviour
+{
     public ResourceStorage resourceStorage;
 
     [SerializeField]
@@ -14,5 +13,4 @@ public class ResourceControllerStorage : MonoBehaviour {
     {
         resourceStorage = new ResourceStorage(resourceCapacity);
     }
-
 }

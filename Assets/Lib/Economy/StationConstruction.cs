@@ -6,8 +6,8 @@ namespace Imperium.Economy
     [System.Serializable]
     public class StationConstruction
     {
-        public StationType stationType;
         public List<ResourceCost> resourceCosts;
+        public StationType stationType;
 
         public StationConstruction(StationType stationType, List<ResourceCost> resourceCosts)
         {

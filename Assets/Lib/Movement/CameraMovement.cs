@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Imperium.Navigation
 {
-
     /// <summary>
     /// This class is responsable for the execution the cameras movement
     /// </summary>
@@ -13,7 +10,7 @@ namespace Imperium.Navigation
         /// <summary>
         /// The camera's movement speed
         /// </summary>
-        private readonly float movementSpeed = 30f; 
+        private readonly float movementSpeed = 30f;
 
         private Transform transform;
 
@@ -24,7 +21,7 @@ namespace Imperium.Navigation
         }
 
         /// <summary>
-        /// Move the transform's gameObject 
+        /// Move the transform's gameObject
         /// </summary>
         /// <param name="horizontalInput">The horizontal Input of Input.GetAxis or Input.GetAxisRaw</param>
         /// <param name="verticalInput">The vertical INput of Input.GetAxis or Input.getAxisRaw></param>
@@ -44,5 +41,3 @@ namespace Imperium.Navigation
         }
     }
 }
-
-

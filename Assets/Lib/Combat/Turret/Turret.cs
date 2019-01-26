@@ -1,15 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Imperium.Enum;
+﻿using Imperium.Enum;
+
 namespace Imperium.Combat.Turret
-{    
+{
     public class Turret
     {
-        /// <summary>
-        /// How many bullets will the turret fire in 1 second?
-        /// </summary>
-        private float fireRate;
+        private readonly BulletFactory factory = BulletFactory.getInstance();
 
         /// <summary>
         /// How accurate is the turret? Must be between 1 and 100
@@ -17,16 +12,14 @@ namespace Imperium.Combat.Turret
         private int accuracy;
 
         /// <summary>
-        /// What bullet does the turret fire?
+        /// How many bullets will the turret fire in 1 second?
         /// </summary>
-        public Bullet Bullet { get; set; }
+        private float fireRate;
+
         /// <summary>
         /// What is the turret's max firing range?
         /// </summary>
         private float range;
-
-        private readonly BulletFactory factory = BulletFactory.getInstance();
-
 
         /// <summary>
         /// Creates a turret model used by turret controllers.
@@ -42,6 +35,31 @@ namespace Imperium.Combat.Turret
             Range = range;
             Bullet = factory.CreateBullet(bulletType);
         }
+
+        public int Accuracy
+        {
+            get
+            {
+                return accuracy;
+            }
+
+            set
+            {
+                if (value > 0 && value <= 100)
+                {
+                    accuracy = value;
+                }
+                else
+                {
+                    throw new System.Exception("The accuracy must be higher then 0 and lower then 101");
+                }
+            }
+        }
+
+        /// <summary>
+        /// What bullet does the turret fire?
+        /// </summary>
+        public Bullet Bullet { get; set; }
 
         public float FireRate
         {
@@ -60,28 +78,6 @@ namespace Imperium.Combat.Turret
                 {
                     throw new System.Exception("The fire rate must be higher the 0");
                 }
-
-            }
-        }
-
-        public int Accuracy
-        {
-            get
-            {
-                return accuracy;
-            }
-
-            set
-            {
-                if(value > 0 && value <= 100)
-                {
-                    accuracy = value;
-                }
-                else
-                {
-                    throw new System.Exception("The accuracy must be higher then 0 and lower then 101");
-                }
-                
             }
         }
 
@@ -106,5 +102,3 @@ namespace Imperium.Combat.Turret
         }
     }
 }
-
-

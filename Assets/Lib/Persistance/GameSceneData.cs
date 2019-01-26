@@ -1,16 +1,14 @@
-﻿using System.Collections;
+﻿using Imperium.Enum;
 using System.Collections.Generic;
 using UnityEngine;
-using Imperium.Enum;
-
 
 namespace Imperium.Persistence
 {
     [System.Serializable]
     public class GameSceneData
     {
-        public string Name;
         public Vector2 MapSize;
+        public string Name;
         public List<PlayerPersistance> players;
 
         public GameSceneData(string name, Vector2 mapSize, List<PlayerPersistance> players)
@@ -22,8 +20,6 @@ namespace Imperium.Persistence
 
         public static GameSceneData NewGameDefault()
         {
-            
-
             ///////////////////////////////////Player 1///////////////////////////////////////////////////////
             List<ResourcePersistance> player1Resources = new List<ResourcePersistance>
             {
@@ -50,10 +46,7 @@ namespace Imperium.Persistence
                 new ShipPersistence(new Vector3(15, 0, 20), new Vector3(), new Vector3(1, 1, 1), ShipType.MotherShip)
             };
 
-
             ///////////////////////////////////////////END///////////////////////////////////////////////////////
-
-
 
             List<PlayerPersistance> players = new List<PlayerPersistance>()
             {
@@ -62,14 +55,6 @@ namespace Imperium.Persistence
             };
 
             return new GameSceneData("New Game", new Vector2(40, 50), players);
-
         }
-     
-
-
-
-
-
     }
 }
-

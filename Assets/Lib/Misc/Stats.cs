@@ -1,57 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-namespace Imperium
+﻿namespace Imperium
 {
     public class Stats
     {
-        public int MaxHP { get; set; }
-
         private int hp;
-        public int HP
-        {
-            get
-            {
-                return hp;
-            }
-            set
-            {
-                if(value > MaxHP)
-                {
-                    hp = MaxHP;
-                }
-                else
-                {
-                    hp = value;
-                }
-            }
-        }
-        public int MaxShields { get; set; }
-
         private int shields;
-        public int Shields
-        {
-            get
-            {
-                return shields;
-            }
-            set
-            {
-                if (value > MaxShields)
-                {
-                    shields = MaxShields;
-                }
-                else
-                {
-                    shields = value;
-                }
-            }
-        }
-        public int ShieldRegen { get; set; }
-        public float FieldOfViewDistance { get; set; }
-
 
         public Stats(int maxHP, int maxShields, int shieldRegen, float fieldOfViewDistance)
         {
@@ -73,7 +25,48 @@ namespace Imperium
             FieldOfViewDistance = fieldOfViewDistanc;
         }
 
+        public float FieldOfViewDistance { get; set; }
 
+        public int HP
+        {
+            get
+            {
+                return hp;
+            }
+            set
+            {
+                if (value > MaxHP)
+                {
+                    hp = MaxHP;
+                }
+                else
+                {
+                    hp = value;
+                }
+            }
+        }
+
+        public int MaxHP { get; set; }
+        public int MaxShields { get; set; }
+        public int ShieldRegen { get; set; }
+
+        public int Shields
+        {
+            get
+            {
+                return shields;
+            }
+            set
+            {
+                if (value > MaxShields)
+                {
+                    shields = MaxShields;
+                }
+                else
+                {
+                    shields = value;
+                }
+            }
+        }
     }
 }
-

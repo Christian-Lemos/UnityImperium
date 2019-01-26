@@ -1,5 +1,4 @@
-﻿
-namespace Imperium.Enum
+﻿namespace Imperium.Enum
 {
     public enum ObjectLayers
     {
@@ -10,3 +9,4 @@ namespace Imperium.Enum
     }
 }
 
+ 

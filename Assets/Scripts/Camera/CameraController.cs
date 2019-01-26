@@ -1,20 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Imperium.Navigation;
 using UnityEngine;
-using Imperium.Navigation;
-public class CameraController : MonoBehaviour {
 
+public class CameraController : MonoBehaviour
+{
     private CameraMovement cameraMovement;
-	// Use this for initialization
-	void Start () {
-        cameraMovement = new CameraMovement(this.gameObject.GetComponent<Transform>());
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Use this for initialization
+    private void Start()
+    {
+        cameraMovement = new CameraMovement(gameObject.GetComponent<Transform>());
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
         float v_axis = Input.GetAxis("Vertical");
         float h_axis = Input.GetAxis("Horizontal");
-        cameraMovement.Move(h_axis, v_axis); 
-        
-	}
+        cameraMovement.Move(h_axis, v_axis);
+    }
 }

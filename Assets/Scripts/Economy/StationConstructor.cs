@@ -1,29 +1,25 @@
-﻿using System.Collections;
+﻿using Imperium.Economy;
+using Imperium.Enum;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Imperium.Economy;
-using Imperium.Enum;
 
 [RequireComponent(typeof(ShipController))]
 [DisallowMultipleComponent]
-public class StationConstructor : MonoBehaviour {
-
-
-    public List<StationConstruction> stationConstructions;
-    public int ConstructionRate;
+public class StationConstructor : MonoBehaviour
+{
     public bool Building;
-
+    public int ConstructionRate;
+    public List<StationConstruction> stationConstructions;
     private IEnumerator buildingCoroutine;
 
-
-
-    public void BuildStation(StationType type, Vector3 position)
+    public GameObject BuildStation(StationType type, Vector3 position)
     {
         foreach (StationConstruction stationConstruction in stationConstructions)
         {
             if (stationConstruction.stationType == type)
             {
-                int player = PlayerDatabase.Instance.GetObjectPlayer(this.gameObject);
+                int player = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
                 Dictionary<ResourceType, int> resources = GetStationConstructionResources(stationConstruction);
                 Dictionary<ResourceType, int> playerResources = PlayerDatabase.Instance.GetPlayerResources(player);
 
@@ -42,47 +38,42 @@ public class StationConstructor : MonoBehaviour {
                     PlayerDatabase.Instance.AddResourcesToPlayer(entry.Key, -entry.Value, player);
                 }
 
-                GameObject station = Spawner.Instance.SpawnStation(stationConstruction.stationType, player, position, Quaternion.identity, 1);
-                this.GetComponent<ShipController>().BuildStation(station, true);
-                return;
+                return Spawner.Instance.SpawnStation(stationConstruction.stationType, player, position, Quaternion.identity, 1);
             }
         }
-        throw new System.Exception("This ship type can't be constructed");
+        throw new System.Exception("This station type can't be constructed");
     }
 
     public void StartBuilding(GameObject station)
     {
-        if(this.Building)
+        if (Building)
         {
-            StopCoroutine(this.buildingCoroutine);
+            StopCoroutine(buildingCoroutine);
         }
-        
-        this.buildingCoroutine = BuildingEnumerator(station.GetComponent<StationController>());
-        this.Building = true;
-        StartCoroutine(this.buildingCoroutine);
+
+        buildingCoroutine = BuildingEnumerator(station.GetComponent<StationController>());
+        Building = true;
+        StartCoroutine(buildingCoroutine);
     }
 
     public void StopBuilding()
     {
-        if(this.Building)
+        if (Building)
         {
-            StopCoroutine(this.buildingCoroutine);
-            this.Building = false;
+            StopCoroutine(buildingCoroutine);
+            Building = false;
         }
     }
-
 
     private IEnumerator BuildingEnumerator(StationController stationController)
     {
-        while(stationController.constructed == false)
+        while (stationController.constructed == false)
         {
-            
             yield return new WaitForSeconds(1f);
-            stationController.AddConstructionProgress(this.ConstructionRate);
+            stationController.AddConstructionProgress(ConstructionRate);
         }
-        this.Building = false;
+        Building = false;
     }
-
 
     private Dictionary<ResourceType, int> GetStationConstructionResources(StationConstruction construction)
     {

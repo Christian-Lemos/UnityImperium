@@ -7,12 +7,15 @@ public class ObjectStatsCanvasController : MonoBehaviour {
     
     private static GameObject objectSlidersPrefab;
 
-    private ObjectController objectController;
-
-    private GameObject objectCanvasGO;
-    private ObjectStatsCanvas objectStatsCanvas;
-
     private new Camera camera;
+    private GameObject objectCanvasGO;
+    private ObjectController objectController;
+    private ObjectStatsCanvas objectStatsCanvas;
+    private void LateUpdate()
+    {
+        objectCanvasGO.transform.LookAt(camera.transform);
+        objectCanvasGO.transform.rotation = Quaternion.LookRotation(camera.transform.forward);
+    }
 
     private void Start()
     {
@@ -42,11 +45,4 @@ public class ObjectStatsCanvasController : MonoBehaviour {
         }
         
     }
-
-    private void LateUpdate()
-    {
-        objectCanvasGO.transform.LookAt(camera.transform);
-        objectCanvasGO.transform.rotation = Quaternion.LookRotation(camera.transform.forward);
-    }
-
 }

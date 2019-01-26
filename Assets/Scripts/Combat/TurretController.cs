@@ -7,39 +7,18 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class TurretController : MonoBehaviour
 {
+    private GameObject @object;
+    private AudioSource audioSource;
+    private IEnumerator fireCoroutine;
+    private GameObject firePriority;
+    private bool isFiring = false;
     private new Transform transform;
 
     [SerializeField]
     private TurretType turretType;
 
     public Turret Turret { get; private set; }
-
-    private IEnumerator fireCoroutine;
-    private AudioSource audioSource;
-    private bool isFiring = false;
-    private GameObject firePriority;
-
-    private GameObject @object; // Station or Ship
-
-    private void Start()
-    {
-        transform = this.gameObject.GetComponent<Transform>();
-        audioSource = this.gameObject.GetComponent<AudioSource>();
-        this.Turret = TurretFactory.getInstance().CreateTurret(turretType);
-        this.@object = transform.parent.gameObject;
-    }
-
-    private void OnDrawGizmoS()
-    {
-        try
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(this.transform.position, this.Turret.Range);
-        }
-        catch
-        {
-        }
-    }
+    // Station or Ship
 
     public void Fire(GameObject target)
     {
@@ -57,7 +36,7 @@ public class TurretController : MonoBehaviour
 
     public void SetFirePriority(GameObject target)
     {
-        this.firePriority = target;
+        firePriority = target;
     }
 
     private IEnumerator FireSequence(GameObject target)
@@ -66,26 +45,46 @@ public class TurretController : MonoBehaviour
         {
             isFiring = false;
         }
-        else if (this.firePriority != null && Vector3.Distance(this.transform.position, firePriority.transform.position) <= Turret.Range)
+        else if (firePriority != null && Vector3.Distance(transform.position, firePriority.transform.position) <= Turret.Range)
         {
             isFiring = true;
             Quaternion desRotation = Quaternion.LookRotation(firePriority.transform.position - transform.position, Vector3.up);
-            GameObject bullet = Instantiate(this.Turret.Bullet.Prefab, this.transform.position, desRotation);
+            GameObject bullet = Instantiate(Turret.Bullet.Prefab, transform.position, desRotation);
 
-            bullet.GetComponent<BulletController>().Initiate(this.@object, this.Turret.Bullet);
+            bullet.GetComponent<BulletController>().Initiate(@object, Turret.Bullet);
             audioSource.Play();
         }
-        else if (Vector3.Distance(this.transform.position, target.transform.position) <= Turret.Range)
+        else if (Vector3.Distance(transform.position, target.transform.position) <= Turret.Range)
         {
             isFiring = true;
             Quaternion desRotation = Quaternion.LookRotation(target.transform.position - transform.position, Vector3.up);
-            GameObject bullet = Instantiate(this.Turret.Bullet.Prefab, this.transform.position, desRotation);
+            GameObject bullet = Instantiate(Turret.Bullet.Prefab, transform.position, desRotation);
 
-            bullet.GetComponent<BulletController>().Initiate(this.@object, this.Turret.Bullet);
+            bullet.GetComponent<BulletController>().Initiate(@object, Turret.Bullet);
             audioSource.Play();
         }
-        yield return new WaitForSeconds(this.Turret.FireRate);
+        yield return new WaitForSeconds(Turret.FireRate);
         isFiring = false;
         StopCoroutine(fireCoroutine);
+    }
+
+    private void OnDrawGizmoS()
+    {
+        try
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, Turret.Range);
+        }
+        catch
+        {
+        }
+    }
+
+    private void Start()
+    {
+        transform = gameObject.GetComponent<Transform>();
+        audioSource = gameObject.GetComponent<AudioSource>();
+        Turret = TurretFactory.getInstance().CreateTurret(turretType);
+        @object = transform.parent.gameObject;
     }
 }

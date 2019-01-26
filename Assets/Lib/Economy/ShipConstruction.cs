@@ -6,10 +6,9 @@ namespace Imperium.Economy
     [System.Serializable]
     public class ShipConstruction
     {
-        public ShipType shipType;
-
         public int constructionTime;
         public List<ResourceCost> resourceCosts;
+        public ShipType shipType;
 
         public ShipConstruction(ShipType shipType, int constructionTime, List<ResourceCost> resourceCosts)
         {

@@ -1,18 +1,16 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Imperium.Navigation
 {
-
     public class BuildCommand : FleetCommand
     {
-        private StationController targetStationController;
         private StationConstructor stationConstructor;
+        private StationController targetStationController;
 
         public BuildCommand(GameObject source, GameObject target, ShipMovement shipMovement) : base(source, target, shipMovement)
         {
-            this.targetStationController = target.GetComponent<StationController>();
-            this.stationConstructor = source.GetComponent<StationConstructor>();
+            targetStationController = target.GetComponent<StationController>();
+            stationConstructor = source.GetComponent<StationConstructor>();
             base.destinationOffset = 2f;
         }
 
@@ -43,6 +41,10 @@ namespace Imperium.Navigation
         {
             return targetStationController.constructed == true;
         }
-    }
 
+        public override void OnRemoved()
+        {
+            stationConstructor.StopBuilding();
+        }
+    }
 }

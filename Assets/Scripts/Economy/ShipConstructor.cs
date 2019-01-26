@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class ShipConstructor : MonoBehaviour
 {
-    public List<ShipConstruction> ShipConstructions;
-
     public Vector3 relativeConstructionSpawn;
+    public List<ShipConstruction> ShipConstructions;
 
     public void BuildShip(ShipType type)
     {
@@ -15,7 +14,7 @@ public class ShipConstructor : MonoBehaviour
         {
             if (shipConstruction.shipType == type)
             {
-                int player = PlayerDatabase.Instance.GetObjectPlayer(this.gameObject);
+                int player = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
                 Dictionary<ResourceType, int> resources = GetShipConstructionResources(shipConstruction);
                 Dictionary<ResourceType, int> playerResources = PlayerDatabase.Instance.GetPlayerResources(player);
 

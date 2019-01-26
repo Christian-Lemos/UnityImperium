@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Imperium.Navigation
 {
-
     public abstract class FleetCommand
     {
-        protected GameObject source;
-        public GameObject target;
         public Vector3 destination;
         public float destinationOffset;
+        public GameObject target;
         protected ShipMovement shipMovement;
+        protected GameObject source;
 
         protected FleetCommand(GameObject source, GameObject target, Vector3 destination, float destinationOffset, ShipMovement shipMovement)
         {
@@ -37,11 +35,16 @@ namespace Imperium.Navigation
         }
 
         public abstract void ExecuteCommand();
+
         public abstract bool IsFinished();
 
-        
+        public virtual void OnRemoved()
+        {
+        }
 
-
+        public override string ToString()
+        {
+            return base.ToString() + this.destination;
+        }
     }
-
 }

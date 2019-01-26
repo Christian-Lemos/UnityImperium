@@ -1,35 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Imperium.Persistence;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Imperium.Persistence;
 
-public class SceneManager : MonoBehaviour {
-
+public class SceneManager : MonoBehaviour
+{
+    public GameSceneData CurrentGameSceneData;
+    private PersistantDataManager persistantDataManager;
     public static SceneManager Instance { get; private set; }
 
-    private PersistantDataManager persistantDataManager;
-
-    public GameSceneData CurrentGameSceneData;
+    public void CreateNewGame(int playerCount)
+    {
+        GameSceneData data = GameSceneData.NewGameDefault();
+        persistantDataManager.CreateGameSceneData(data);
+        CurrentGameSceneData = data;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("game", LoadSceneMode.Single);
+    }
 
     private void Awake()
     {
         Instance = this;
     }
 
-    void Start () {
-        DontDestroyOnLoad(this.gameObject);
-        persistantDataManager = PersistantDataManager.Instance;
-	}
-
-    public void CreateNewGame(int playerCount)
+    private void Start()
     {
-        GameSceneData data = GameSceneData.NewGameDefault();
-        persistantDataManager.CreateGameSceneData(data);
-        this.CurrentGameSceneData = data;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("game", LoadSceneMode.Single);
+        DontDestroyOnLoad(gameObject);
+        persistantDataManager = PersistantDataManager.Instance;
     }
-    
-
-   
 }

@@ -1,18 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Imperium.Enum;
+﻿using Imperium.Enum;
 using System;
+using System.Collections.Generic;
 
 namespace Imperium.Economy
 {
     [System.Serializable]
     public class ResourceStorage
     {
-
-        public uint MaximumResourcesStorage { get; set; }
-        public Dictionary<ResourceType, uint> Storage { get; set;  }
-
         public ResourceStorage(uint maximumResourcesStorage)
         {
             MaximumResourcesStorage = maximumResourcesStorage;
@@ -30,17 +24,8 @@ namespace Imperium.Economy
             Storage = storage;
         }
 
-        public uint GetRemainingStorage()
-        {
-            uint remainingStorage = this.MaximumResourcesStorage;
-            foreach (KeyValuePair<ResourceType, uint> keyValue in this.Storage)
-            {
-                remainingStorage -= keyValue.Value;
-            }
-            return remainingStorage; 
-        }
-
-        
+        public uint MaximumResourcesStorage { get; set; }
+        public Dictionary<ResourceType, uint> Storage { get; set; }
 
         public void Add(ResourceType resourceType, uint quantity)
         {
@@ -50,24 +35,33 @@ namespace Imperium.Economy
             }
         }
 
-        public void Remove(ResourceType resourceType, uint quantity)
+        public uint GetRemainingStorage()
         {
-            int finalValue = (int) Storage[resourceType];
-
-            if(finalValue < 0)
+            uint remainingStorage = MaximumResourcesStorage;
+            foreach (KeyValuePair<ResourceType, uint> keyValue in Storage)
             {
-                Storage[resourceType] = 0;
+                remainingStorage -= keyValue.Value;
             }
-            else
-            {
-                Storage[resourceType] -= (uint) finalValue;
-            }
+            return remainingStorage;
         }
 
         public bool HasSuficientStorage(uint quantity)
         {
             return GetRemainingStorage() >= quantity;
         }
+
+        public void Remove(ResourceType resourceType, uint quantity)
+        {
+            int finalValue = (int)Storage[resourceType];
+
+            if (finalValue < 0)
+            {
+                Storage[resourceType] = 0;
+            }
+            else
+            {
+                Storage[resourceType] -= (uint)finalValue;
+            }
+        }
     }
-   
 }

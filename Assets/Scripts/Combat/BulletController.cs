@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Imperium.Combat.Turret;
+﻿using Imperium.Combat.Turret;
 using Imperium.Enum;
-public class BulletController : MonoBehaviour {
+using UnityEngine;
 
+public class BulletController : MonoBehaviour
+{
     private Bullet bullet;
     private bool initialized = false;
     private GameObject source;
@@ -13,25 +12,26 @@ public class BulletController : MonoBehaviour {
     {
         this.bullet = bullet;
         this.source = source;
-        this.gameObject.SetActive(true);
+        gameObject.SetActive(true);
         initialized = true;
-        Destroy(this.gameObject, 10f);
+        Destroy(gameObject, 10f);
     }
 
-
-	void FixedUpdate () {
-		if(initialized)
+    private void FixedUpdate()
+    {
+        if (initialized)
         {
             transform.position += transform.forward * bullet.Speed * Time.fixedDeltaTime;
         }
-	}
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if((other.gameObject.layer == (int)ObjectLayers.Ship || other.gameObject.layer == (int)ObjectLayers.Station) && !other.gameObject.Equals(this.source))
+        if ((other.gameObject.layer == (int)ObjectLayers.Ship || other.gameObject.layer == (int)ObjectLayers.Station) && !other.gameObject.Equals(source))
         {
             ObjectController objectController = other.gameObject.GetComponent<ObjectController>();
-            objectController.TakeDamage(this.bullet.Damage);
-            Destroy(this.gameObject);
+            objectController.TakeDamage(bullet.Damage);
+            Destroy(gameObject);
         }
     }
 }
