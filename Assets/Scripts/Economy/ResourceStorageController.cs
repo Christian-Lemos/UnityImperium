@@ -1,8 +1,8 @@
 ﻿using Imperium.Economy;
 using UnityEngine;
 
-[RequireComponent(typeof(ObjectController))]
-public class ResourceControllerStorage : MonoBehaviour
+
+public class ResourceStorageController : MonoBehaviour
 {
     public ResourceStorage resourceStorage;
 

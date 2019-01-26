@@ -429,10 +429,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66dbabea7f44ab34aa50ab683f321d13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipCanvasPrefab: {fileID: 1106345427989614, guid: 595fa28626b256e4e8cb70c8cf8c6165,
-    type: 2}
-  shipCanvasGO: {fileID: 0}
-  shipCanvas: {fileID: 0}
 --- !u!114 &114499902359778444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -445,7 +441,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lowestTurretRange: 0
-  type: 2
+  stationConstructor: {fileID: 0}
+  shipType: 2
 --- !u!114 &114621409143131766
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -457,10 +454,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6b2eca6b3fd804fa293a0459fa439e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stationConstructions:
-  - stationType: 0
-    resourceCosts:
-    - resourceType: 0
-      quantity: 1
-  ConstructionRate: 20
   Building: 0
+  ConstructionRate: 20
+  stationConstructions:
+  - resourceCosts:
+    - quantity: 1
+      resourceType: 0
+    stationType: 0

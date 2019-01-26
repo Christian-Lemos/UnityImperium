@@ -90,6 +90,18 @@ public class MouseCommandsController : MonoBehaviour
                             }
                         }
                         break;
+
+                    case (int)ObjectLayers.Asteroid:
+
+                        foreach (GameObject go in selectedGOs)
+                        {
+                            ShipController shipController = go.GetComponent<ShipController>();
+                            if (shipController != null && go.GetComponent<MineController>() != null)
+                            {
+                                shipController.MineAsteroid(selected, !Input.GetKey(KeyCode.LeftShift));
+                            }
+                        }
+                        break;
                 }
             }
         }
@@ -244,7 +256,7 @@ public class MouseCommandsController : MonoBehaviour
     private void Start()
     {
         selectedGOs = new List<GameObject>();
-        selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map) | (1 << (int)ObjectLayers.Station);
+        selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map) | (1 << (int)ObjectLayers.Station) | (1 << (int)ObjectLayers.Asteroid);
         playerDatabase = PlayerDatabase.Instance;
 
         RectTransform rectTransform = constructionButtonPrefab.GetComponent<RectTransform>();

@@ -120,6 +120,16 @@ public class PlayerDatabase : MonoBehaviour
         }
     }
 
+
+    public HashSet<GameObject> GetObjects(int player)
+    {
+        if(IsValidPlayer(player))
+        {
+            return playerObjects[player];
+        }
+        return null;
+    }
+
     public void SetUpDatabase(int playerCount)
     {
         //playerObjects = new List<GameObject>[playerCount];

@@ -41,7 +41,6 @@ public class ShipConstructionManager : MonoBehaviour
         {
             if (onGoingShipConstruction.constructor == null)
             {
-                Debug.Log("break");
                 break;
             }
 

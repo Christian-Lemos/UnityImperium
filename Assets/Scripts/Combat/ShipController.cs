@@ -7,7 +7,7 @@ public class ShipController : ObjectController
 {
     public FleetCommandQueue fleetCommandQueue = new FleetCommandQueue();
     public StationConstructor stationConstructor;
-    public ShipType type;
+    public ShipType shipType;
     private ShipMovement shipMovement;
     public Ship Ship { get; private set; }
 
@@ -34,6 +34,13 @@ public class ShipController : ObjectController
         FleetCommand fleetCommand = new BuildCommand(gameObject, station, shipMovement);
         AddCommand(resetCommands, fleetCommand);
         fleetCommandQueue.loopFleetCommands = loopCommands;
+    }
+
+    public void MineAsteroid(GameObject asteroid, bool resetCommands)
+    {
+        FleetCommand fleetCommand = new MineCommand(gameObject, asteroid, shipMovement);
+        AddCommand(resetCommands, fleetCommand);
+        fleetCommandQueue.loopFleetCommands = false;
     }
 
     public void FireTurrets(GameObject target)
@@ -91,7 +98,7 @@ public class ShipController : ObjectController
 
     private void Start()
     {
-        Ship = ShipFactory.getInstance().CreateShip(type);
+        Ship = ShipFactory.getInstance().CreateShip(shipType);
         stats = Ship.ShipStats;
 
         shipMovement = new ShipMovement(gameObject.transform, 2f, 50f);

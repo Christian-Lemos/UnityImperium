@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 64384227496098594}
   - component: {fileID: 114049852919897212}
   - component: {fileID: 114808459614326766}
+  - component: {fileID: 114376303889109862}
   m_Layer: 10
   m_Name: Freighter
   m_TagString: Untagged
@@ -158,9 +159,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lowestTurretRange: 0
-  type: 3
-  shipState: 0
   stationConstructor: {fileID: 0}
+  shipType: 3
+--- !u!114 &114376303889109862
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1221873838883834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c94d60f83bcaef429fa6ad684646a65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceCapacity: 50
 --- !u!114 &114626973385074614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -183,8 +195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 154ef1140be66cf4cb006c592d345788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  miningInterval: 5
-  miningExtractionQuantity: 0
   isMining: 0
-  miningTimerSet: 0
+  miningExtractionQuantity: 10
+  miningInterval: 5
   miningTimer: 0
+  miningTimerSet: 0

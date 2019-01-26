@@ -1,6 +1,6 @@
 ﻿using Imperium.Enum;
 using UnityEngine;
-
+using System.Collections.Generic;
 public class AsteroidController : MonoBehaviour
 {
     public ResourceType resourceType;
@@ -25,5 +25,18 @@ public class AsteroidController : MonoBehaviour
         {
             return resourceQuantity;
         }
+    }
+
+    public static readonly Dictionary<ResourceType, Color> asteroidColors = new Dictionary<ResourceType, Color>()
+    {
+          {ResourceType.Metal, Color.black},
+          {ResourceType.Crystal, Color.magenta},
+          {ResourceType.Energy, Color.yellow},
+    };
+
+    private void Start()
+    {
+        Material material = GetComponentInChildren<Renderer>().material;
+        material.color = asteroidColors[resourceType];
     }
 }

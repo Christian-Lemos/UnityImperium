@@ -1358,10 +1358,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   assosiations:
-  - shipType: 0
-    ResourcesPerSecound: 1
-  - shipType: 1
-    ResourcesPerSecound: 1
+  - ResourcesPerSecound: 1
+    shipType: 0
+  - ResourcesPerSecound: 1
+    shipType: 1
 --- !u!114 &114485030605293470
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1433,9 +1433,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lowestTurretRange: 0
-  type: 1
-  shipState: 0
   stationConstructor: {fileID: 0}
+  shipType: 1
 --- !u!114 &114909788611761058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1447,29 +1446,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dcefba142413e24982ba06c95d5bc2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShipConstructions:
-  - shipType: 0
-    constructionTime: 5
-    resourceCosts:
-    - resourceType: 0
-      quantity: 1
-    - resourceType: 1
-      quantity: 1
-  - shipType: 2
-    constructionTime: 0
-    resourceCosts:
-    - resourceType: 0
-      quantity: 1
-    - resourceType: 1
-      quantity: 1
-  - shipType: 3
-    constructionTime: 5
-    resourceCosts:
-    - resourceType: 0
-      quantity: 1
-    - resourceType: 1
-      quantity: 1
   relativeConstructionSpawn: {x: 0, y: 0, z: 0}
+  ShipConstructions:
+  - constructionTime: 5
+    resourceCosts:
+    - quantity: 1
+      resourceType: 0
+    - quantity: 1
+      resourceType: 1
+    shipType: 0
+  - constructionTime: 0
+    resourceCosts:
+    - quantity: 1
+      resourceType: 0
+    - quantity: 1
+      resourceType: 1
+    shipType: 2
+  - constructionTime: 5
+    resourceCosts:
+    - quantity: 1
+      resourceType: 0
+    - quantity: 1
+      resourceType: 1
+    shipType: 3
 --- !u!114 &114911984964031694
 MonoBehaviour:
   m_ObjectHideFlags: 1
