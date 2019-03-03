@@ -1,7 +1,7 @@
 ﻿using Imperium.Enum;
 using Imperium.Persistence;
 using UnityEngine;
-
+using Imperium.MapObjects;
 public class GameInitializer : MonoBehaviour
 {
     public GameSceneData gameSceneData;
@@ -37,6 +37,8 @@ public class GameInitializer : MonoBehaviour
             }
         }
 
+        CreateAsteroidFields();
+            
         GameObject playerManager = CreatePlayerManager();
         playerManager.SetActive(true);
     }
@@ -68,6 +70,16 @@ public class GameInitializer : MonoBehaviour
 
             return playerManager;
         }
+    }
+
+
+    private void CreateAsteroidFields()
+    {
+        Vector3 position = new Vector3(0, 0, 0);
+        Vector3 size = new Vector3(15, 3, 15);
+
+        GameObject asteroidField = Spawner.Instance.SpawnAsteroidField(AsteroidFieldAsteroidSettings.CreateDefaultSettings(), position, size, true);
+        asteroidField.GetComponent<AsteroidFieldController>().SpawnAsteroidsOnField(true);
     }
 
     private void Update()

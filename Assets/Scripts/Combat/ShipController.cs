@@ -6,8 +6,8 @@ using UnityEngine;
 public class ShipController : ObjectController
 {
     public FleetCommandQueue fleetCommandQueue = new FleetCommandQueue();
-    public StationConstructor stationConstructor;
     public ShipType shipType;
+    public StationConstructor stationConstructor;
     private ShipMovement shipMovement;
     public Ship Ship { get; private set; }
 
@@ -36,13 +36,6 @@ public class ShipController : ObjectController
         fleetCommandQueue.loopFleetCommands = loopCommands;
     }
 
-    public void MineAsteroid(GameObject asteroid, bool resetCommands)
-    {
-        FleetCommand fleetCommand = new MineCommand(gameObject, asteroid, shipMovement);
-        AddCommand(resetCommands, fleetCommand);
-        fleetCommandQueue.loopFleetCommands = false;
-    }
-
     public void FireTurrets(GameObject target)
     {
         TurretController[] turrets = gameObject.GetComponentsInChildren<TurretController>(false);
@@ -50,6 +43,13 @@ public class ShipController : ObjectController
         {
             turret.Fire(target);
         }
+    }
+
+    public void MineAsteroid(GameObject asteroid, bool resetCommands)
+    {
+        FleetCommand fleetCommand = new MineCommand(gameObject, asteroid, shipMovement);
+        AddCommand(resetCommands, fleetCommand);
+        fleetCommandQueue.loopFleetCommands = false;
     }
 
     public void MoveToPosition(Vector3 destination, float destinationOffset, bool resetCommands, bool loopCommands)

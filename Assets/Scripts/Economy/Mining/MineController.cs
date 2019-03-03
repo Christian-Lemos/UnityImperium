@@ -74,8 +74,6 @@ public class MineController : MonoBehaviour
         resourceStorageController.resourceStorage.Add(asteroidController.resourceType, (uint)extractQuantity);
 
         asteroidController.ResourceQuantity -= extractQuantity;
-
-        Debug.Log(resourceStorageController.resourceStorage.GetRemainingStorage());
     }
 
     private void FixedUpdate()

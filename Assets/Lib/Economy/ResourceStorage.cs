@@ -27,16 +27,6 @@ namespace Imperium.Economy
         public uint MaximumResourcesStorage { get; set; }
         public Dictionary<ResourceType, uint> Storage { get; set; }
 
-        public bool IsFull()
-        {
-            return GetRemainingStorage() == 0;
-        }
-
-        public bool IsEmpty()
-        {
-            return GetRemainingStorage() == MaximumResourcesStorage;
-        }
-
         public void Add(ResourceType resourceType, uint quantity)
         {
             if (HasSuficientStorage(quantity))
@@ -58,6 +48,16 @@ namespace Imperium.Economy
         public bool HasSuficientStorage(uint quantity)
         {
             return GetRemainingStorage() >= quantity;
+        }
+
+        public bool IsEmpty()
+        {
+            return GetRemainingStorage() == MaximumResourcesStorage;
+        }
+
+        public bool IsFull()
+        {
+            return GetRemainingStorage() == 0;
         }
 
         public void Remove(ResourceType resourceType, uint quantity)
