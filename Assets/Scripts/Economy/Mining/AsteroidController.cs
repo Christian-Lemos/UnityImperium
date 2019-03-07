@@ -1,9 +1,14 @@
 ﻿using Imperium.Enum;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class AsteroidController : MonoBehaviour
+using Imperium.Persistence;
+public class AsteroidController : MonoBehaviour, ISerializable<AsteroidPersistance>
 {
+
+    public delegate void onDestroyDelegate(ResourceType resourceType, GameObject gameObject);
+
+    public event onDestroyDelegate destroyObservers;
+
     public static readonly Dictionary<ResourceType, Color> asteroidColors = new Dictionary<ResourceType, Color>()
     {
           {ResourceType.Metal, Color.black},
@@ -41,4 +46,23 @@ public class AsteroidController : MonoBehaviour
         material.color = asteroidColors[resourceType];
     }
 
+    private void OnDestroy()
+    {
+        destroyObservers(this.resourceType, this.gameObject);    
+    }
+
+    public AsteroidPersistance Serialize()
+    {
+        return new AsteroidPersistance(transform.position, transform.rotation, transform.localScale, resourceType, resourceQuantity);
+    }
+
+    public void SetObject(AsteroidPersistance serializedObject)
+    {
+        this.transform.position = serializedObject.position;
+        this.transform.rotation = serializedObject.rotation;
+        this.transform.localScale = serializedObject.scale;
+
+        this.resourceType = serializedObject.resourceType;
+        this.resourceQuantity = serializedObject.resourceQuantity;
+    }
 }

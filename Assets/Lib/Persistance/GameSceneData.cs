@@ -1,4 +1,5 @@
 ﻿using Imperium.Enum;
+using Imperium.MapObjects;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,14 +8,15 @@ namespace Imperium.Persistence
     [System.Serializable]
     public class GameSceneData
     {
+        public List<AsteroidFieldPersistance> asteroidFields;
         public Vector2 MapSize;
         public string Name;
         public List<PlayerPersistance> players;
-
-        public GameSceneData(string name, Vector2 mapSize, List<PlayerPersistance> players)
+        public GameSceneData(string name, Vector2 mapSize, List<PlayerPersistance> players, List<AsteroidFieldPersistance> asteroidFields)
         {
             Name = name;
             MapSize = mapSize;
+            this.asteroidFields = asteroidFields;
             this.players = players;
         }
 
@@ -54,7 +56,11 @@ namespace Imperium.Persistence
                 new PlayerPersistance(PlayerType.AI, 1, player2Ships, player2Resources)
             };
 
-            return new GameSceneData("New Game", new Vector2(40, 50), players);
+            AsteroidFieldAsteroidSettings asteroidFieldAsteroidSettings = AsteroidFieldAsteroidSettings.CreateDefaultSettings();
+
+            AsteroidFieldPersistance middleAsteroidField = new AsteroidFieldPersistance(asteroidFieldAsteroidSettings.Serialize(), new List<AsteroidPersistance>(), new Vector3(0, 0, 0), new Vector3(15, 3, 15), false);
+
+            return new GameSceneData("New Game", new Vector2(40, 50), players, new List<AsteroidFieldPersistance>() { middleAsteroidField });
         }
     }
 }

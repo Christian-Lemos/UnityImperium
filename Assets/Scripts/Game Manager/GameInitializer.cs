@@ -1,7 +1,8 @@
 ﻿using Imperium.Enum;
+using Imperium.MapObjects;
 using Imperium.Persistence;
 using UnityEngine;
-using Imperium.MapObjects;
+
 public class GameInitializer : MonoBehaviour
 {
     public GameSceneData gameSceneData;
@@ -38,9 +39,33 @@ public class GameInitializer : MonoBehaviour
         }
 
         CreateAsteroidFields();
-            
+
         GameObject playerManager = CreatePlayerManager();
         playerManager.SetActive(true);
+    }
+
+    private void CreateAsteroidFields()
+    {
+        // Vector3 position = new Vector3(0, 0, 0);
+        // Vector3 size = new Vector3(15, 3, 15);
+
+        // GameObject asteroidField = Spawner.Instance.SpawnAsteroidField(AsteroidFieldAsteroidSettings.CreateDefaultSettings(), position, size, true);
+        // asteroidField.GetComponent<AsteroidFieldController>().SpawnAsteroidsOnField(true);
+        foreach (AsteroidFieldPersistance asteroidFieldPersistance in gameSceneData.asteroidFields)
+        {
+            AsteroidFieldAsteroidSettings asteroidFieldAsteroidSettings = new AsteroidFieldAsteroidSettings();
+            asteroidFieldAsteroidSettings.SetObject(asteroidFieldPersistance.AsteroidFieldAsteroidSettingsPersistance);
+            GameObject asteroidField = Spawner.Instance.SpawnAsteroidField(asteroidFieldAsteroidSettings, asteroidFieldPersistance.position, asteroidFieldPersistance.size, false);
+
+            AsteroidFieldController asteroidFieldController = asteroidField.GetComponent<AsteroidFieldController>();
+            asteroidFieldController.initialized = asteroidFieldPersistance.initialized;
+            asteroidField.SetActive(true);
+
+            if (!asteroidFieldController.initialized)
+            {
+                asteroidFieldController.SpawnAsteroidsOnField(true);
+            }
+        }
     }
 
     private GameObject CreatePlayerManager()
@@ -70,16 +95,6 @@ public class GameInitializer : MonoBehaviour
 
             return playerManager;
         }
-    }
-
-
-    private void CreateAsteroidFields()
-    {
-        Vector3 position = new Vector3(0, 0, 0);
-        Vector3 size = new Vector3(15, 3, 15);
-
-        GameObject asteroidField = Spawner.Instance.SpawnAsteroidField(AsteroidFieldAsteroidSettings.CreateDefaultSettings(), position, size, true);
-        asteroidField.GetComponent<AsteroidFieldController>().SpawnAsteroidsOnField(true);
     }
 
     private void Update()
