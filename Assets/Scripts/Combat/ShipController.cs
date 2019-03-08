@@ -8,14 +8,14 @@ public class ShipController : ObjectController
     public FleetCommandQueue fleetCommandQueue = new FleetCommandQueue();
     public ShipType shipType;
     public StationConstructor stationConstructor;
-    private ShipMovement shipMovement;
-    public Ship Ship { get; private set; }
+    //private ShipMovement shipMovement;
+    public Ship ship;
 
     public void AttackTarget(GameObject target, bool resetCommands, bool loopCommands)
     {
         if (!target.Equals(gameObject))
         {
-            FleetCommand fleetCommand = new AttackCommand(gameObject, target, shipMovement);
+            FleetCommand fleetCommand = new AttackCommand(gameObject, target);
 
             AddCommand(resetCommands, fleetCommand);
 
@@ -31,7 +31,7 @@ public class ShipController : ObjectController
 
     public void BuildStation(GameObject station, bool resetCommands, bool loopCommands)
     {
-        FleetCommand fleetCommand = new BuildCommand(gameObject, station, shipMovement);
+        FleetCommand fleetCommand = new BuildCommand(gameObject, station);
         AddCommand(resetCommands, fleetCommand);
         fleetCommandQueue.loopFleetCommands = loopCommands;
     }
@@ -47,14 +47,14 @@ public class ShipController : ObjectController
 
     public void MineAsteroid(GameObject asteroid, bool resetCommands)
     {
-        FleetCommand fleetCommand = new MineCommand(gameObject, asteroid, shipMovement);
+        FleetCommand fleetCommand = new MineCommand(gameObject, asteroid);
         AddCommand(resetCommands, fleetCommand);
         fleetCommandQueue.loopFleetCommands = false;
     }
 
     public void MoveToPosition(Vector3 destination, float destinationOffset, bool resetCommands, bool loopCommands)
     {
-        FleetCommand fleetCommand = new MoveCommand(gameObject, destination, destinationOffset, shipMovement);
+        FleetCommand fleetCommand = new MoveCommand(gameObject, destination, destinationOffset);
         AddCommand(resetCommands, fleetCommand);
         fleetCommandQueue.loopFleetCommands = loopCommands;
     }
@@ -89,7 +89,7 @@ public class ShipController : ObjectController
         try
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(gameObject.transform.position, Ship.ShipStats.FieldOfViewDistance);
+            Gizmos.DrawWireSphere(gameObject.transform.position, ship.shipStats.FieldOfViewDistance);
         }
         catch
         {
@@ -98,10 +98,10 @@ public class ShipController : ObjectController
 
     private void Start()
     {
-        Ship = ShipFactory.getInstance().CreateShip(shipType);
-        stats = Ship.ShipStats;
+        ship = ShipFactory.getInstance().CreateShip(shipType);
+        stats = ship.shipStats;
 
-        shipMovement = new ShipMovement(gameObject.transform, 2f, 50f);
+       // shipMovement = new ShipMovement(gameObject.transform, 2f, 50f);
 
         lowestTurretRange = base.GetLowestTurretRange();
 
@@ -131,5 +131,13 @@ public class ShipController : ObjectController
         }
 
         FireAtClosestTarget();
+    }
+
+
+    public void MoveControl(Vector3 destination)
+    {
+        Quaternion desRotation = Quaternion.LookRotation(destination - transform.position, Vector3.up);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, desRotation, ship.angularSpeed * Time.deltaTime);
+        transform.position += transform.forward * ship.speed * Time.deltaTime;
     }
 }

@@ -11,8 +11,8 @@ public class StationController : ObjectController
 
     public void AddConstructionProgress(int progress)
     {
-        station.StationStats.HP += progress;
-        float addedContructionProgress = (100 * (float)progress) / station.StationStats.MaxHP;
+        station.stats.HP += progress;
+        float addedContructionProgress = (100 * (float)progress) / station.stats.maxHP;
 
         constructionProgress += addedContructionProgress;
 
@@ -38,11 +38,11 @@ public class StationController : ObjectController
     private void Start()
     {
         station = StationFactory.getInstance().CreateStation(stationType);
-        stats = station.StationStats;
+        stats = station.stats;
 
         lowestTurretRange = base.GetLowestTurretRange();
 
-        station.StationStats.HP = (int)(station.StationStats.MaxHP * constructionProgress) / 100;
+        station.stats.HP = (int)(station.stats.maxHP * constructionProgress) / 100;
 
         if (constructionProgress >= 100)
         {
@@ -51,7 +51,7 @@ public class StationController : ObjectController
         }
         else
         {
-            station.StationStats.Shields = 0;
+            station.stats.Shields = 0;
         }
     }
 

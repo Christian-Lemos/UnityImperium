@@ -5,12 +5,12 @@ namespace Imperium.Navigation
     public class MoveCommand : FleetCommand
     {
 
-        public MoveCommand(GameObject source, GameObject target, ShipMovement shipMovement) : base(source, target, shipMovement)
+        public MoveCommand(GameObject source, GameObject target) : base(source, target)
         {
             
         }
 
-        public MoveCommand(GameObject source, Vector3 destination, float destinationOffset, ShipMovement shipMovement) : base(source, destination, destinationOffset, shipMovement)
+        public MoveCommand(GameObject source, Vector3 destination, float destinationOffset) : base(source, destination, destinationOffset)
         {
             
         }
@@ -26,7 +26,7 @@ namespace Imperium.Navigation
 
             if (distance > base.destinationOffset)
             {
-                shipMovement.MoveToPosition(base.destination);
+                sourceShipController.MoveControl(base.destination);
             }
         }
 

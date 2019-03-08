@@ -1,27 +1,33 @@
 ﻿namespace Imperium
 {
+    [System.Serializable]
     public class Stats
     {
-        private int hp;
-        private int shields;
+        //Use proprieties.This is public due serialization simplification
+        public int hp;
+        public int maxHP;
+
+        public int maxShields;
+        public int shieldRegen;
+        public int shields;
 
         public Stats(int maxHP, int maxShields, int shieldRegen, float fieldOfViewDistance)
         {
-            MaxHP = maxHP;
-            MaxShields = maxShields;
-            ShieldRegen = shieldRegen;
+            this.maxHP = maxHP;
+            this.maxShields = maxShields;
+            this.shieldRegen = shieldRegen;
             HP = maxHP;
-            Shields = MaxShields;
+            Shields = this.maxShields;
             FieldOfViewDistance = fieldOfViewDistance;
         }
 
         public Stats(int maxHP, int hP, int maxShields, int shields, int shieldRegen, float fieldOfViewDistanc)
         {
-            MaxHP = maxHP;
-            MaxShields = maxShields;
-            ShieldRegen = shieldRegen;
+            this.maxHP = maxHP;
+            this.maxShields = maxShields;
+            this.shieldRegen = shieldRegen;
             Shields = shields;
-            ShieldRegen = shieldRegen;
+            this.shieldRegen = shieldRegen;
             FieldOfViewDistance = fieldOfViewDistanc;
         }
 
@@ -35,9 +41,9 @@
             }
             set
             {
-                if (value > MaxHP)
+                if (value > maxHP)
                 {
-                    hp = MaxHP;
+                    hp = maxHP;
                 }
                 else
                 {
@@ -45,11 +51,6 @@
                 }
             }
         }
-
-        public int MaxHP { get; set; }
-        public int MaxShields { get; set; }
-        public int ShieldRegen { get; set; }
-
         public int Shields
         {
             get
@@ -58,9 +59,9 @@
             }
             set
             {
-                if (value > MaxShields)
+                if (value > maxShields)
                 {
-                    shields = MaxShields;
+                    shields = maxShields;
                 }
                 else
                 {

@@ -6,7 +6,6 @@ namespace Imperium.Persistence
     {
         T Serialize();
         void SetObject(T serializedObject);
-
     }
 }
 

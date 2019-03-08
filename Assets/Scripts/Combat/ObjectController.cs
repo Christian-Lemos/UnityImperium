@@ -2,9 +2,9 @@
 using Imperium.Enum;
 using System.Collections;
 using UnityEngine;
-
+using Imperium.Persistence;
 [DisallowMultipleComponent]
-public abstract class ObjectController : MonoBehaviour
+public abstract class ObjectController : MonoBehaviour, ISerializable<ObjectControllerPersistance>
 {
     public float lowestTurretRange;
     public Stats stats;
@@ -73,13 +73,13 @@ public abstract class ObjectController : MonoBehaviour
     {
         while (true)
         {
-            if (stats.Shields + stats.ShieldRegen > stats.MaxShields)
+            if (stats.Shields + stats.shieldRegen > stats.maxShields)
             {
-                stats.Shields = stats.MaxShields;
+                stats.Shields = stats.maxShields;
             }
             else
             {
-                stats.Shields += stats.ShieldRegen;
+                stats.Shields += stats.shieldRegen;
             }
             yield return new WaitForSeconds(1f);
         }
@@ -104,5 +104,16 @@ public abstract class ObjectController : MonoBehaviour
         catch
         {
         }
+    }
+
+    public ObjectControllerPersistance Serialize()
+    {
+        return new ObjectControllerPersistance(this.lowestTurretRange, this.stats);
+    }
+
+    public void SetObject(ObjectControllerPersistance serializedObject)
+    {
+        this.stats = serializedObject.stats;
+        this.lowestTurretRange = serializedObject.lowestTurretRange;
     }
 }

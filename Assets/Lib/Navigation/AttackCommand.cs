@@ -6,7 +6,7 @@ namespace Imperium.Navigation
     {
         private ShipController shipController;
 
-        public AttackCommand(GameObject source, GameObject target, ShipMovement shipMovement) : base(source, target, shipMovement)
+        public AttackCommand(GameObject source, GameObject target) : base(source, target)
         {
             shipController = source.GetComponent<ShipController>();
             base.destination = target.transform.position;
@@ -20,7 +20,7 @@ namespace Imperium.Navigation
                 base.destination = target.transform.position;
                 destinationOffset = shipController.lowestTurretRange / 2;
 
-                if (Vector3.Distance(target.transform.position, source.transform.position) <= shipController.Ship.ShipStats.FieldOfViewDistance)
+                if (Vector3.Distance(target.transform.position, source.transform.position) <= shipController.ship.shipStats.FieldOfViewDistance)
                 {
                     shipController.FireTurrets(base.target);
                 }
@@ -29,7 +29,7 @@ namespace Imperium.Navigation
 
                 if (distance > base.destinationOffset)
                 {
-                    shipMovement.MoveToPosition(base.destination);
+                    sourceShipController.MoveControl(base.destination);
                 }
             }
         }

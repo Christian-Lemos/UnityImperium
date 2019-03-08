@@ -7,7 +7,7 @@ namespace Imperium.Navigation
         private StationConstructor stationConstructor;
         private StationController targetStationController;
 
-        public BuildCommand(GameObject source, GameObject target, ShipMovement shipMovement) : base(source, target, shipMovement)
+        public BuildCommand(GameObject source, GameObject target) : base(source, target)
         {
             targetStationController = target.GetComponent<StationController>();
             stationConstructor = source.GetComponent<StationConstructor>();
@@ -22,7 +22,7 @@ namespace Imperium.Navigation
 
             if (distance > base.destinationOffset)
             {
-                shipMovement.MoveToPosition(base.destination);
+               sourceShipController.MoveControl(base.destination);
             }
             else if (targetStationController.constructed == true)
             {

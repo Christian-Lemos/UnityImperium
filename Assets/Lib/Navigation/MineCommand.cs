@@ -12,7 +12,7 @@ namespace Imperium.Navigation
         private int player;
         private ResourceStorageController resourceStorageController;
 
-        public MineCommand(GameObject source, GameObject target, ShipMovement shipMovement) : base(source, target, shipMovement)
+        public MineCommand(GameObject source, GameObject target) : base(source, target)
         {
             resourceStorageController = source.GetComponent<ResourceStorageController>();
             mineController = source.GetComponent<MineController>();
@@ -30,7 +30,7 @@ namespace Imperium.Navigation
 
                 if (distance > base.destinationOffset)
                 {
-                    shipMovement.MoveToPosition(base.destination);
+                    sourceShipController.MoveControl(base.destination);
                 }
                 else
                 {
@@ -62,7 +62,7 @@ namespace Imperium.Navigation
 
                     if (distance > base.destinationOffset)
                     {
-                        shipMovement.MoveToPosition(base.destination);
+                        sourceShipController.MoveControl(base.destination);
                     }
                     else
                     {

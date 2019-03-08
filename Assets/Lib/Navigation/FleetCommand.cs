@@ -7,31 +7,30 @@ namespace Imperium.Navigation
         public Vector3 destination;
         public float destinationOffset;
         public GameObject target;
-        protected ShipMovement shipMovement;
         protected GameObject source;
-
-        protected FleetCommand(GameObject source, GameObject target, Vector3 destination, float destinationOffset, ShipMovement shipMovement)
+        protected ShipController sourceShipController;
+        protected FleetCommand(GameObject source, GameObject target, Vector3 destination, float destinationOffset)
         {
             this.source = source;
             this.target = target;
             this.destination = destination;
             this.destinationOffset = destinationOffset;
-            this.shipMovement = shipMovement;
+            sourceShipController = source.GetComponent<ShipController>();
         }
 
-        protected FleetCommand(GameObject source, Vector3 destination, float destinationOffset, ShipMovement shipMovement)
+        protected FleetCommand(GameObject source, Vector3 destination, float destinationOffset)
         {
             this.source = source;
             this.destination = destination;
             this.destinationOffset = destinationOffset;
-            this.shipMovement = shipMovement;
+            sourceShipController = source.GetComponent<ShipController>();
         }
 
-        protected FleetCommand(GameObject source, GameObject target, ShipMovement shipMovement)
+        protected FleetCommand(GameObject source, GameObject target)
         {
             this.source = source;
             this.target = target;
-            this.shipMovement = shipMovement;
+            sourceShipController = source.GetComponent<ShipController>();
         }
 
         public abstract void ExecuteCommand();

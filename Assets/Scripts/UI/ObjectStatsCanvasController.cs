@@ -36,8 +36,8 @@ public class ObjectStatsCanvasController : MonoBehaviour {
         //Try catch is used to prevent errors if the objectController.stats are still not set
         try
         {
-            objectStatsCanvas.HpSlider.value = (objectController.stats.HP * 100) / objectController.stats.MaxHP;
-            objectStatsCanvas.ShieldSlider.value = (objectController.stats.Shields * 100) / objectController.stats.MaxShields;
+            objectStatsCanvas.HpSlider.value = (objectController.stats.HP * 100) / objectController.stats.maxHP;
+            objectStatsCanvas.ShieldSlider.value = (objectController.stats.Shields * 100) / objectController.stats.maxShields;
         }
         catch
         {

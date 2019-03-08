@@ -216,7 +216,7 @@ public class MouseCommandsController : MonoBehaviour
 
                     //Debug.Log("( " + constructionButtonPrefabOriginalPosX + "- 10 )" + " + " + "( " + constructionButtonPrefabWidth + " * " + i + ") + 10 = " + buttonPositionX);
 
-                    button.GetComponentInChildren<RawImage>().texture = ship.ShipIcon;
+                    button.GetComponentInChildren<RawImage>().texture = ship.shipIcon;
                     button.SetActive(true);
 
                     SetShipConstructionButtonClickCallback(constructor, button, shipConstructions[i]);
@@ -242,7 +242,7 @@ public class MouseCommandsController : MonoBehaviour
 
                         //Debug.Log("( " + constructionButtonPrefabOriginalPosX + "- 10 )" + " + " + "( " + constructionButtonPrefabWidth + " * " + i + ") + 10 = " + buttonPositionX);
 
-                        button.GetComponentInChildren<RawImage>().texture = station.StationIcon;
+                        button.GetComponentInChildren<RawImage>().texture = station.stationIcon;
                         button.SetActive(true);
 
                         //SetShipConstructionButtonClickCallback(constructor, button, stationConstructions[i]);
