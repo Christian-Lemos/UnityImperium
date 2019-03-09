@@ -61,9 +61,9 @@ public class MapObjectCombatter : MonoBehaviour
         TurretController[] turretControllers = gameObject.GetComponentsInChildren<TurretController>(false);
         foreach (TurretController turretController in turretControllers)
         {
-            if (turretController.Turret.Range > lowest)
+            if (turretController.turret.range > lowest)
             {
-                lowest = turretController.Turret.Range;
+                lowest = turretController.turret.range;
             }
         }
         return lowest;

@@ -3,8 +3,10 @@ using Imperium.MapObjects;
 using Imperium.Navigation;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MapObject))]
 public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersistance>
 {
     public FleetCommandQueue fleetCommandQueue = new FleetCommandQueue();
@@ -70,7 +72,16 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
 
     public ShipControllerPersistance Serialize()
     {
-        return new ShipControllerPersistance(ship, shipType, GetComponent<MapObject>().Serialize(), fleetCommandQueue.Serialize());
+        List<TurretControllerPersistance> turretControllerPersistances = new List<TurretControllerPersistance>();
+
+        TurretController[] turretControllers= GetComponentsInChildren<TurretController>();
+
+        foreach(TurretController turretController in turretControllers)
+        {
+            turretControllerPersistances.Add(turretController.Serialize());
+        }
+
+        return new ShipControllerPersistance(ship, shipType, GetComponent<MapObject>().Serialize(), fleetCommandQueue.Serialize(), turretControllerPersistances);
     }
 
     public void SetIdle()

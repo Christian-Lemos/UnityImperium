@@ -1,18 +1,41 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Imperium.MapObjects
 {
+    [System.Serializable]
     public class Bullet
     {
-        public Bullet(float speed, int damage, string bulletPrefab)
+        public string bulletPrefabName;
+
+        public int damage;
+
+        public GameObject prefab;
+
+        public float speed;
+
+        private static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
+
+        public Bullet(float speed, int damage, string bulletPrefabName)
         {
             this.speed = speed;
             this.damage = damage;
-            this.prefab = Resources.Load(bulletPrefab) as GameObject;
+            this.bulletPrefabName = bulletPrefabName;
+            LoadPrefab();
         }
 
-        public int damage { get; set; }
-        public GameObject prefab { get; set; }
-        public float speed { get; set; }
+        public GameObject LoadPrefab()
+        {
+            if (prefabs.ContainsKey(bulletPrefabName))
+            {
+                prefab = prefabs[bulletPrefabName];
+            }
+            else
+            {
+                prefab = Resources.Load(bulletPrefabName) as GameObject;
+                prefabs.Add(bulletPrefabName, prefab);
+            }
+            return prefab;
+        }
     }
 }

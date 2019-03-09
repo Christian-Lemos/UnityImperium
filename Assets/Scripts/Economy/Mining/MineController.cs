@@ -76,7 +76,7 @@ public class MineController : MonoBehaviour
         asteroidController.ResourceQuantity -= extractQuantity;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         MiningStateControl();
     }
@@ -85,7 +85,7 @@ public class MineController : MonoBehaviour
     {
         if (miningTimerSet)
         {
-            miningTimer -= Time.fixedDeltaTime; //Change to Time.deltaTime if used in void Update().
+            miningTimer -= Time.deltaTime; //Change to Time.fixedDeltaTime if used in void FixedUpdate().
 
             if (miningTimer <= 0)
             {

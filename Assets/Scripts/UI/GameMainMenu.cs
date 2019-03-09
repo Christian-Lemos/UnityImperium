@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using Imperium.Persistence;
+using Imperium.Persistence.MapObjects;
 public class GameMainMenu : MonoBehaviour {
 
 	[SerializeField]
@@ -28,8 +29,17 @@ public class GameMainMenu : MonoBehaviour {
 
     private void SaveGameHandler()
     {
+        BulletController[] bulletControllers = FindObjectsOfType<BulletController>();
+        List<BulletControllerPersistance> bulletControllerPersistances = new List<BulletControllerPersistance>();
+
+        foreach(BulletController bulletController in bulletControllers)
+        {
+            bulletControllerPersistances.Add(bulletController.Serialize());
+        }
+
         GameSceneData current = SceneManager.Instance.CurrentGameSceneData;
         current.players = PlayerDatabase.Instance.Serialize();
+        current.bulletControllerPersistances = bulletControllerPersistances;
         PersistantDataManager.Instance.SaveGame(current);
     }
 

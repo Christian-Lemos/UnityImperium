@@ -10,9 +10,11 @@ namespace Imperium.Persistence
     public class GameSceneData
     {
         public List<AsteroidFieldPersistance> asteroidFields;
+        public List<BulletControllerPersistance> bulletControllerPersistances;
         public Vector2 MapSize;
         public string Name;
         public List<PlayerPersistance> players;
+
         public GameSceneData(string name, Vector2 mapSize, List<PlayerPersistance> players, List<AsteroidFieldPersistance> asteroidFields)
         {
             Name = name;
@@ -20,6 +22,17 @@ namespace Imperium.Persistence
             this.asteroidFields = asteroidFields;
             this.players = players;
         }
+
+        public GameSceneData(string name, Vector2 mapSize, List<PlayerPersistance> players, List<AsteroidFieldPersistance> asteroidFields, List<BulletControllerPersistance> bulletControllerPersistances)
+        {
+            Name = name;
+            MapSize = mapSize;
+            this.asteroidFields = asteroidFields;
+            this.players = players;
+            this.bulletControllerPersistances = bulletControllerPersistances;
+        }
+
+
 
         public static GameSceneData NewGameDefault()
         {
@@ -33,7 +46,6 @@ namespace Imperium.Persistence
 
             List<ShipControllerPersistance> player1Ships = new List<ShipControllerPersistance>()
             {
-
                 new ShipControllerPersistance(ShipFactory.getInstance().CreateShip(ShipType.MotherShip), ShipType.MotherShip, new MapObjectPersitance(1, new Vector3(-15, 0, -20), new Vector3(1, 1, 1), Quaternion.identity), new Navigation.FleetCommandQueue().Serialize())
             };
 

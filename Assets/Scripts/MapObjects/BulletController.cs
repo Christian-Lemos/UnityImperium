@@ -1,8 +1,11 @@
 ﻿using Imperium;
 using Imperium.MapObjects;
 using UnityEngine;
+using Imperium.Persistence;
+using Imperium.Persistence.MapObjects;
 
-public class BulletController : MonoBehaviour
+[RequireComponent(typeof(MapObject))]
+public class BulletController : MonoBehaviour, ISerializable<BulletControllerPersistance>
 {
     private Bullet bullet;
     private bool initialized = false;
@@ -15,6 +18,16 @@ public class BulletController : MonoBehaviour
         gameObject.SetActive(true);
         initialized = true;
         Destroy(gameObject, 10f);
+    }
+
+    public BulletControllerPersistance Serialize()
+    {
+        return new BulletControllerPersistance(bullet, initialized, GetComponent<MapObject>().Serialize(), source.GetComponent<MapObject>().id);
+    }
+
+    public void SetObject(BulletControllerPersistance serializedObject)
+    {
+        throw new System.NotImplementedException();
     }
 
     private void FixedUpdate()

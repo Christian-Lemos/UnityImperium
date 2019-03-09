@@ -41,7 +41,9 @@ public class Spawner : MonoBehaviour
 
     public GameObject SpawnAsteroid(AsteroidFieldController asteroidFieldController, ResourceType resourceType, int resourceQuantity, Vector3 position, bool setActive)
     {
-        return SpawnAsteroid(CreateID(), asteroidFieldController, resourceType, resourceQuantity, position, setActive);
+        GameObject asteroid = SpawnAsteroid(CreateID(), asteroidFieldController, resourceType, resourceQuantity, position, setActive);
+        SetMapObjectChildrenID(asteroid);
+        return asteroid;
     }
 
     public GameObject SpawnAsteroidField(long id, AsteroidFieldAsteroidSettings asteroidFieldAsteroidSettings, Vector3 position, Vector3 size, bool setActive)
@@ -60,7 +62,23 @@ public class Spawner : MonoBehaviour
 
     public GameObject SpawnAsteroidField(AsteroidFieldAsteroidSettings asteroidFieldAsteroidSettings, Vector3 position, Vector3 size, bool setActive)
     {
-        return SpawnAsteroidField(CreateID(), asteroidFieldAsteroidSettings, position, size, setActive);
+        GameObject field = SpawnAsteroidField(CreateID(), asteroidFieldAsteroidSettings, position, size, setActive);
+        SetMapObjectChildrenID(field);
+        return field;
+    }
+
+    public GameObject SpawnBullet(long id, GameObject prefab, Vector3 position, Quaternion rotation)
+    {
+        GameObject bullet = Instantiate(prefab, transform.position, rotation);
+        bullet.GetComponent<MapObject>().id = id;
+        return bullet;
+    }
+
+    public GameObject SpawnBullet(GameObject prefab, Vector3 position, Quaternion rotation)
+    {
+        GameObject bullet = SpawnBullet(CreateID(), prefab, position, rotation);
+        SetMapObjectChildrenID(bullet);
+        return bullet;
     }
 
     public GameObject SpawnShip(long id, ShipType type, int player, Vector3 position, Quaternion rotation)
@@ -89,7 +107,9 @@ public class Spawner : MonoBehaviour
 
     public GameObject SpawnShip(ShipType type, int player, Vector3 position, Quaternion rotation)
     {
-        return SpawnShip(CreateID(), type, player, position, rotation);
+        GameObject ship = SpawnShip(CreateID(), type, player, position, rotation);
+        SetMapObjectChildrenID(ship);
+        return ship;
     }
 
     public GameObject SpawnStation(long id, StationType type, int player, Vector3 position, Quaternion rotation, int constructionProgress)
@@ -115,13 +135,16 @@ public class Spawner : MonoBehaviour
             newStation.name += " " + player;
 
             newStation.GetComponent<MapObject>().id = id;
+
             return newStation;
         }
     }
 
     public GameObject SpawnStation(StationType type, int player, Vector3 position, Quaternion rotation, int constructionProgress)
     {
-        return SpawnStation(CreateID(), type, player, position, rotation, constructionProgress);
+        GameObject station = SpawnStation(CreateID(), type, player, position, rotation, constructionProgress);
+        SetMapObjectChildrenID(station);
+        return station;
     }
 
     private void Awake()
@@ -143,6 +166,15 @@ public class Spawner : MonoBehaviour
         long id = nextId;
         nextId++;
         return id;
+    }
+
+    private void SetMapObjectChildrenID(GameObject @object)
+    {
+        MapObject[] mapObjects = @object.GetComponentsInChildren<MapObject>();
+        foreach (MapObject mapObject in mapObjects)
+        {
+            mapObject.id = CreateID();
+        }
     }
 
     [System.Serializable]

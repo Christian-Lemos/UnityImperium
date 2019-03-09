@@ -1,22 +1,24 @@
 ﻿using Imperium.MapObjects;
 using System.Collections;
 using UnityEngine;
+using Imperium.Persistence;
+using Imperium.Persistence.MapObjects;
 
+[RequireComponent(typeof(MapObject))]
 [RequireComponent(typeof(AudioSource))]
 [DisallowMultipleComponent]
-public class TurretController : MonoBehaviour
+public class TurretController : MonoBehaviour, ISerializable<TurretControllerPersistance>
 {
     private GameObject @object;
     private AudioSource audioSource;
     private IEnumerator fireCoroutine;
     private GameObject firePriority;
     private bool isFiring = false;
-    private new Transform transform;
 
     [SerializeField]
     private TurretType turretType;
 
-    public Turret Turret { get; private set; }
+    public Turret turret;
     // Station or Ship
 
     public void Fire(GameObject target)
@@ -44,25 +46,25 @@ public class TurretController : MonoBehaviour
         {
             isFiring = false;
         }
-        else if (firePriority != null && Vector3.Distance(transform.position, firePriority.transform.position) <= Turret.Range)
+        else if (firePriority != null && Vector3.Distance(transform.position, firePriority.transform.position) <= turret.range)
         {
             isFiring = true;
             Quaternion desRotation = Quaternion.LookRotation(firePriority.transform.position - transform.position, Vector3.up);
-            GameObject bullet = Instantiate(Turret.Bullet.prefab, transform.position, desRotation);
+            GameObject bullet = Instantiate(turret.bullet.prefab, transform.position, desRotation);
 
-            bullet.GetComponent<BulletController>().Initiate(@object, Turret.Bullet);
+            bullet.GetComponent<BulletController>().Initiate(@object, turret.bullet);
             audioSource.Play();
         }
-        else if (Vector3.Distance(transform.position, target.transform.position) <= Turret.Range)
+        else if (Vector3.Distance(transform.position, target.transform.position) <= turret.range)
         {
             isFiring = true;
             Quaternion desRotation = Quaternion.LookRotation(target.transform.position - transform.position, Vector3.up);
-            GameObject bullet = Instantiate(Turret.Bullet.prefab, transform.position, desRotation);
+            GameObject bullet = Instantiate(turret.bullet.prefab, transform.position, desRotation);
 
-            bullet.GetComponent<BulletController>().Initiate(@object, Turret.Bullet);
+            bullet.GetComponent<BulletController>().Initiate(@object, turret.bullet);
             audioSource.Play();
         }
-        yield return new WaitForSeconds(Turret.FireRate);
+        yield return new WaitForSeconds(turret.fireRate);
         isFiring = false;
         StopCoroutine(fireCoroutine);
     }
@@ -72,7 +74,7 @@ public class TurretController : MonoBehaviour
         try
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, Turret.Range);
+            Gizmos.DrawWireSphere(transform.position, turret.range);
         }
         catch
         {
@@ -81,9 +83,20 @@ public class TurretController : MonoBehaviour
 
     private void Start()
     {
-        transform = gameObject.GetComponent<Transform>();
         audioSource = gameObject.GetComponent<AudioSource>();
-        Turret = TurretFactory.getInstance().CreateTurret(turretType);
+        turret = TurretFactory.getInstance().CreateTurret(turretType);
         @object = transform.parent.gameObject;
+    }
+
+    public TurretControllerPersistance Serialize()
+    {
+        long firePriorityId = firePriority != null ? firePriority.GetComponent<MapObject>().id : -1;
+
+        return new TurretControllerPersistance(firePriorityId, isFiring, GetComponent<MapObject>().Serialize(), turret, turretType);
+    }
+
+    public void SetObject(TurretControllerPersistance serializedObject)
+    {
+        throw new System.NotImplementedException();
     }
 }

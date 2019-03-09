@@ -1,23 +1,28 @@
 ﻿namespace Imperium.MapObjects
 {
+    [System.Serializable]
     public class Turret
     {
-        private readonly BulletFactory factory = BulletFactory.getInstance();
-
         /// <summary>
         /// How accurate is the turret? Must be between 1 and 100
         /// </summary>
-        private int accuracy;
+        public int accuracy;
+
+        public Bullet bullet;
 
         /// <summary>
         /// How many bullets will the turret fire in 1 second?
         /// </summary>
-        private float fireRate;
+        public float fireRate;
 
         /// <summary>
         /// What is the turret's max firing range?
         /// </summary>
-        private float range;
+        public float range;
+
+        public Turret()
+        {
+        }
 
         /// <summary>
         /// Creates a turret model used by turret controllers.
@@ -28,75 +33,10 @@
         /// <param name="bulletType">What type of bullet does the turret fire?</param>
         public Turret(float fireRate, int accuracy, float range, BulletType bulletType)
         {
-            FireRate = fireRate;
-            Accuracy = accuracy;
-            Range = range;
-            Bullet = factory.CreateBullet(bulletType);
-        }
-
-        public int Accuracy
-        {
-            get
-            {
-                return accuracy;
-            }
-
-            set
-            {
-                if (value > 0 && value <= 100)
-                {
-                    accuracy = value;
-                }
-                else
-                {
-                    throw new System.Exception("The accuracy must be higher then 0 and lower then 101");
-                }
-            }
-        }
-
-        /// <summary>
-        /// What bullet does the turret fire?
-        /// </summary>
-        public Bullet Bullet { get; set; }
-
-        public float FireRate
-        {
-            get
-            {
-                return fireRate;
-            }
-
-            set
-            {
-                if (value > 0)
-                {
-                    fireRate = value;
-                }
-                else
-                {
-                    throw new System.Exception("The fire rate must be higher the 0");
-                }
-            }
-        }
-
-        public float Range
-        {
-            get
-            {
-                return range;
-            }
-
-            set
-            {
-                if (value > 0)
-                {
-                    range = value;
-                }
-                else
-                {
-                    throw new System.Exception("The range must be higher than 0");
-                }
-            }
+            this.fireRate = fireRate;
+            this.accuracy = accuracy;
+            this.range = range;
+            bullet = BulletFactory.getInstance().CreateBullet(bulletType);
         }
     }
 }
