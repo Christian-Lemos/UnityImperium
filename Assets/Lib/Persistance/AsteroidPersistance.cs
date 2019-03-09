@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using Imperium.Enum;
 using System.Collections;
+using Imperium.Economy;
 
 namespace Imperium.Persistence
 {

@@ -91,6 +91,9 @@ GameObject:
   - component: {fileID: 65750751104516206}
   - component: {fileID: 114998332378133354}
   - component: {fileID: 114408290240602530}
+  - component: {fileID: 114046977521135256}
+  - component: {fileID: 114662387573973784}
+  - component: {fileID: 114406183517300224}
   m_Layer: 10
   m_Name: Construction Ship V2
   m_TagString: Untagged
@@ -630,6 +633,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114046977521135256
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699482876744136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  mapObjectType: 0
+--- !u!114 &114406183517300224
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699482876744136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  mapObjectType: 0
 --- !u!114 &114408290240602530
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -659,6 +688,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66dbabea7f44ab34aa50ab683f321d13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114662387573973784
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699482876744136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 102e85aff3453fe45a93c514760aa959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowestTurretRange: 0
+  combatStats:
+    hp: 0
+    maxHP: 0
+    maxShields: 0
+    shieldRegen: 0
+    shields: 0
 --- !u!114 &114998332378133354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -670,6 +717,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb7caaa6a5a8fe408ae51f298c469b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowestTurretRange: 0
-  stationConstructor: {fileID: 0}
+  fleetCommandQueue:
+    loopFleetCommands: 0
+  ship:
+    angularSpeed: 0
+    iconName: 
+    name: 
+    shipIcon: {fileID: 0}
+    combatStats:
+      hp: 0
+      maxHP: 0
+      maxShields: 0
+      shieldRegen: 0
+      shields: 0
+    speed: 0
   shipType: 2
+  stationConstructor: {fileID: 0}

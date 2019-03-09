@@ -5,12 +5,12 @@ namespace Imperium.Navigation
     public class MoveCommand : FleetCommand
     {
 
-        public MoveCommand(GameObject source, GameObject target) : base(source, target)
+        public MoveCommand(MapObject source, MapObject target) : base(source, target, CommandType.Move)
         {
             
         }
 
-        public MoveCommand(GameObject source, Vector3 destination, float destinationOffset) : base(source, destination, destinationOffset)
+        public MoveCommand(MapObject source, Vector3 destination, float destinationOffset) : base(source, destination, destinationOffset, CommandType.Move)
         {
             
         }

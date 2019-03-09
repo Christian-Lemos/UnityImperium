@@ -5,13 +5,13 @@ namespace Imperium.Persistence
 {
     public class PersistantDataManager
     {
+        
+        private static readonly string gameDataPath = "savegames";
+        public static readonly string gameDataDirectory = Application.persistentDataPath + "/" + gameDataPath + "/";
         private static PersistantDataManager instance = null;
-        private readonly string gameDataDirectory;
-        private readonly string gameDataPath = "/savegames/";
 
         private PersistantDataManager()
         {
-            gameDataDirectory = Application.persistentDataPath + gameDataPath;
             if (!Directory.Exists(Application.persistentDataPath + gameDataPath))
             {
                 Directory.CreateDirectory(gameDataDirectory);
@@ -49,6 +49,13 @@ namespace Imperium.Persistence
             {
                 throw new System.Exception("savegame not found!");
             }
+        }
+
+        public void SaveGame(GameSceneData gameSceneData)
+        {
+            string dataAsJson = JsonUtility.ToJson(gameSceneData);
+            string filePath = gameDataDirectory + gameSceneData.Name + ".json";
+            File.WriteAllText(filePath, dataAsJson);
         }
     }
 }

@@ -1,7 +1,8 @@
-﻿using Imperium.Enum;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Imperium.Persistence;
+using Imperium.Economy;
+
 public class AsteroidController : MonoBehaviour, ISerializable<AsteroidPersistance>
 {
 

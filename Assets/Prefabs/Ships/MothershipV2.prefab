@@ -159,6 +159,8 @@ GameObject:
   - component: {fileID: 114877144355096746}
   - component: {fileID: 114470675054749188}
   - component: {fileID: 114909788611761058}
+  - component: {fileID: 114726365497871788}
+  - component: {fileID: 114019419506809258}
   m_Layer: 10
   m_Name: MothershipV2
   m_TagString: Untagged
@@ -1322,6 +1324,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turretType: 0
+--- !u!114 &114019419506809258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1738834379677540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 102e85aff3453fe45a93c514760aa959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowestTurretRange: 0
+  combatStats:
+    hp: 0
+    maxHP: 0
+    maxShields: 0
+    shieldRegen: 0
+    shields: 0
 --- !u!114 &114389540469408034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1397,6 +1417,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66dbabea7f44ab34aa50ab683f321d13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114726365497871788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1738834379677540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  mapObjectType: 0
 --- !u!114 &114755517844912338
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1432,9 +1465,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb7caaa6a5a8fe408ae51f298c469b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowestTurretRange: 0
-  stationConstructor: {fileID: 0}
+  fleetCommandQueue:
+    loopFleetCommands: 0
+  ship:
+    angularSpeed: 0
+    iconName: 
+    name: 
+    shipIcon: {fileID: 0}
+    combatStats:
+      hp: 0
+      maxHP: 0
+      maxShields: 0
+      shieldRegen: 0
+      shields: 0
+    speed: 0
   shipType: 1
+  stationConstructor: {fileID: 0}
 --- !u!114 &114909788611761058
 MonoBehaviour:
   m_ObjectHideFlags: 1

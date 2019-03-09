@@ -1,5 +1,4 @@
-﻿using Imperium.Enum;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Imperium.Economy
 {

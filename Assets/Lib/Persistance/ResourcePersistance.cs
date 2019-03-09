@@ -1,17 +1,17 @@
-﻿using Imperium.Enum;
+﻿using Imperium.Economy;
 
 namespace Imperium.Persistence
 {
     [System.Serializable]
     public class ResourcePersistance
     {
-        public int Quantity;
-        public ResourceType ResourceType;
+        public int quantity;
+        public ResourceType resourceType;
 
         public ResourcePersistance(ResourceType resourceType, int quantity)
         {
-            ResourceType = resourceType;
-            Quantity = quantity;
+            this.quantity = quantity;
+            this.resourceType = resourceType;
         }
     }
 }

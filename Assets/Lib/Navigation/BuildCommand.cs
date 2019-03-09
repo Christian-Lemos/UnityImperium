@@ -7,7 +7,7 @@ namespace Imperium.Navigation
         private StationConstructor stationConstructor;
         private StationController targetStationController;
 
-        public BuildCommand(GameObject source, GameObject target) : base(source, target)
+        public BuildCommand(MapObject source, MapObject target) : base(source, target, CommandType.Build)
         {
             targetStationController = target.GetComponent<StationController>();
             stationConstructor = source.GetComponent<StationConstructor>();
@@ -32,7 +32,7 @@ namespace Imperium.Navigation
             {
                 if (stationConstructor.Building == false)
                 {
-                    stationConstructor.StartBuilding(base.target);
+                    stationConstructor.StartBuilding(base.target.gameObject);
                 }
             }
         }

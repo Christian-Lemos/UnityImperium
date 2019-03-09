@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4482855161407186}
   - component: {fileID: 114710450473390194}
+  - component: {fileID: 114253958629122612}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -40,6 +41,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114253958629122612
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1082721284821788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b169f0a1696d44a3e0ee8e785f1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameMainMenuObject: {fileID: 0}
 --- !u!114 &114710450473390194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -51,9 +64,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17c014018f1b81e40af02f2f0fa791e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedGOs: []
-  selectPanel: {fileID: 0}
-  constructionSection: {fileID: 0}
   constructionButtonPrefab: {fileID: 1150228962956472, guid: 1ee176894cdba2141a762839cdc594e6,
     type: 2}
+  constructionSection: {fileID: 0}
   player: 0
+  selectPanel: {fileID: 0}
+  selectedGOs: []

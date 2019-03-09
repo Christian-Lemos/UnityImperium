@@ -1,6 +1,5 @@
 ﻿using Imperium;
 using Imperium.Economy;
-using Imperium.Enum;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -32,9 +31,9 @@ public class MouseCommandsController : MonoBehaviour
     /// This is the list of selected game objects
     /// </summary>
     [SerializeField]
-    private List<GameObject> selectedGOs;
+    private List<GameObject> selectedGOs = new List<GameObject>();
 
-    private int selectLayer;
+    private int selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map) | (1 << (int)ObjectLayers.Station) | (1 << (int)ObjectLayers.Asteroid);
 
     /// <summary>
     /// This method handles fleet's commands like move selected this to position
@@ -255,8 +254,6 @@ public class MouseCommandsController : MonoBehaviour
 
     private void Start()
     {
-        selectedGOs = new List<GameObject>();
-        selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map) | (1 << (int)ObjectLayers.Station) | (1 << (int)ObjectLayers.Asteroid);
         playerDatabase = PlayerDatabase.Instance;
 
         RectTransform rectTransform = constructionButtonPrefab.GetComponent<RectTransform>();

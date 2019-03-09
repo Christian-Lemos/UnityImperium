@@ -1,9 +1,13 @@
-﻿using Imperium.Enum;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Imperium.Persistence;
+using Imperium.Economy;
+using Imperium;
+using Imperium.MapObjects;
+using Imperium.Persistence.MapObjects;
 
-public class PlayerDatabase : MonoBehaviour
+public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistance>>
 {
     public List<HashSet<GameObject>> playerObjects = new List<HashSet<GameObject>>();
     private List<Dictionary<ResourceType, int>> playerResources = new List<Dictionary<ResourceType, int>>();
@@ -167,5 +171,44 @@ public class PlayerDatabase : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    public List<PlayerPersistance> Serialize()
+    {
+        List<PlayerPersistance> playerPersistances = new List<PlayerPersistance>();
+        for(int i = 0; i < playerResources.Count; i++)
+        {
+            PlayerType playerType = SceneManager.Instance.CurrentGameSceneData.players[i].playerType;
+            List<ShipControllerPersistance> shipControllerPersistances = new List<ShipControllerPersistance>();
+            List<ResourcePersistance> resourcePersistances = new List<ResourcePersistance>();
+            List<StationControllerPersistance> stationControllerPersistances = new List<StationControllerPersistance>();
+            foreach(GameObject @gameObject in playerObjects[i])
+            {
+                MapObject mapObject = @gameObject.GetComponent<MapObject>();
+
+                if(mapObject.mapObjectType == MapObjectType.Ship)
+                {
+                    shipControllerPersistances.Add(mapObject.gameObject.GetComponent<ShipController>().Serialize());
+                }
+                else if(mapObject.mapObjectType == MapObjectType.Station)
+                {
+                    stationControllerPersistances.Add(mapObject.gameObject.GetComponent<StationController>().Serialize());
+                }
+            }
+
+            foreach(KeyValuePair<ResourceType, int> keyValuePair in playerResources[i])
+            {
+               resourcePersistances.Add(new ResourcePersistance(keyValuePair.Key, keyValuePair.Value));
+            }
+            
+            playerPersistances.Add(new PlayerPersistance( SceneManager.Instance.CurrentGameSceneData.players[i].playerNumber, playerType, resourcePersistances, shipControllerPersistances, stationControllerPersistances));
+            
+        }
+        return playerPersistances;
+    }
+
+    public void SetObject(List<PlayerPersistance> serializedObject)
+    {
+        throw new System.NotImplementedException();
     }
 }

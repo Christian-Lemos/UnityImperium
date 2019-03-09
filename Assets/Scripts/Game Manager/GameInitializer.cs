@@ -1,6 +1,7 @@
-﻿using Imperium.Enum;
+﻿using Imperium;
 using Imperium.MapObjects;
 using Imperium.Persistence;
+using Imperium.Persistence.MapObjects;
 using UnityEngine;
 
 public class GameInitializer : MonoBehaviour
@@ -8,7 +9,7 @@ public class GameInitializer : MonoBehaviour
     public GameSceneData gameSceneData;
 
     [SerializeField]
-    private GameObject playerManagerPrefab;
+    private GameObject playerManager;
 
     [SerializeField]
     private GameObject selectionPanelPrefab;
@@ -32,16 +33,15 @@ public class GameInitializer : MonoBehaviour
 
         foreach (PlayerPersistance playerPersistance in gameSceneData.players)
         {
-            foreach (ShipPersistence shipPersistence in playerPersistance.Ships)
+            foreach (ShipControllerPersistance shipPersistence in playerPersistance.ships)
             {
-                Spawner.Instance.SpawnShip(shipPersistence.shipType, playerPersistance.PlayerNumber, shipPersistence.position, Quaternion.identity);
+                Spawner.Instance.SpawnShip(shipPersistence.shipType, playerPersistance.playerNumber, shipPersistence.mapObjectPersitance.localPosition, Quaternion.identity);
             }
         }
 
         CreateAsteroidFields();
 
-        GameObject playerManager = CreatePlayerManager();
-        playerManager.SetActive(true);
+        SetUpPlayerManager();
     }
 
     private void CreateAsteroidFields()
@@ -68,24 +68,23 @@ public class GameInitializer : MonoBehaviour
         }
     }
 
-    private GameObject CreatePlayerManager()
+    private void SetUpPlayerManager()
     {
         int player = -1;
         for (int j = 0; j < GameInitializer.Instance.gameSceneData.players.Count; j++)
         {
             if (GameInitializer.Instance.gameSceneData.players[j].playerType == PlayerType.Real)
             {
-                player = GameInitializer.Instance.gameSceneData.players[j].PlayerNumber;
+                player = GameInitializer.Instance.gameSceneData.players[j].playerNumber;
             }
         }
 
         if (player == -1)
         {
-            return null;
+            return;
         }
         else
         {
-            GameObject playerManager = Instantiate(playerManagerPrefab);
             GameObject selectionPanel = Instantiate(selectionPanelPrefab, GameObject.FindGameObjectWithTag("MainCanvas").transform);
             GameObject constructionSection = selectionPanel.GetComponentInChildren<ConstructionSection>().gameObject;
 
@@ -93,11 +92,7 @@ public class GameInitializer : MonoBehaviour
             mouseCommandsController.selectPanel = selectionPanel;
             mouseCommandsController.constructionSection = constructionSection;
 
-            return playerManager;
+            playerManager.SetActive(true);
         }
-    }
-
-    private void Update()
-    {
     }
 }

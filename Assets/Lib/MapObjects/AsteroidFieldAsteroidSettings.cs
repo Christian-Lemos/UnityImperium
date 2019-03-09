@@ -1,4 +1,4 @@
-﻿using Imperium.Enum;
+﻿using Imperium.Economy;
 using Imperium.Persistence;
 using System.Collections.Generic;
 

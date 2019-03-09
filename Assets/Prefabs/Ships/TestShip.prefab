@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 65905333203228708}
   - component: {fileID: 114435680660489566}
   - component: {fileID: 54561347199161464}
+  - component: {fileID: 114823603136947030}
+  - component: {fileID: 114292036334787162}
   m_Layer: 10
   m_Name: TestShip
   m_TagString: Untagged
@@ -269,6 +271,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &114292036334787162
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1306210491191302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 102e85aff3453fe45a93c514760aa959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowestTurretRange: 0
+  combatStats:
+    hp: 0
+    maxHP: 0
+    maxShields: 0
+    shieldRegen: 0
+    shields: 0
 --- !u!114 &114435680660489566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -280,7 +300,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb7caaa6a5a8fe408ae51f298c469b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  fleetCommandQueue:
+    loopFleetCommands: 0
+  ship:
+    angularSpeed: 0
+    iconName: 
+    name: 
+    shipIcon: {fileID: 0}
+    combatStats:
+      hp: 0
+      maxHP: 0
+      maxShields: 0
+      shieldRegen: 0
+      shields: 0
+    speed: 0
+  shipType: 0
+  stationConstructor: {fileID: 0}
 --- !u!114 &114683724543101486
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -292,8 +327,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66dbabea7f44ab34aa50ab683f321d13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipCanvasPrefab: {fileID: 1106345427989614, guid: 595fa28626b256e4e8cb70c8cf8c6165,
-    type: 2}
+--- !u!114 &114823603136947030
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1306210491191302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  mapObjectType: 0
 --- !u!114 &114978533330674054
 MonoBehaviour:
   m_ObjectHideFlags: 1

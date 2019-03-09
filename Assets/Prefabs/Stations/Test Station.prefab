@@ -57,6 +57,8 @@ GameObject:
   - component: {fileID: 65824585924030738}
   - component: {fileID: 65544684715065644}
   - component: {fileID: 114988745003096032}
+  - component: {fileID: 114314809407518032}
+  - component: {fileID: 114590540281583696}
   m_Layer: 11
   m_Name: Test Station
   m_TagString: Untagged
@@ -457,6 +459,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &114314809407518032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1249487277988724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  mapObjectType: 1
+--- !u!114 &114590540281583696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1249487277988724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 102e85aff3453fe45a93c514760aa959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowestTurretRange: 0
+  combatStats:
+    hp: 0
+    maxHP: 0
+    maxShields: 0
+    shieldRegen: 0
+    shields: 0
 --- !u!114 &114737104203740826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -491,7 +524,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa8e6b09894e8c44a0e600b480b1acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowestTurretRange: 0
-  stationType: 0
   constructed: 0
   constructionProgress: 0
+  station:
+    iconName: 
+    name: 
+    stationIcon: {fileID: 0}
+    combatStats:
+      hp: 0
+      maxHP: 0
+      maxShields: 0
+      shieldRegen: 0
+      shields: 0
+  stationType: 0

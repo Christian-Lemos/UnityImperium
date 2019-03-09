@@ -1,5 +1,4 @@
-﻿using Imperium.Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Imperium.Economy

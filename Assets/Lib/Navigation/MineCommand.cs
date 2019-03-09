@@ -1,7 +1,7 @@
-﻿using Imperium.Enum;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
+using Imperium.MapObjects;
+using Imperium.Economy;
 namespace Imperium.Navigation
 {
     public class MineCommand : FleetCommand
@@ -12,13 +12,13 @@ namespace Imperium.Navigation
         private int player;
         private ResourceStorageController resourceStorageController;
 
-        public MineCommand(GameObject source, GameObject target) : base(source, target)
+        public MineCommand(MapObject source, MapObject target) : base(source, target, CommandType.Mine)
         {
             resourceStorageController = source.GetComponent<ResourceStorageController>();
             mineController = source.GetComponent<MineController>();
             asteroidController = target.GetComponent<AsteroidController>();
             base.destinationOffset = 2f;
-            player = PlayerDatabase.Instance.GetObjectPlayer(source);
+            player = PlayerDatabase.Instance.GetObjectPlayer(source.gameObject);
         }
 
         public override void ExecuteCommand()
@@ -34,7 +34,7 @@ namespace Imperium.Navigation
                 }
                 else
                 {
-                    mineController.StartMining(target);
+                    mineController.StartMining(target.gameObject);
                 }
             }
             else
@@ -47,7 +47,7 @@ namespace Imperium.Navigation
 
                     foreach (GameObject @object in playerObjects)
                     {
-                        if (!@object.Equals(source) && @object.GetComponent<ShipController>().shipType == Enum.ShipType.MotherShip)
+                        if (!@object.Equals(source) && @object.GetComponent<ShipController>().shipType == ShipType.MotherShip)
                         {
                             deliveryObject = @object;
                             break;

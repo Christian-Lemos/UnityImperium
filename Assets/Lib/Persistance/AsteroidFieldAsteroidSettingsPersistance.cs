@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using Imperium.Enum;
+using Imperium.Economy;
+
 namespace Imperium.Persistence
 {
     [System.Serializable]

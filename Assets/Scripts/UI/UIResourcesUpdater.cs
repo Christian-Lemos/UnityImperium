@@ -1,9 +1,8 @@
 ﻿using Imperium.Economy;
-using Imperium.Enum;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Imperium;
 public class UIResourcesUpdater : MonoBehaviour
 {
     private int player;
@@ -19,7 +18,7 @@ public class UIResourcesUpdater : MonoBehaviour
         {
             if (GameInitializer.Instance.gameSceneData.players[j].playerType == PlayerType.Real)
             {
-                player = GameInitializer.Instance.gameSceneData.players[j].PlayerNumber;
+                player = GameInitializer.Instance.gameSceneData.players[j].playerNumber;
             }
         }
 

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using Imperium.Persistence;
+using System.Collections.Generic;
 
 namespace Imperium.Navigation
 {
-    public class FleetCommandQueue
+    [System.Serializable]
+    public class FleetCommandQueue : ISerializable<FleetCommandQueuePersistance>
     {
         public List<FleetCommand> fleetCommands = new List<FleetCommand>();
         public bool loopFleetCommands = false;
@@ -61,6 +62,27 @@ namespace Imperium.Navigation
             CurrentFleetCommand = null;
         }
 
+        public FleetCommandQueuePersistance Serialize()
+        {
+            List<FleetCommandPersistance> fleetCommandPersistances = new List<FleetCommandPersistance>();
+            int currentCommandIndex = 0;
+            int i = 0;
+            foreach (FleetCommand fleetCommand in fleetCommands)
+            {
+                fleetCommandPersistances.Add(fleetCommand.Serialize());
+                if (fleetCommand.Equals(currentFleetCommand))
+                {
+                    currentCommandIndex = i;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            return new FleetCommandQueuePersistance(currentCommandIndex, fleetCommandPersistances, loopFleetCommands);
+        }
+
         public FleetCommand SetNextFleetCommand()
         {
             FleetCommand fleetCommand = GetNextFleetCommand();
@@ -73,6 +95,11 @@ namespace Imperium.Navigation
             }
 
             return fleetCommand;
+        }
+
+        public void SetObject(FleetCommandQueuePersistance serializedObject)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

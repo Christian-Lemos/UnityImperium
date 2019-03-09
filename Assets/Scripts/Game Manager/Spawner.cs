@@ -1,24 +1,69 @@
-﻿using Imperium.Enum;
+﻿using Imperium.Economy;
+using Imperium.MapObjects;
 using System.Collections.Generic;
 using UnityEngine;
-using Imperium.MapObjects;
+
 public class Spawner : MonoBehaviour
 {
     public static Spawner Instance;
 
+    public GameObject asteroidFieldPreab;
+    public GameObject[] asteroidsPrefabs;
+    public long nextId = 1;
     public ShipAssosiation[] ship_assosiations;
 
     public StationAssosiation[] station_assosiations;
-
-    public GameObject[] asteroidsPrefabs;
-
-    public GameObject asteroidFieldPreab;
-
     public Dictionary<ShipType, GameObject> true_ship_associations = new Dictionary<ShipType, GameObject>();
 
     public Dictionary<StationType, GameObject> true_station_associations = new Dictionary<StationType, GameObject>();
 
-    public GameObject SpawnShip(ShipType type, int player, Vector3 position, Quaternion rotation)
+    public GameObject SpawnAsteroid(long id, AsteroidFieldController asteroidFieldController, ResourceType resourceType, int resourceQuantity, Vector3 position, bool setActive)
+    {
+        System.Random random = new System.Random();
+
+        GameObject prefab = asteroidsPrefabs[random.Next(0, asteroidsPrefabs.Length)]; //Picks a random prefab
+
+        Vector3 prefabScale = prefab.transform.localScale;
+        Vector3 fieldScale = asteroidFieldController.transform.localScale;
+
+        GameObject asteroid = Instantiate(prefab, position, Quaternion.identity, asteroidFieldController.transform);
+
+        AsteroidController asteroidController = asteroid.GetComponent<AsteroidController>();
+        asteroidController.resourceType = resourceType;
+        asteroidController.ResourceQuantity = resourceQuantity;
+
+        asteroid.SetActive(setActive);
+
+        asteroid.GetComponent<MapObject>().id = id;
+
+        return asteroid;
+    }
+
+    public GameObject SpawnAsteroid(AsteroidFieldController asteroidFieldController, ResourceType resourceType, int resourceQuantity, Vector3 position, bool setActive)
+    {
+        return SpawnAsteroid(CreateID(), asteroidFieldController, resourceType, resourceQuantity, position, setActive);
+    }
+
+    public GameObject SpawnAsteroidField(long id, AsteroidFieldAsteroidSettings asteroidFieldAsteroidSettings, Vector3 position, Vector3 size, bool setActive)
+    {
+        GameObject field = Instantiate(asteroidFieldPreab, position, Quaternion.identity);
+        AsteroidFieldController asteroidFieldController = field.GetComponent<AsteroidFieldController>();
+        asteroidFieldController.asteroidFieldAsteroidSettings = asteroidFieldAsteroidSettings;
+        asteroidFieldController.size = size;
+
+        field.GetComponent<MapObject>().id = id;
+
+        field.SetActive(setActive);
+
+        return field;
+    }
+
+    public GameObject SpawnAsteroidField(AsteroidFieldAsteroidSettings asteroidFieldAsteroidSettings, Vector3 position, Vector3 size, bool setActive)
+    {
+        return SpawnAsteroidField(CreateID(), asteroidFieldAsteroidSettings, position, size, setActive);
+    }
+
+    public GameObject SpawnShip(long id, ShipType type, int player, Vector3 position, Quaternion rotation)
     {
         if (!PlayerDatabase.Instance.IsValidPlayer(player))
         {
@@ -35,11 +80,19 @@ public class Spawner : MonoBehaviour
             GameObject newShip = Instantiate(prefab, position, rotation);
             PlayerDatabase.Instance.AddToPlayer(newShip, player);
             newShip.name += " " + player;
+
+            newShip.GetComponent<MapObject>().id = id;
+
             return newShip;
         }
     }
 
-    public GameObject SpawnStation(StationType type, int player, Vector3 position, Quaternion rotation, int constructionProgress)
+    public GameObject SpawnShip(ShipType type, int player, Vector3 position, Quaternion rotation)
+    {
+        return SpawnShip(CreateID(), type, player, position, rotation);
+    }
+
+    public GameObject SpawnStation(long id, StationType type, int player, Vector3 position, Quaternion rotation, int constructionProgress)
     {
         if (!PlayerDatabase.Instance.IsValidPlayer(player))
         {
@@ -60,59 +113,15 @@ public class Spawner : MonoBehaviour
             newStation.GetComponent<StationController>().constructionProgress = constructionProgress;
             newStation.SetActive(true);
             newStation.name += " " + player;
+
+            newStation.GetComponent<MapObject>().id = id;
             return newStation;
         }
     }
 
-    public GameObject SpawnAsteroid(AsteroidFieldController asteroidFieldController, ResourceType resourceType, int resourceQuantity, Vector3 position, bool setActive)
+    public GameObject SpawnStation(StationType type, int player, Vector3 position, Quaternion rotation, int constructionProgress)
     {
-        
-
-        System.Random random = new System.Random();
-
-        GameObject prefab = asteroidsPrefabs[random.Next(0, asteroidsPrefabs.Length)]; //Picks a random prefab
-        
-        Vector3 prefabScale = prefab.transform.localScale;
-        Vector3 fieldScale = asteroidFieldController.transform.localScale;
-
-        GameObject asteroid = Instantiate(prefab, position, Quaternion.identity, asteroidFieldController.transform);
-        asteroid.transform.localScale = new Vector3(prefabScale.x / fieldScale.x, prefabScale.y / fieldScale.y, prefabScale.z / fieldScale.z);
-
-        MeshRenderer meshRenderer = asteroid.GetComponentInChildren<MeshRenderer>(); 
-        Vector3 rendererScale= meshRenderer.transform.localScale;
-        //meshRenderer.transform.localScale = new Vector3(rendererScale.x * asteroid.transform.localScale.x,rendererScale.y * asteroid.transform.localScale.y,rendererScale.z * asteroid.transform.localScale.z);
-        //float lowestScale = prefab.transform.localScale.x / asteroidFieldController.transform.localScale.x;
-
-       
-       // Vector3 scaledVector = new Vector3(prefabScale.x * fieldScale.x, prefabScale.y * fieldScale.y, prefabScale.z * fieldScale.z);
-       // float lcm = determineLCM(scaledVector.x, determineLCM(scaledVector.y, scaledVector.z));
-       // Debug.Log(scaledVector);
-       // Debug.Log(lcm);
-
-       // Vector3 lcmVector = new Vector3(lcm / scaledVector.x , lcm / scaledVector.y , lcm/ scaledVector.z);
-        //Debug.Log(lcmVector);
-
-       // asteroid.transform.localScale = new Vector3(prefabScale.x / lcmVector.x, prefabScale.y / lcmVector.y, prefabScale.z / lcmVector.z);
-
-        AsteroidController asteroidController = asteroid.GetComponent<AsteroidController>();
-        asteroidController.resourceType = resourceType;
-        asteroidController.ResourceQuantity = resourceQuantity;
-
-        asteroid.SetActive(setActive);
-
-        return asteroid;
-    }
-
-    public GameObject SpawnAsteroidField(AsteroidFieldAsteroidSettings asteroidFieldAsteroidSettings, Vector3 position, Vector3 size, bool setActive)
-    {
-        GameObject field = Instantiate(asteroidFieldPreab, position, Quaternion.identity);
-        AsteroidFieldController asteroidFieldController = field.GetComponent<AsteroidFieldController>();
-        asteroidFieldController.asteroidFieldAsteroidSettings = asteroidFieldAsteroidSettings;
-        asteroidFieldController.size = size;
-
-        field.SetActive(setActive);
-
-        return field;
+        return SpawnStation(CreateID(), type, player, position, rotation, constructionProgress);
     }
 
     private void Awake()
@@ -129,6 +138,13 @@ public class Spawner : MonoBehaviour
         Instance = this;
     }
 
+    private long CreateID()
+    {
+        long id = nextId;
+        nextId++;
+        return id;
+    }
+
     [System.Serializable]
     public struct ShipAssosiation
     {
@@ -142,28 +158,4 @@ public class Spawner : MonoBehaviour
         public GameObject prefab;
         public StationType stationType;
     }
-
-
-    public static float determineLCM(float a, float b)
-    {
-        float num1, num2;
-        if (a > b)
-        {
-            num1 = a; num2 = b;
-        }
-        else
-        {
-            num1 = b; num2 = a;
-        }
-
-        for (int i = 1; i < num2; i++)
-        {
-            if ((num1 * i) % num2 == 0)
-            {
-                return i * num1;
-            }
-        }
-        return num1 * num2;
-    }
-
 }

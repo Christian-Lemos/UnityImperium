@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Imperium.Combat;
+using Imperium.MapObjects;
 using UnityEngine;
-using UnityEngine.UI;
 public class ObjectStatsCanvasController : MonoBehaviour {
 
     
@@ -9,8 +8,10 @@ public class ObjectStatsCanvasController : MonoBehaviour {
 
     private new Camera camera;
     private GameObject objectCanvasGO;
-    private ObjectController objectController;
+    private MapObject mapObject;
     private ObjectStatsCanvas objectStatsCanvas;
+
+    private CombatStats combatStats;
     private void LateUpdate()
     {
         objectCanvasGO.transform.LookAt(camera.transform);
@@ -23,8 +24,8 @@ public class ObjectStatsCanvasController : MonoBehaviour {
         {
             objectSlidersPrefab = Resources.Load("UI"+ System.IO.Path.DirectorySeparatorChar +"ObjectStatsSliders") as GameObject;
         }
-
-        objectController = this.gameObject.transform.parent.gameObject.GetComponent<ObjectController>();
+        combatStats = this.gameObject.transform.parent.gameObject.GetComponent<MapObjectCombatter>().combatStats;
+        
         objectCanvasGO = Instantiate(objectSlidersPrefab, this.gameObject.transform);
         objectStatsCanvas = objectCanvasGO.GetComponent<ObjectStatsCanvas>();
         camera = Camera.main;
@@ -36,8 +37,8 @@ public class ObjectStatsCanvasController : MonoBehaviour {
         //Try catch is used to prevent errors if the objectController.stats are still not set
         try
         {
-            objectStatsCanvas.HpSlider.value = (objectController.stats.HP * 100) / objectController.stats.maxHP;
-            objectStatsCanvas.ShieldSlider.value = (objectController.stats.Shields * 100) / objectController.stats.maxShields;
+            objectStatsCanvas.HpSlider.value = (combatStats.HP * 100) / combatStats.maxHP;
+            objectStatsCanvas.ShieldSlider.value = (combatStats.Shields * 100) / combatStats.maxShields;
         }
         catch
         {

@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114458489154120076}
   - component: {fileID: 114429018865032552}
   - component: {fileID: 64210900005109772}
+  - component: {fileID: 114053334942030218}
   m_Layer: 12
   m_Name: Asteroid 2
   m_TagString: Untagged
@@ -145,6 +146,19 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 4fc98ba1e54e0f64aa2c95885ef7026e, type: 3}
+--- !u!114 &114053334942030218
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1594913485753456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  mapObjectType: 0
 --- !u!114 &114429018865032552
 MonoBehaviour:
   m_ObjectHideFlags: 1
