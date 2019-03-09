@@ -2,8 +2,9 @@
 using UnityEngine;
 using Imperium.Persistence;
 using Imperium.Economy;
+using Imperium.Persistence.MapObjects;
 
-public class AsteroidController : MonoBehaviour, ISerializable<AsteroidPersistance>
+public class AsteroidController : MonoBehaviour, ISerializable<AsteroidControllerPersistance>
 {
 
     public delegate void onDestroyDelegate(ResourceType resourceType, GameObject gameObject);
@@ -52,18 +53,13 @@ public class AsteroidController : MonoBehaviour, ISerializable<AsteroidPersistan
         destroyObservers(this.resourceType, this.gameObject);    
     }
 
-    public AsteroidPersistance Serialize()
+    public AsteroidControllerPersistance Serialize()
     {
-        return new AsteroidPersistance(transform.position, transform.rotation, transform.localScale, resourceType, resourceQuantity);
+        return new AsteroidControllerPersistance(GetComponent<MapObject>().Serialize(), resourceQuantity, resourceType);
     }
 
-    public void SetObject(AsteroidPersistance serializedObject)
+    public void SetObject(AsteroidControllerPersistance serializedObject)
     {
-        this.transform.position = serializedObject.position;
-        this.transform.rotation = serializedObject.rotation;
-        this.transform.localScale = serializedObject.scale;
-
-        this.resourceType = serializedObject.resourceType;
-        this.resourceQuantity = serializedObject.resourceQuantity;
+        throw new System.NotImplementedException();
     }
 }

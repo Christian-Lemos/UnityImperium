@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Imperium.Economy;
 
-namespace Imperium.Persistence
+namespace Imperium.Persistence.MapObjects
 {
     [System.Serializable]
     public class AsteroidFieldAsteroidSettingsPersistance

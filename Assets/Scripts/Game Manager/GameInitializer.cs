@@ -22,7 +22,7 @@ public class GameInitializer : MonoBehaviour
         Instance = this;
         try
         {
-            gameSceneData = SceneManager.Instance.CurrentGameSceneData;
+            gameSceneData = SceneManager.Instance.currentGameSceneData;
         }
         catch
         {
@@ -51,14 +51,15 @@ public class GameInitializer : MonoBehaviour
 
         // GameObject asteroidField = Spawner.Instance.SpawnAsteroidField(AsteroidFieldAsteroidSettings.CreateDefaultSettings(), position, size, true);
         // asteroidField.GetComponent<AsteroidFieldController>().SpawnAsteroidsOnField(true);
-        foreach (AsteroidFieldPersistance asteroidFieldPersistance in gameSceneData.asteroidFields)
+        foreach (AsteroidFieldControllerPersistance asteroidFieldPersistance in gameSceneData.asteroidFields)
         {
             AsteroidFieldAsteroidSettings asteroidFieldAsteroidSettings = new AsteroidFieldAsteroidSettings();
             asteroidFieldAsteroidSettings.SetObject(asteroidFieldPersistance.AsteroidFieldAsteroidSettingsPersistance);
-            GameObject asteroidField = Spawner.Instance.SpawnAsteroidField(asteroidFieldAsteroidSettings, asteroidFieldPersistance.position, asteroidFieldPersistance.size, false);
+            GameObject asteroidField = Spawner.Instance.SpawnAsteroidField(asteroidFieldAsteroidSettings, asteroidFieldPersistance.mapObjectPersitance.localPosition, asteroidFieldPersistance.mapObjectPersitance.localScale, false);
 
             AsteroidFieldController asteroidFieldController = asteroidField.GetComponent<AsteroidFieldController>();
             asteroidFieldController.initialized = asteroidFieldPersistance.initialized;
+            asteroidFieldController.size  = asteroidFieldPersistance.size;
             asteroidField.SetActive(true);
 
             if (!asteroidFieldController.initialized)

@@ -29,18 +29,8 @@ public class GameMainMenu : MonoBehaviour {
 
     private void SaveGameHandler()
     {
-        BulletController[] bulletControllers = FindObjectsOfType<BulletController>();
-        List<BulletControllerPersistance> bulletControllerPersistances = new List<BulletControllerPersistance>();
-
-        foreach(BulletController bulletController in bulletControllers)
-        {
-            bulletControllerPersistances.Add(bulletController.Serialize());
-        }
-
-        GameSceneData current = SceneManager.Instance.CurrentGameSceneData;
-        current.players = PlayerDatabase.Instance.Serialize();
-        current.bulletControllerPersistances = bulletControllerPersistances;
-        PersistantDataManager.Instance.SaveGame(current);
+        SceneManager.Instance.UpdateCurrentSceneData();
+        PersistantDataManager.Instance.SaveGame(SceneManager.Instance.currentGameSceneData);
     }
 
     private void Start()

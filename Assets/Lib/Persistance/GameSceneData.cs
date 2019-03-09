@@ -9,13 +9,13 @@ namespace Imperium.Persistence
     [System.Serializable]
     public class GameSceneData
     {
-        public List<AsteroidFieldPersistance> asteroidFields;
+        public List<AsteroidFieldControllerPersistance> asteroidFields;
         public List<BulletControllerPersistance> bulletControllerPersistances;
         public Vector2 MapSize;
         public string Name;
         public List<PlayerPersistance> players;
 
-        public GameSceneData(string name, Vector2 mapSize, List<PlayerPersistance> players, List<AsteroidFieldPersistance> asteroidFields)
+        public GameSceneData(string name, Vector2 mapSize, List<PlayerPersistance> players, List<AsteroidFieldControllerPersistance> asteroidFields)
         {
             Name = name;
             MapSize = mapSize;
@@ -23,7 +23,7 @@ namespace Imperium.Persistence
             this.players = players;
         }
 
-        public GameSceneData(string name, Vector2 mapSize, List<PlayerPersistance> players, List<AsteroidFieldPersistance> asteroidFields, List<BulletControllerPersistance> bulletControllerPersistances)
+        public GameSceneData(string name, Vector2 mapSize, List<PlayerPersistance> players, List<AsteroidFieldControllerPersistance> asteroidFields, List<BulletControllerPersistance> bulletControllerPersistances)
         {
             Name = name;
             MapSize = mapSize;
@@ -59,7 +59,7 @@ namespace Imperium.Persistence
 
             List<ShipControllerPersistance> player2Ships = new List<ShipControllerPersistance>()
             {
-                new ShipControllerPersistance(ShipFactory.getInstance().CreateShip(ShipType.MotherShip), ShipType.MotherShip, new MapObjectPersitance(1, new Vector3(15, 0, 20), new Vector3(1, 1, 1), Quaternion.identity), new Navigation.FleetCommandQueue().Serialize())
+                new ShipControllerPersistance(ShipFactory.getInstance().CreateShip(ShipType.MotherShip), ShipType.MotherShip, new MapObjectPersitance(2, new Vector3(15, 0, 20), new Vector3(1, 1, 1), Quaternion.identity), new Navigation.FleetCommandQueue().Serialize())
             };
 
             ///////////////////////////////////////////END///////////////////////////////////////////////////////
@@ -72,9 +72,9 @@ namespace Imperium.Persistence
 
             AsteroidFieldAsteroidSettings asteroidFieldAsteroidSettings = AsteroidFieldAsteroidSettings.CreateDefaultSettings();
 
-            AsteroidFieldPersistance middleAsteroidField = new AsteroidFieldPersistance(asteroidFieldAsteroidSettings.Serialize(), new List<AsteroidPersistance>(), new Vector3(0, 0, 0), new Vector3(15, 3, 15), false);
+            AsteroidFieldControllerPersistance middleAsteroidField = new AsteroidFieldControllerPersistance(asteroidFieldAsteroidSettings.Serialize(), new List<AsteroidControllerPersistance>(), false, new MapObjectPersitance(3, new Vector3(0,0,0), new Vector3(1,1,1), Quaternion.identity), new Vector3(15,3,15));
 
-            return new GameSceneData("New Game", new Vector2(40, 50), players, new List<AsteroidFieldPersistance>() { middleAsteroidField });
+            return new GameSceneData("New Game", new Vector2(40, 50), players, new List<AsteroidFieldControllerPersistance>() { middleAsteroidField });
         }
     }
 }

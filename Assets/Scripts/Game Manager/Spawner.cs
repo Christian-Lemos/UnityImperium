@@ -161,14 +161,14 @@ public class Spawner : MonoBehaviour
         Instance = this;
     }
 
-    private long CreateID()
+    public long CreateID()
     {
         long id = nextId;
         nextId++;
         return id;
     }
 
-    private void SetMapObjectChildrenID(GameObject @object)
+    public void SetMapObjectChildrenID(GameObject @object)
     {
         MapObject[] mapObjects = @object.GetComponentsInChildren<MapObject>();
         foreach (MapObject mapObject in mapObjects)

@@ -1,11 +1,12 @@
 ﻿using Imperium.Economy;
 using Imperium.MapObjects;
 using Imperium.Persistence;
+using Imperium.Persistence.MapObjects;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AsteroidFieldController : MonoBehaviour, ISerializable<AsteroidFieldPersistance>
+public class AsteroidFieldController : MonoBehaviour, ISerializable<AsteroidFieldControllerPersistance>
 {
     public AsteroidFieldAsteroidSettings asteroidFieldAsteroidSettings;
     public bool initialized = false;
@@ -38,9 +39,9 @@ public class AsteroidFieldController : MonoBehaviour, ISerializable<AsteroidFiel
         }
     }
 
-    public AsteroidFieldPersistance Serialize()
+    public AsteroidFieldControllerPersistance Serialize()
     {
-        List<AsteroidPersistance> asteroidPersistances = new List<AsteroidPersistance>();
+        List<AsteroidControllerPersistance> asteroidPersistances = new List<AsteroidControllerPersistance>();
 
         foreach (KeyValuePair<ResourceType, HashSet<GameObject>> keyValuePair in _asteroids)
         {
@@ -50,26 +51,12 @@ public class AsteroidFieldController : MonoBehaviour, ISerializable<AsteroidFiel
             }
         }
 
-        return new AsteroidFieldPersistance(asteroidFieldAsteroidSettings.Serialize(), asteroidPersistances, transform.position, size, initialized);
+        return new AsteroidFieldControllerPersistance(asteroidFieldAsteroidSettings.Serialize(), asteroidPersistances, initialized, GetComponent<MapObject>().Serialize(), size);
     }
 
-    public void SetObject(AsteroidFieldPersistance serializedObject)
+    public void SetObject(AsteroidFieldControllerPersistance serializedObject)
     {
-        asteroidFieldAsteroidSettings = new AsteroidFieldAsteroidSettings();
-        asteroidFieldAsteroidSettings.SetObject(serializedObject.AsteroidFieldAsteroidSettingsPersistance);
-
-        size = serializedObject.size;
-        transform.position = serializedObject.position;
-        initialized = serializedObject.initialized;
-
-        foreach (AsteroidPersistance asteroidPersistance in serializedObject.asteroids)
-        {
-            GameObject asteroid = SpawnAsteroid(asteroidPersistance.resourceType, asteroidPersistance.position, false);
-
-            asteroid.GetComponent<AsteroidController>().SetObject(asteroidPersistance);
-
-            asteroid.SetActive(true);
-        }
+        throw new System.NotImplementedException();
     }
 
     public GameObject SpawnAsteroid(ResourceType resourceType, Vector3 position, bool setActive)
@@ -170,9 +157,5 @@ public class AsteroidFieldController : MonoBehaviour, ISerializable<AsteroidFiel
 
             _asteroids[resourceType].Add(asteroidController.gameObject);
         }
-    }
-
-    private void Start()
-    {
     }
 }

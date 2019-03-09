@@ -178,7 +178,7 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
         List<PlayerPersistance> playerPersistances = new List<PlayerPersistance>();
         for(int i = 0; i < playerResources.Count; i++)
         {
-            PlayerType playerType = SceneManager.Instance.CurrentGameSceneData.players[i].playerType;
+            PlayerType playerType = SceneManager.Instance.currentGameSceneData.players[i].playerType;
             List<ShipControllerPersistance> shipControllerPersistances = new List<ShipControllerPersistance>();
             List<ResourcePersistance> resourcePersistances = new List<ResourcePersistance>();
             List<StationControllerPersistance> stationControllerPersistances = new List<StationControllerPersistance>();
@@ -201,7 +201,7 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
                resourcePersistances.Add(new ResourcePersistance(keyValuePair.Key, keyValuePair.Value));
             }
             
-            playerPersistances.Add(new PlayerPersistance( SceneManager.Instance.CurrentGameSceneData.players[i].playerNumber, playerType, resourcePersistances, shipControllerPersistances, stationControllerPersistances));
+            playerPersistances.Add(new PlayerPersistance( SceneManager.Instance.currentGameSceneData.players[i].playerNumber, playerType, resourcePersistances, shipControllerPersistances, stationControllerPersistances));
             
         }
         return playerPersistances;

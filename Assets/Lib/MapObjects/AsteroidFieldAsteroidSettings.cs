@@ -1,5 +1,6 @@
 ﻿using Imperium.Economy;
 using Imperium.Persistence;
+using Imperium.Persistence.MapObjects;
 using System.Collections.Generic;
 
 namespace Imperium.MapObjects
