@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Imperium.Misc;
+using UnityEngine;
 
 [RequireComponent(typeof(ShipController))]
 [RequireComponent(typeof(ResourceStorageController))]
@@ -12,11 +13,7 @@ public class MineController : MonoBehaviour
     private AsteroidController asteroidController;
 
     [SerializeField]
-    private float miningTimer;
-
-    [SerializeField]
-    private bool miningTimerSet;
-
+    private Timer miningTimer;
     private ResourceStorageController resourceStorageController;
 
     public int MiningExtractionQuantity
@@ -35,24 +32,11 @@ public class MineController : MonoBehaviour
         }
     }
 
-    public float MiningInterval
-    {
-        get
-        {
-            return miningInterval;
-        }
-
-        set
-        {
-            miningInterval = value;
-        }
-    }
-
     public void StartMining(GameObject asteroid)
     {
         asteroidController = asteroid.GetComponent<AsteroidController>();
         isMining = true;
-        miningTimerSet = true;
+        miningTimer.timerSet = true;
     }
 
     public void StopMining()
@@ -76,36 +60,28 @@ public class MineController : MonoBehaviour
         asteroidController.ResourceQuantity -= extractQuantity;
     }
 
-    private void Update()
+    private void Mine()
     {
-        MiningStateControl();
-    }
+        miningTimer.ResetTimer();
 
-    private void MiningStateControl()
-    {
-        if (miningTimerSet)
+        if (isMining && asteroidController != null)
         {
-            miningTimer -= Time.deltaTime; //Change to Time.fixedDeltaTime if used in void FixedUpdate().
-
-            if (miningTimer <= 0)
-            {
-                miningTimer = MiningInterval;
-
-                if (isMining && asteroidController != null)
-                {
-                    ExtractResources();
-                }
-                else
-                {
-                    miningTimerSet = false;
-                }
-            }
+            ExtractResources();
+        }
+        else
+        {
+            miningTimer.timerSet = false;
         }
     }
 
     private void Start()
     {
         resourceStorageController = GetComponent<ResourceStorageController>();
-        miningTimer = MiningInterval;
+        miningTimer = new Timer(miningInterval, false, Mine);
+    }
+
+    private void Update()
+    {
+        miningTimer.Execute();
     }
 }

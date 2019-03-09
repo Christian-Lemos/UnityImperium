@@ -1,71 +1,64 @@
 ﻿using Imperium.MapObjects;
-using System.Collections;
-using UnityEngine;
+using Imperium.Misc;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
+using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(MapObject))]
 [RequireComponent(typeof(AudioSource))]
 [DisallowMultipleComponent]
 public class TurretController : MonoBehaviour, ISerializable<TurretControllerPersistance>
 {
+    public Turret turret;
+
     private GameObject @object;
+
     private AudioSource audioSource;
+
     private IEnumerator fireCoroutine;
+
     private GameObject firePriority;
-    private bool isFiring = false;
+
+    [SerializeField]
+    private Timer fireTimer;
+
+    private bool isReloading = false;
+
+    private GameObject target;
 
     [SerializeField]
     private TurretType turretType;
 
-    public Turret turret;
-    // Station or Ship
-
     public void Fire(GameObject target)
     {
-        if (!isFiring)
-        {
-            if (fireCoroutine != null)
-            {
-                StopCoroutine(fireCoroutine);
-            }
-
-            fireCoroutine = FireSequence(target);
-            StartCoroutine(fireCoroutine);
-        }
+        this.target = target;
     }
 
-    public void SetFirePriority(GameObject target)  
+    public TurretControllerPersistance Serialize()
+    {
+        long targetId = target != null ? target.GetComponent<MapObject>().id : -1;
+        long firePriorityId = firePriority != null ? firePriority.GetComponent<MapObject>().id : -1;
+
+        return new TurretControllerPersistance(targetId, firePriorityId, isReloading, GetComponent<MapObject>().Serialize(), this.fireTimer, turret, turretType);
+    }
+
+    public void SetFirePriority(GameObject target)
     {
         firePriority = target;
     }
 
-    private IEnumerator FireSequence(GameObject target)
+    public void SetObject(TurretControllerPersistance serializedObject)
     {
-        if (target == null)
-        {
-            isFiring = false;
-        }
-        else if (firePriority != null && Vector3.Distance(transform.position, firePriority.transform.position) <= turret.range)
-        {
-            FireBullet(firePriority);
-        }
-        else if (Vector3.Distance(transform.position, target.transform.position) <= turret.range)
-        {
-            FireBullet(target);
-        }
-        yield return new WaitForSeconds(turret.fireRate);
-        isFiring = false;
-        StopCoroutine(fireCoroutine);
+        throw new System.NotImplementedException();
     }
 
     private void FireBullet(GameObject target)
     {
-        isFiring = true;
         Quaternion desRotation = Quaternion.LookRotation(target.transform.position - transform.position, Vector3.up);
 
         GameObject bullet = Spawner.Instance.SpawnBullet(turret.bullet.prefab, transform.position, desRotation);
-
+        turret.fireRate = 0.0000001f;
         bullet.GetComponent<BulletController>().Initiate(@object, turret.bullet);
         audioSource.Play();
     }
@@ -82,22 +75,41 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         }
     }
 
+    private void ReloadControl()
+    {
+        isReloading = false;
+        fireTimer.timerSet = false;
+        fireTimer.ResetTimer();
+    }
+
     private void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
         turret = TurretFactory.getInstance().CreateTurret(turretType);
+
+        fireTimer = new Timer(turret.fireRate, false, ReloadControl);
         @object = transform.parent.gameObject;
     }
 
-    public TurretControllerPersistance Serialize()
+    private void Update()
     {
-        long firePriorityId = firePriority != null ? firePriority.GetComponent<MapObject>().id : -1;
+        if (!isReloading)
+        {
+            if (firePriority != null && Vector3.Distance(transform.position, firePriority.transform.position) <= turret.range)
+            {
+                FireBullet(firePriority);
+            }
+            else if (target != null && Vector3.Distance(transform.position, target.transform.position) <= turret.range)
+            {
+                FireBullet(target);
+            }
+            isReloading = true;
+            fireTimer.timerSet = true;
+        }
 
-        return new TurretControllerPersistance(firePriorityId, isFiring, GetComponent<MapObject>().Serialize(), turret, turretType);
-    }
-
-    public void SetObject(TurretControllerPersistance serializedObject)
-    {
-        throw new System.NotImplementedException();
+        if (isReloading)
+        {
+            fireTimer.Execute();
+        }
     }
 }

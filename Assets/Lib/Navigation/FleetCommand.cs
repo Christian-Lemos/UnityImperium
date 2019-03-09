@@ -1,10 +1,9 @@
 ﻿using Imperium.Persistence;
-using Imperium.Persistence.MapObjects;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Imperium.Navigation
 {
+    [System.Serializable]
     public abstract class FleetCommand : ISerializable<FleetCommandPersistance>
     {
         public Vector3 destination;

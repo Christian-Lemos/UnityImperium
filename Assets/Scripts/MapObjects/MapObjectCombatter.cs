@@ -31,9 +31,6 @@ public class MapObjectCombatter : MonoBehaviour
 
     public void FireAtClosestTarget()
     {
-        // Debug.Log(this.gameObject);
-        //Debug.Log(this.gameObject.transform);
-        //Debug.Log(statsfireLayer
         Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, combatStats.FieldOfViewDistance, fireLayer);
         GameObject closestTarget = null;
         float closestDistance = 0f;
