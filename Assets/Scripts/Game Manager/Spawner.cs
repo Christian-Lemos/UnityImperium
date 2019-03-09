@@ -69,7 +69,7 @@ public class Spawner : MonoBehaviour
 
     public GameObject SpawnBullet(long id, GameObject prefab, Vector3 position, Quaternion rotation)
     {
-        GameObject bullet = Instantiate(prefab, transform.position, rotation);
+        GameObject bullet = Instantiate(prefab, position, rotation);
         bullet.GetComponent<MapObject>().id = id;
         return bullet;
     }

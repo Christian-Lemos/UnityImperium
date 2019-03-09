@@ -48,25 +48,26 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         }
         else if (firePriority != null && Vector3.Distance(transform.position, firePriority.transform.position) <= turret.range)
         {
-            isFiring = true;
-            Quaternion desRotation = Quaternion.LookRotation(firePriority.transform.position - transform.position, Vector3.up);
-            GameObject bullet = Instantiate(turret.bullet.prefab, transform.position, desRotation);
-
-            bullet.GetComponent<BulletController>().Initiate(@object, turret.bullet);
-            audioSource.Play();
+            FireBullet(firePriority);
         }
         else if (Vector3.Distance(transform.position, target.transform.position) <= turret.range)
         {
-            isFiring = true;
-            Quaternion desRotation = Quaternion.LookRotation(target.transform.position - transform.position, Vector3.up);
-            GameObject bullet = Instantiate(turret.bullet.prefab, transform.position, desRotation);
-
-            bullet.GetComponent<BulletController>().Initiate(@object, turret.bullet);
-            audioSource.Play();
+            FireBullet(target);
         }
         yield return new WaitForSeconds(turret.fireRate);
         isFiring = false;
         StopCoroutine(fireCoroutine);
+    }
+
+    private void FireBullet(GameObject target)
+    {
+        isFiring = true;
+        Quaternion desRotation = Quaternion.LookRotation(target.transform.position - transform.position, Vector3.up);
+
+        GameObject bullet = Spawner.Instance.SpawnBullet(turret.bullet.prefab, transform.position, desRotation);
+
+        bullet.GetComponent<BulletController>().Initiate(@object, turret.bullet);
+        audioSource.Play();
     }
 
     private void OnDrawGizmoS()
