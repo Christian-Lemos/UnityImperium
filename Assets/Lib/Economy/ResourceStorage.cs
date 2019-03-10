@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using UnityEngine;
 namespace Imperium.Economy
 {
-    [System.Serializable]
     public class ResourceStorage
     {
         public ResourceStorage(uint maximumResourcesStorage)
         {
-            MaximumResourcesStorage = maximumResourcesStorage;
+            this.maximumResourcesStorage = maximumResourcesStorage;
             Storage = new Dictionary<ResourceType, uint>();
             Array values = System.Enum.GetValues(typeof(ResourceType));
 
@@ -16,6 +15,8 @@ namespace Imperium.Economy
             {
                 Storage.Add(resourceType, 0);
             }
+
+            
         }
 
         public ResourceStorage(uint maximumResourcesStorage, Dictionary<ResourceType, uint> storage) : this(maximumResourcesStorage)
@@ -23,7 +24,7 @@ namespace Imperium.Economy
             Storage = storage;
         }
 
-        public uint MaximumResourcesStorage { get; set; }
+        public uint maximumResourcesStorage;
         public Dictionary<ResourceType, uint> Storage { get; set; }
 
         public void Add(ResourceType resourceType, uint quantity)
@@ -36,7 +37,7 @@ namespace Imperium.Economy
 
         public uint GetRemainingStorage()
         {
-            uint remainingStorage = MaximumResourcesStorage;
+            uint remainingStorage = maximumResourcesStorage;
             foreach (KeyValuePair<ResourceType, uint> keyValue in Storage)
             {
                 remainingStorage -= keyValue.Value;
@@ -51,7 +52,7 @@ namespace Imperium.Economy
 
         public bool IsEmpty()
         {
-            return GetRemainingStorage() == MaximumResourcesStorage;
+            return GetRemainingStorage() == maximumResourcesStorage;
         }
 
         public bool IsFull()

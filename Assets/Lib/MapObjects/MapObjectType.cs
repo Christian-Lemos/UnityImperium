@@ -5,6 +5,6 @@ namespace Imperium.MapObjects
 {
     public enum MapObjectType
     {
-        Ship, Station, Bullet, Asteroid
+        Ship, Station, Bullet, Asteroid, Turret
     }
 }

@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 4137087662361508}
   - component: {fileID: 114978533330674054}
   - component: {fileID: 82261139197968870}
+  - component: {fileID: 114452995475414430}
   m_Layer: 0
   m_Name: Turret1
   m_TagString: Untagged
@@ -316,6 +317,19 @@ MonoBehaviour:
     speed: 0
   shipType: 0
   stationConstructor: {fileID: 0}
+--- !u!114 &114452995475414430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1849178827207046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  mapObjectType: 4
 --- !u!114 &114683724543101486
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -351,4 +365,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5528aedadc77194bb7cc8fe0c2699b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turret:
+    accuracy: 0
+    bullet:
+      bulletPrefabName: 
+      damage: 0
+      prefab: {fileID: 0}
+      speed: 0
+    fireRate: 0
+    range: 0
+  fireTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
   turretType: 0

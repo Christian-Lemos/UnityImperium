@@ -30,7 +30,7 @@ namespace Imperium.Navigation
             }
             else
             {
-                if (stationConstructor.Building == false)
+                if (stationConstructor.building == false)
                 {
                     stationConstructor.StartBuilding(base.target.gameObject);
                 }

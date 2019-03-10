@@ -3,6 +3,7 @@ using Imperium.MapObjects;
 using System.Collections;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
+using System.Collections.Generic;
 
 public class MapObject : MonoBehaviour, ISerializable<MapObjectPersitance>
 {
@@ -19,6 +20,30 @@ public class MapObject : MonoBehaviour, ISerializable<MapObjectPersitance>
         catch
         {
         }
+    }
+
+    public static MapObject FindByID(long id)
+    {
+        MapObject[] mapObjects = GameObject.FindObjectsOfType<MapObject>();
+
+        foreach(MapObject mapObject in mapObjects)
+        {
+            if(mapObject.id == id)
+            {
+                return mapObject;
+            }
+        }
+        return null;
+    }
+
+    public static long GetID(MonoBehaviour monoBehaviour)
+    {
+        return GetID(monoBehaviour.gameObject);
+    }
+
+    public static long GetID(GameObject gameObject)
+    {
+        return gameObject.GetComponent<MapObject>().id;
     }
 
     public MapObjectPersitance Serialize()

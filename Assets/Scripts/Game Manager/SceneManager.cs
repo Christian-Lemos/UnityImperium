@@ -53,6 +53,8 @@ public class SceneManager : MonoBehaviour
 
         currentGameSceneData.players = PlayerDatabase.Instance.Serialize();
         currentGameSceneData.asteroidFields = asteroidFieldPersistances;
+        currentGameSceneData.shipConstructionManagerPersistance = ShipConstructionManager.Instance.Serialize();
+        
         currentGameSceneData.bulletControllerPersistances = bulletControllerPersistances;
     }
 

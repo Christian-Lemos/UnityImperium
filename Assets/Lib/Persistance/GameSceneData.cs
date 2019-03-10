@@ -14,6 +14,7 @@ namespace Imperium.Persistence
         public Vector2 MapSize;
         public string Name;
         public List<PlayerPersistance> players;
+        public ShipConstructionManagerPersistance shipConstructionManagerPersistance;
 
         public GameSceneData(string name, Vector2 mapSize, List<PlayerPersistance> players, List<AsteroidFieldControllerPersistance> asteroidFields)
         {

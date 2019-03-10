@@ -8,8 +8,8 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class StationConstructor : MonoBehaviour
 {
-    public bool Building;
-    public int ConstructionRate;
+    public bool building;
+    public int constructionRate;
     public List<StationConstruction> stationConstructions;
     private IEnumerator buildingCoroutine;
 
@@ -46,22 +46,22 @@ public class StationConstructor : MonoBehaviour
 
     public void StartBuilding(GameObject station)
     {
-        if (Building)
+        if (building)
         {
             StopCoroutine(buildingCoroutine);
         }
 
         buildingCoroutine = BuildingEnumerator(station.GetComponent<StationController>());
-        Building = true;
+        building = true;
         StartCoroutine(buildingCoroutine);
     }
 
     public void StopBuilding()
     {
-        if (Building)
+        if (building)
         {
             StopCoroutine(buildingCoroutine);
-            Building = false;
+            building = false;
         }
     }
 
@@ -70,9 +70,9 @@ public class StationConstructor : MonoBehaviour
         while (stationController.constructed == false)
         {
             yield return new WaitForSeconds(1f);
-            stationController.AddConstructionProgress(ConstructionRate);
+            stationController.AddConstructionProgress(constructionRate);
         }
-        Building = false;
+        building = false;
     }
 
     private Dictionary<ResourceType, int> GetStationConstructionResources(StationConstruction construction)

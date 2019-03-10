@@ -1,9 +1,10 @@
 ﻿using Imperium.Economy;
+using Imperium.Persistence;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipConstructionManager : MonoBehaviour
+public class ShipConstructionManager : MonoBehaviour, ISerializable<ShipConstructionManagerPersistance>
 {
     private Dictionary<ShipConstructor, OnGoingShipConstruction> shipConstructions = new Dictionary<ShipConstructor, OnGoingShipConstruction>();
 
@@ -15,7 +16,7 @@ public class ShipConstructionManager : MonoBehaviour
         if (!shipConstructions.ContainsKey(target))
         {
             OnGoingShipConstruction onGoingShipConstruction = new OnGoingShipConstruction(target);
-            onGoingShipConstruction.ShipConstructions.Add(shipConstructionCopy);
+            onGoingShipConstruction.shipConstructions.Add(shipConstructionCopy);
 
             IEnumerator enumerator = ConstructionCoroutine(onGoingShipConstruction);
             onGoingShipConstruction.enumerator = enumerator;
@@ -26,8 +27,24 @@ public class ShipConstructionManager : MonoBehaviour
         }
         else
         {
-            shipConstructions[target].ShipConstructions.Add(shipConstructionCopy);
+            shipConstructions[target].shipConstructions.Add(shipConstructionCopy);
         }
+    }
+
+    public ShipConstructionManagerPersistance Serialize()
+    {
+        List<ShipConstructionManagerPersistance.Construction> constructions = new List<ShipConstructionManagerPersistance.Construction>();
+
+        foreach (KeyValuePair<ShipConstructor, OnGoingShipConstruction> keyValuePair in shipConstructions)
+        {
+            constructions.Add(new ShipConstructionManagerPersistance.Construction(MapObject.GetID(keyValuePair.Key), keyValuePair.Value));
+        }
+        return new ShipConstructionManagerPersistance(constructions);
+    }
+
+    public void SetObject(ShipConstructionManagerPersistance serializedObject)
+    {
+        throw new System.NotImplementedException();
     }
 
     private void Awake()
@@ -37,21 +54,21 @@ public class ShipConstructionManager : MonoBehaviour
 
     private IEnumerator ConstructionCoroutine(OnGoingShipConstruction onGoingShipConstruction)
     {
-        while (onGoingShipConstruction.ShipConstructions.Count != 0)
+        while (onGoingShipConstruction.shipConstructions.Count != 0)
         {
             if (onGoingShipConstruction.constructor == null)
             {
                 break;
             }
 
-            if (onGoingShipConstruction.ShipConstructions[0].constructionTime <= 0)
+            if (onGoingShipConstruction.shipConstructions[0].constructionTime <= 0)
             {
-                SpawnShipConstruction(onGoingShipConstruction.constructor, onGoingShipConstruction.ShipConstructions[0]);
-                onGoingShipConstruction.ShipConstructions.RemoveAt(0);
+                SpawnShipConstruction(onGoingShipConstruction.constructor, onGoingShipConstruction.shipConstructions[0]);
+                onGoingShipConstruction.shipConstructions.RemoveAt(0);
             }
             else
             {
-                onGoingShipConstruction.ShipConstructions[0].constructionTime--;
+                onGoingShipConstruction.shipConstructions[0].constructionTime--;
             }
 
             yield return new WaitForSeconds(1f);
@@ -68,16 +85,27 @@ public class ShipConstructionManager : MonoBehaviour
         Spawner.Instance.SpawnShip(shipConstruction.shipType, player, spawnPosition, Quaternion.identity);
     }
 
+    [System.Serializable]
     public class OnGoingShipConstruction
     {
         public ShipConstructor constructor;
         public IEnumerator enumerator;
-        public List<ShipConstruction> ShipConstructions;
+        public List<ShipConstruction> shipConstructions;
+
+        public long shipContructorID;
 
         public OnGoingShipConstruction(ShipConstructor constructor)
         {
             this.constructor = constructor;
-            ShipConstructions = new List<ShipConstruction>();
+            shipContructorID = constructor.gameObject.GetComponent<MapObject>().id;
+            shipConstructions = new List<ShipConstruction>();
+        }
+
+        public OnGoingShipConstruction(long id)
+        {
+            shipContructorID = id;
+            constructor = MapObject.FindByID(id).gameObject.GetComponent<ShipConstructor>();
+            shipConstructions = new List<ShipConstruction>();
         }
     }
 }
