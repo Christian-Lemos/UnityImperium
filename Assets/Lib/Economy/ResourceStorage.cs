@@ -73,5 +73,16 @@ namespace Imperium.Economy
                 Storage[resourceType] -= (uint)finalValue;
             }
         }
+
+        public List<ResourceQuantity> ToResourceQuantities()
+        {
+            List<ResourceQuantity> resourceQuantities = new List<ResourceQuantity>();
+
+            foreach(KeyValuePair<ResourceType, uint> keyValuePair in Storage)
+            {
+                resourceQuantities.Add(new ResourceQuantity((int) keyValuePair.Value, keyValuePair.Key));
+            }
+            return resourceQuantities;
+        }
     }
 }

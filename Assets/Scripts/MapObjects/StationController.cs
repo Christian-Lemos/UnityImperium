@@ -45,7 +45,7 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
         return new StationControllerPersistance(constructed, constructionProgress, GetComponent<MapObject>().Serialize(), station, stationType);
     }
 
-    public void SetObject(StationControllerPersistance serializedObject)
+    public ISerializable<StationControllerPersistance> SetObject(StationControllerPersistance serializedObject)
     {
         throw new System.NotImplementedException();
     }

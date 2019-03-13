@@ -1,9 +1,11 @@
 ﻿using Imperium.Misc;
+using Imperium.Persistence;
+using Imperium.Persistence.ShipModules;
 using UnityEngine;
 
 [RequireComponent(typeof(ShipController))]
 [RequireComponent(typeof(ResourceStorageController))]
-public class MineController : MonoBehaviour
+public class MineController : MonoBehaviour, ISerializable<MineControllerPersistance>
 {
     public bool isMining;
 
@@ -14,6 +16,7 @@ public class MineController : MonoBehaviour
 
     [SerializeField]
     private Timer miningTimer;
+
     private ResourceStorageController resourceStorageController;
 
     public int MiningExtractionQuantity
@@ -30,6 +33,16 @@ public class MineController : MonoBehaviour
                 miningExtractionQuantity = value;
             }
         }
+    }
+
+    public MineControllerPersistance Serialize()
+    {
+        return new MineControllerPersistance(isMining, miningExtractionQuantity, miningInterval, miningTimer);
+    }
+
+    public ISerializable<MineControllerPersistance> SetObject(MineControllerPersistance serializedObject)
+    {
+        throw new System.NotImplementedException();
     }
 
     public void StartMining(GameObject asteroid)

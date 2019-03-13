@@ -25,7 +25,7 @@ public class BulletController : MonoBehaviour, ISerializable<BulletControllerPer
         return new BulletControllerPersistance(bullet, initialized, GetComponent<MapObject>().Serialize(), source.GetComponent<MapObject>().id);
     }
 
-    public void SetObject(BulletControllerPersistance serializedObject)
+    public ISerializable<BulletControllerPersistance> SetObject(BulletControllerPersistance serializedObject)
     {
         throw new System.NotImplementedException();
     }

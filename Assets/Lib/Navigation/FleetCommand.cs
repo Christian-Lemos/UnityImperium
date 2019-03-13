@@ -1,4 +1,6 @@
 ﻿using Imperium.Persistence;
+using System;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace Imperium.Navigation
@@ -61,10 +63,9 @@ namespace Imperium.Navigation
             return new FleetCommandPersistance(destination, destinationOffset, source != null ? source.id : -1, target != null ? target.id : -1, commandType);
         }
 
-        public void SetObject(FleetCommandPersistance serializedObject)
+        public ISerializable<FleetCommandPersistance> SetObject(FleetCommandPersistance serializedObject)
         {
-            throw new System.NotImplementedException();
-        }   
-
+            throw new NotImplementedException();
+        }
     }
 }

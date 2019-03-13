@@ -81,8 +81,17 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
             turretControllerPersistances.Add(turretController.Serialize());
         }
 
-        return new ShipControllerPersistance(ship, shipType, GetComponent<MapObject>().Serialize(), fleetCommandQueue.Serialize(), turretControllerPersistances);
+        ShipControllerPersistance shipControllerPersistance = new ShipControllerPersistance(ship, shipType, GetComponent<MapObject>().Serialize(), fleetCommandQueue.Serialize(), turretControllerPersistances);
+
+        MineController mineController = GetComponent<MineController>();
+        ResourceStorageController resourceStorageController = GetComponent<ResourceStorageController>();
+
+        shipControllerPersistance.mineControllerPersistance = mineController != null ? mineController.Serialize() : null;
+        shipControllerPersistance.resourceStoragePersistance = resourceStorageController != null ? resourceStorageController.Serialize() : null;
+
+        return shipControllerPersistance;
     }
+
 
     public void SetIdle()
     {
@@ -90,7 +99,7 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
         fleetCommandQueue.loopFleetCommands = false;
     }
 
-    public void SetObject(ShipControllerPersistance serializedObject)
+    public ISerializable<ShipControllerPersistance> SetObject(ShipControllerPersistance serializedObject)
     {
         throw new System.NotImplementedException();
     }

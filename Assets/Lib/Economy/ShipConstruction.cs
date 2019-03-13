@@ -7,10 +7,10 @@ namespace Imperium.Economy
     public class ShipConstruction
     {
         public int constructionTime;
-        public List<ResourceCost> resourceCosts;
+        public List<ResourceQuantity> resourceCosts;
         public ShipType shipType;
 
-        public ShipConstruction(ShipType shipType, int constructionTime, List<ResourceCost> resourceCosts)
+        public ShipConstruction(ShipType shipType, int constructionTime, List<ResourceQuantity> resourceCosts)
         {
             this.shipType = shipType;
             this.constructionTime = constructionTime;

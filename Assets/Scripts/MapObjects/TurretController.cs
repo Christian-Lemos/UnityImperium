@@ -48,7 +48,7 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         firePriority = target;
     }
 
-    public void SetObject(TurretControllerPersistance serializedObject)
+    public ISerializable<TurretControllerPersistance> SetObject(TurretControllerPersistance serializedObject)
     {
         throw new System.NotImplementedException();
     }
@@ -58,7 +58,7 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         Quaternion desRotation = Quaternion.LookRotation(target.transform.position - transform.position, Vector3.up);
 
         GameObject bullet = Spawner.Instance.SpawnBullet(turret.bullet.prefab, transform.position, desRotation);
-        turret.fireRate = 0.0000001f;
+        turret.reloadTime = 0.0000001f;
         bullet.GetComponent<BulletController>().Initiate(@object, turret.bullet);
         audioSource.Play();
     }
@@ -87,7 +87,7 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         audioSource = gameObject.GetComponent<AudioSource>();
         turret = TurretFactory.getInstance().CreateTurret(turretType);
 
-        fireTimer = new Timer(turret.fireRate, false, ReloadControl);
+        fireTimer = new Timer(turret.reloadTime, false, ReloadControl);
         @object = transform.parent.gameObject;
     }
 

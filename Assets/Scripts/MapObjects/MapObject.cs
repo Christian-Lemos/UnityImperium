@@ -51,7 +51,7 @@ public class MapObject : MonoBehaviour, ISerializable<MapObjectPersitance>
         return new MapObjectPersitance(id, this.transform.position, this.transform.localScale, this.transform.rotation);
     }
 
-    public void SetObject(MapObjectPersitance serializedObject)
+    public ISerializable<MapObjectPersitance> SetObject(MapObjectPersitance serializedObject)
     {
         throw new System.NotImplementedException();
     }

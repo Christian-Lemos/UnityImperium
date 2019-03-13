@@ -57,7 +57,7 @@ namespace Imperium.MapObjects
             return new AsteroidFieldAsteroidSettingsPersistance(asteroidTypeQuantity, resourceQuantityOfResourceType);
         }
 
-        public void SetObject(AsteroidFieldAsteroidSettingsPersistance serializedObject)
+        public ISerializable<AsteroidFieldAsteroidSettingsPersistance> SetObject(AsteroidFieldAsteroidSettingsPersistance serializedObject)
         {
             foreach (AsteroidFieldAsteroidSettingsPersistance.ResourceNUint resourceNUint in serializedObject.asteroidTypeQuantity)
             {
@@ -68,6 +68,7 @@ namespace Imperium.MapObjects
             {
                 resourceQuantityOfResourceType.Add(resourceNUint.resourceType, resourceNUint.quantity);
             }
+            return this;
         }
     }
 }

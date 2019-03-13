@@ -54,7 +54,7 @@ public class AsteroidFieldController : MonoBehaviour, ISerializable<AsteroidFiel
         return new AsteroidFieldControllerPersistance(asteroidFieldAsteroidSettings.Serialize(), asteroidPersistances, initialized, GetComponent<MapObject>().Serialize(), size);
     }
 
-    public void SetObject(AsteroidFieldControllerPersistance serializedObject)
+    public ISerializable<AsteroidFieldControllerPersistance> SetObject(AsteroidFieldControllerPersistance serializedObject)
     {
         throw new System.NotImplementedException();
     }

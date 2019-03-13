@@ -6,10 +6,10 @@ namespace Imperium.Economy
     [System.Serializable]
     public class StationConstruction
     {
-        public List<ResourceCost> resourceCosts;
+        public List<ResourceQuantity> resourceCosts;
         public StationType stationType;
 
-        public StationConstruction(StationType stationType, List<ResourceCost> resourceCosts)
+        public StationConstruction(StationType stationType, List<ResourceQuantity> resourceCosts)
         {
             this.stationType = stationType;
             this.resourceCosts = resourceCosts;

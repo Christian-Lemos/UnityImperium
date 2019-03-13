@@ -42,7 +42,7 @@ public class ShipConstructionManager : MonoBehaviour, ISerializable<ShipConstruc
         return new ShipConstructionManagerPersistance(constructions);
     }
 
-    public void SetObject(ShipConstructionManagerPersistance serializedObject)
+    public ISerializable<ShipConstructionManagerPersistance> SetObject(ShipConstructionManagerPersistance serializedObject)
     {
         throw new System.NotImplementedException();
     }

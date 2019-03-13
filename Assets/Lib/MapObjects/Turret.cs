@@ -11,9 +11,9 @@
         public Bullet bullet;
 
         /// <summary>
-        /// How many bullets will the turret fire in 1 second?
+        /// How many secounds it takes for the turret to reload
         /// </summary>
-        public float fireRate;
+        public float reloadTime;
 
         /// <summary>
         /// What is the turret's max firing range?
@@ -27,13 +27,13 @@
         /// <summary>
         /// Creates a turret model used by turret controllers.
         /// </summary>
-        /// <param name="fireRate">The fire rate of the turret in shoot/second</param>
+        /// <param name="reloadTime">The fire rate of the turret in shoot/second</param>
         /// <param name="accuracy">The accuracy of the turret. Must be bettwen 1 and 100</param>
         /// <param name="range">What is the turret's max firing range?</param>
         /// <param name="bulletType">What type of bullet does the turret fire?</param>
-        public Turret(float fireRate, int accuracy, float range, BulletType bulletType)
+        public Turret(float reloadTime, int accuracy, float range, BulletType bulletType)
         {
-            this.fireRate = fireRate;
+            this.reloadTime = reloadTime;
             this.accuracy = accuracy;
             this.range = range;
             bullet = BulletFactory.getInstance().CreateBullet(bulletType);

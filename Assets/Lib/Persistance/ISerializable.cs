@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
-namespace Imperium.Persistence
+﻿namespace Imperium.Persistence
 {
-    public interface ISerializable<T>
+    public interface ISerializable<T> where T : class
     {
         T Serialize();
-        void SetObject(T serializedObject);
+
+        ISerializable<T> SetObject(T serializedObject);
     }
 }
-

@@ -207,7 +207,7 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
         return playerPersistances;
     }
 
-    public void SetObject(List<PlayerPersistance> serializedObject)
+    public ISerializable<List<PlayerPersistance>> SetObject(List<PlayerPersistance> serializedObject)
     {
         throw new System.NotImplementedException();
     }

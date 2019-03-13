@@ -58,7 +58,7 @@ public class AsteroidController : MonoBehaviour, ISerializable<AsteroidControlle
         return new AsteroidControllerPersistance(GetComponent<MapObject>().Serialize(), resourceQuantity, resourceType);
     }
 
-    public void SetObject(AsteroidControllerPersistance serializedObject)
+    public ISerializable<AsteroidControllerPersistance> SetObject(AsteroidControllerPersistance serializedObject)
     {
         throw new System.NotImplementedException();
     }
