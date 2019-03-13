@@ -17,14 +17,15 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
     private AudioSource audioSource;
 
     private IEnumerator fireCoroutine;
-
+    [SerializeField]
     private GameObject firePriority;
 
     [SerializeField]
     private Timer fireTimer;
 
     private bool isReloading = false;
-
+    
+    [SerializeField]
     private GameObject target;
 
     [SerializeField]
@@ -61,6 +62,8 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         turret.reloadTime = 0.0000001f;
         bullet.GetComponent<BulletController>().Initiate(@object, turret.bullet);
         audioSource.Play();
+        isReloading = true;
+        fireTimer.timerSet = true;
     }
 
     private void OnDrawGizmoS()
@@ -103,8 +106,7 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
             {
                 FireBullet(target);
             }
-            isReloading = true;
-            fireTimer.timerSet = true;
+            
         }
 
         if (isReloading)
