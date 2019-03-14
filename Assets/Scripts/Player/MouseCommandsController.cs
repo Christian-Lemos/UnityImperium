@@ -39,7 +39,7 @@ public class MouseCommandsController : MonoBehaviour
     {
         foreach (GameObject go in selectedGOs)
         {
-            if(go == null)
+            if (go == null)
             {
                 continue;
             }
@@ -73,11 +73,10 @@ public class MouseCommandsController : MonoBehaviour
                         //Moves all the selected ships
                         foreach (GameObject go in selectedGOs)
                         {
-                            if(go == null)
+                            if (go == null)
                             {
                                 continue;
                             }
-
                             ShipController shipController = go.GetComponent<ShipController>();
 
                             if (shipController != null)
@@ -168,7 +167,7 @@ public class MouseCommandsController : MonoBehaviour
                     ClearSelectedGOList();
                 }
 
-                foreach (GameObject go in selectedGOs)
+                /*foreach (GameObject go in selectedGOs)
                 {
                     CombatStatsCanvasController combatStatsCanvasController = go.GetComponent<CombatStatsCanvasController>();
 
@@ -176,7 +175,7 @@ public class MouseCommandsController : MonoBehaviour
                     {
                         combatStatsCanvasController.SetActive(true);
                     }
-                }
+                }*/
             }
             ShowConstructionOptions();
         }
@@ -199,8 +198,10 @@ public class MouseCommandsController : MonoBehaviour
             Vector3 spawnPosition = stationConstructor.gameObject.transform.position;
 
             GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
-            station.GetComponentInChildren<CombatStatsCanvasController>().gameObject.SetActive(false);
+
             Destroy(station.GetComponent<StationController>());
+            Destroy(station.GetComponent<MapObjectCombatter>());
+            Destroy(station.GetComponent<CombatStatsCanvasController>());
 
             TurretController[] turretControllers = station.GetComponentsInChildren<TurretController>();
             foreach (TurretController turretController in turretControllers)

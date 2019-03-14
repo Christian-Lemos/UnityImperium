@@ -4,6 +4,11 @@ using UnityEngine.UI;
 
 public class CombatStatsCanvasController : MonoBehaviour
 {
+    private bool active;
+
+    [SerializeField]
+    private Vector3 combatCanvasPositionOffset;
+
     [SerializeField]
     private GameObject combatCanvasPrebab;
 
@@ -11,18 +16,15 @@ public class CombatStatsCanvasController : MonoBehaviour
     private float combatCanvasScale;
 
     [SerializeField]
-    private Vector3 combatCanvasPositionOffset;
-
-    [SerializeField]
     private CombatStats combatStats;
 
     [SerializeField]
     private Image hp;
+
+    private bool mouseOver;
+
     [SerializeField]
     private Image shields;
-
-
-    private bool active;
 
     public void SetActive(bool active)
     {
@@ -30,6 +32,21 @@ public class CombatStatsCanvasController : MonoBehaviour
 
         hp.gameObject.transform.parent.gameObject.SetActive(active);
         shields.gameObject.transform.parent.gameObject.SetActive(active);
+    }
+
+    private void OnMouseEnter()
+    {
+        mouseOver = true;
+    }
+
+    private void OnMouseExit()
+    {
+        mouseOver = false;
+
+        if (!MouseCommandsController.Instance.selectedGOs.Contains(gameObject))
+        {
+            SetActive(false);
+        }
     }
 
     private void Start()
@@ -40,8 +57,7 @@ public class CombatStatsCanvasController : MonoBehaviour
 
         combatCanvasGO.transform.localPosition = combatCanvasPositionOffset;
 
-
-        combatStats = this.gameObject.GetComponent<MapObjectCombatter>().combatStats;
+        combatStats = gameObject.GetComponent<MapObjectCombatter>().combatStats;
 
         CombatStatsCanvas combatCanvas = combatCanvasGO.GetComponent<CombatStatsCanvas>();
 
@@ -52,25 +68,25 @@ public class CombatStatsCanvasController : MonoBehaviour
 
     private void Update()
     {
-        if(active)
+        if (active)
         {
             hp.fillAmount = (float)combatStats.HP / combatStats.maxHP;
             shields.fillAmount = (float)combatStats.Shields / combatStats.maxShields;
         }
-    }
 
-    private void OnMouseOver()
-    {
-        SetActive(true);
-        
-    }
-    private void OnMouseExit()
-    {
-        if(!MouseCommandsController.Instance.selectedGOs.Contains(this.gameObject))
+        if (MouseCommandsController.Instance.selectedGOs.Contains(gameObject) || mouseOver)
         {
-            SetActive(false);
+            if (!active)
+            {
+                SetActive(true);
+            }
+        }
+        else
+        {
+            if (active)
+            {
+                SetActive(false);
+            }
         }
     }
-
-
 }

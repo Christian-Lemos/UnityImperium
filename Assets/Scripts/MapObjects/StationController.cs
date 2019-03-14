@@ -68,6 +68,9 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
         {
             station.combatStats.Shields = 0;
         }
+
+        mapObjectCombatter = GetComponent<MapObjectCombatter>();
+        mapObjectCombatter.combatStats = station.combatStats;
     }
 
     private void Update()

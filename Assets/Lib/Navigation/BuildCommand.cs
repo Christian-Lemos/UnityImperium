@@ -16,30 +16,33 @@ namespace Imperium.Navigation
 
         public override void ExecuteCommand()
         {
-            base.destination = base.target.transform.position;
+            if(base.target != null)
+            {
+                base.destination = base.target.transform.position;
 
-            float distance = Vector3.Distance(base.destination, base.source.transform.position);
+                float distance = Vector3.Distance(base.destination, base.source.transform.position);
 
-            if (distance > base.destinationOffset)
-            {
-                sourceShipController.MoveControl(base.destination);
-            }
-            else if (targetStationController.constructed == true)
-            {
-                stationConstructor.StopBuilding();
-            }
-            else
-            {
-                if (stationConstructor.building == false)
+                if (distance > base.destinationOffset)
                 {
-                    stationConstructor.StartBuilding(base.target.gameObject);
+                    sourceShipController.MoveControl(base.destination);
+                }
+                else if (targetStationController.constructed == true)
+                {
+                    stationConstructor.StopBuilding();
+                }
+                else
+                {
+                    if (stationConstructor.building == false)
+                    {
+                        stationConstructor.StartBuilding(base.target.gameObject);
+                    }
                 }
             }
         }
 
         public override bool IsFinished()
         {
-            return targetStationController.constructed == true;
+            return base.target == null || targetStationController.constructed == true;
         }
 
         public override void OnRemoved()
