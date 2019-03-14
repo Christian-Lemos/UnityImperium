@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 114314809407518032}
   - component: {fileID: 114590540281583696}
   - component: {fileID: 114490613920568846}
+  - component: {fileID: 114769972726594864}
   m_Layer: 11
   m_Name: Test Station
   m_TagString: Untagged
@@ -525,6 +526,21 @@ MonoBehaviour:
     timerSet: 0
   target: {fileID: 0}
   turretType: 0
+--- !u!114 &114769972726594864
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1249487277988724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75d764521196bf409ba4e26093b2057, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: {x: 0, y: 0, z: 0}
+  progressCanvasPrefab: {fileID: 1907502856949014, guid: 4b4e50f80f464c44b84e91b45119f6ef,
+    type: 2}
+  scale: 0.1
 --- !u!114 &114988745003096032
 MonoBehaviour:
   m_ObjectHideFlags: 1

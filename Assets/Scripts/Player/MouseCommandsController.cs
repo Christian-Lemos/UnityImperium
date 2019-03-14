@@ -199,9 +199,10 @@ public class MouseCommandsController : MonoBehaviour
 
             GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
 
-            Destroy(station.GetComponent<StationController>());
-            Destroy(station.GetComponent<MapObjectCombatter>());
-            Destroy(station.GetComponent<CombatStatsCanvasController>());
+            station.GetComponent<StationController>().enabled = false;
+            station.GetComponent<MapObjectCombatter>().enabled = false;  
+            station.GetComponent<CombatStatsCanvasController>().enabled = false;
+            station.GetComponent<StationConstructionProgressCanvasController>().enabled = false;
 
             TurretController[] turretControllers = station.GetComponentsInChildren<TurretController>();
             foreach (TurretController turretController in turretControllers)
