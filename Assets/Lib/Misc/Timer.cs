@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+
 namespace Imperium.Misc
 {
     [Serializable]
@@ -20,16 +21,17 @@ namespace Imperium.Misc
 
         public void Execute()
         {
-            if(timerSet)
+            if (timerSet)
             {
                 remainingDuration -= Time.deltaTime;
 
-                if(IsFinished)
+                if (IsFinished)
                 {
                     action.Invoke();
                 }
             }
         }
+
         public void ResetTimer()
         {
             remainingDuration = duration;

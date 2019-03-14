@@ -1,8 +1,9 @@
-﻿using Imperium.Economy;
+﻿using Imperium;
+using Imperium.Economy;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Imperium;
+
 public class UIResourcesUpdater : MonoBehaviour
 {
     private int player;

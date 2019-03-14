@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using Imperium.Economy;
 using Imperium.MapObjects;
-using Imperium.Economy;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace Imperium.Navigation
 {
     public class MineCommand : FleetCommand

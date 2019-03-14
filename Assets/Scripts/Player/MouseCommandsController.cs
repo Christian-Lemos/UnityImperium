@@ -10,12 +10,19 @@ using UnityEngine.UI;
 /// </summary>
 public class MouseCommandsController : MonoBehaviour
 {
+    public static MouseCommandsController Instance;
+
     [SerializeField]
     public GameObject constructionButtonPrefab;
 
     public GameObject constructionSection;
 
     public int player;
+
+    /// <summary>
+    /// This is the list of selected game objects
+    /// </summary>
+    public List<GameObject> selectedGOs = new List<GameObject>();
 
     public GameObject selectPanel;
 
@@ -26,14 +33,25 @@ public class MouseCommandsController : MonoBehaviour
     private PlayerDatabase playerDatabase;
 
     private PossibleStationConstruction possibleStation;
-
-    /// <summary>
-    /// This is the list of selected game objects
-    /// </summary>
-    [SerializeField]
-    private List<GameObject> selectedGOs = new List<GameObject>();
-
     private int selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map) | (1 << (int)ObjectLayers.Station) | (1 << (int)ObjectLayers.Asteroid);
+
+    private void ClearSelectedGOList()
+    {
+        foreach (GameObject go in selectedGOs)
+        {
+            if(go == null)
+            {
+                continue;
+            }
+            CombatStatsCanvasController combatStatsCanvasController = go.GetComponent<CombatStatsCanvasController>();
+
+            if (combatStatsCanvasController != null)
+            {
+                combatStatsCanvasController.SetActive(false);
+            }
+        }
+        selectedGOs.Clear();
+    }
 
     /// <summary>
     /// This method handles fleet's commands like move selected this to position
@@ -55,6 +73,11 @@ public class MouseCommandsController : MonoBehaviour
                         //Moves all the selected ships
                         foreach (GameObject go in selectedGOs)
                         {
+                            if(go == null)
+                            {
+                                continue;
+                            }
+
                             ShipController shipController = go.GetComponent<ShipController>();
 
                             if (shipController != null)
@@ -136,13 +159,23 @@ public class MouseCommandsController : MonoBehaviour
                     }
                     else //If the player is not pressing LeftShift, the list of selected object will be cleared and the selected will be added
                     {
-                        selectedGOs.Clear();
+                        ClearSelectedGOList();
                         selectedGOs.Add(selected);
                     }
                 }
-                else //Clear the selected list if clicked on no ships
+                else //Clear the selected list if clicked on no ships or stations
                 {
-                    selectedGOs.Clear();
+                    ClearSelectedGOList();
+                }
+
+                foreach (GameObject go in selectedGOs)
+                {
+                    CombatStatsCanvasController combatStatsCanvasController = go.GetComponent<CombatStatsCanvasController>();
+
+                    if (combatStatsCanvasController != null)
+                    {
+                        combatStatsCanvasController.SetActive(true);
+                    }
                 }
             }
             ShowConstructionOptions();
@@ -166,7 +199,7 @@ public class MouseCommandsController : MonoBehaviour
             Vector3 spawnPosition = stationConstructor.gameObject.transform.position;
 
             GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
-            station.GetComponentInChildren<ObjectStatsCanvasController>().gameObject.SetActive(false);
+            station.GetComponentInChildren<CombatStatsCanvasController>().gameObject.SetActive(false);
             Destroy(station.GetComponent<StationController>());
 
             TurretController[] turretControllers = station.GetComponentsInChildren<TurretController>();
@@ -255,7 +288,7 @@ public class MouseCommandsController : MonoBehaviour
     private void Start()
     {
         playerDatabase = PlayerDatabase.Instance;
-
+        Instance = this;
         RectTransform rectTransform = constructionButtonPrefab.GetComponent<RectTransform>();
 
         constructionButtonPrefabWidth = rectTransform.sizeDelta.x;

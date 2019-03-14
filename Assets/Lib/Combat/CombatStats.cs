@@ -5,6 +5,7 @@
     {
         //Use proprieties.This is public due serialization simplification
         public int hp;
+
         public int maxHP;
 
         public int maxShields;
@@ -51,6 +52,7 @@
                 }
             }
         }
+
         public int Shields
         {
             get

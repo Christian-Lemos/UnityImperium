@@ -17,6 +17,7 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
     private AudioSource audioSource;
 
     private IEnumerator fireCoroutine;
+
     [SerializeField]
     private GameObject firePriority;
 
@@ -24,7 +25,7 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
     private Timer fireTimer;
 
     private bool isReloading = false;
-    
+
     [SerializeField]
     private GameObject target;
 
@@ -41,7 +42,7 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         long targetId = target != null ? target.GetComponent<MapObject>().id : -1;
         long firePriorityId = firePriority != null ? firePriority.GetComponent<MapObject>().id : -1;
 
-        return new TurretControllerPersistance(targetId, firePriorityId, isReloading, GetComponent<MapObject>().Serialize(), this.fireTimer, turret, turretType);
+        return new TurretControllerPersistance(targetId, firePriorityId, isReloading, GetComponent<MapObject>().Serialize(), fireTimer, turret, turretType);
     }
 
     public void SetFirePriority(GameObject target)
@@ -106,7 +107,6 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
             {
                 FireBullet(target);
             }
-            
         }
 
         if (isReloading)

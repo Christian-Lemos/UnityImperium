@@ -26,13 +26,14 @@ GameObject:
   - component: {fileID: 54561347199161464}
   - component: {fileID: 114823603136947030}
   - component: {fileID: 114292036334787162}
+  - component: {fileID: 114066113572409250}
   m_Layer: 10
   m_Name: TestShip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1849178827207046
 GameObject:
   m_ObjectHideFlags: 0
@@ -46,22 +47,6 @@ GameObject:
   - component: {fileID: 114452995475414430}
   m_Layer: 0
   m_Name: Turret1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1923989082243300
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4930833577462640}
-  - component: {fileID: 114683724543101486}
-  m_Layer: 10
-  m_Name: ShipCanvasAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,26 +72,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1306210491191302}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.0457034, y: 0.4999996, z: -3.8067863}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4137087662361508}
-  - {fileID: 4930833577462640}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4930833577462640
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1923989082243300}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4190841479933128}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23924487526555798
 MeshRenderer:
@@ -272,6 +243,29 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &114066113572409250
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1306210491191302}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66dbabea7f44ab34aa50ab683f321d13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatCanvasPrebab: {fileID: 1311451529848978, guid: 700ff54a04eb88b468f26c6306a20248,
+    type: 2}
+  combatCanvasScale: 0.07
+  combatCanvasPositionOffset: {x: 0, y: 0, z: 0}
+  combatStats:
+    hp: 0
+    maxHP: 0
+    maxShields: 0
+    shieldRegen: 0
+    shields: 0
+  hp: {fileID: 0}
+  shields: {fileID: 0}
 --- !u!114 &114292036334787162
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -330,17 +324,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   mapObjectType: 4
---- !u!114 &114683724543101486
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1923989082243300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66dbabea7f44ab34aa50ab683f321d13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114823603136947030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -372,10 +355,12 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    fireRate: 0
+    reloadTime: 0
     range: 0
+  firePriority: {fileID: 0}
   fireTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  target: {fileID: 0}
   turretType: 0

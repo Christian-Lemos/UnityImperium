@@ -4,15 +4,12 @@ namespace Imperium.Navigation
 {
     public class MoveCommand : FleetCommand
     {
-
         public MoveCommand(MapObject source, MapObject target) : base(source, target, CommandType.Move)
         {
-            
         }
 
         public MoveCommand(MapObject source, Vector3 destination, float destinationOffset) : base(source, destination, destinationOffset, CommandType.Move)
         {
-            
         }
 
         public override void ExecuteCommand()
@@ -35,6 +32,5 @@ namespace Imperium.Navigation
             float distance = Vector3.Distance(base.destination, base.source.transform.position);
             return distance <= base.destinationOffset;
         }
-
     }
 }

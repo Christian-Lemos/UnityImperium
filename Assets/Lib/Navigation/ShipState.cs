@@ -1,11 +1,10 @@
-﻿
-namespace Imperium.Navigation
+﻿namespace Imperium.Navigation
 {
     public enum ShipState
     {
         Idle,
         Moving,
-        Following, 
+        Following,
         Attacking,
         Building,
         Mining

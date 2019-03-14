@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-namespace Imperium.MapObjects
+﻿namespace Imperium.MapObjects
 {
     public enum MapObjectType
     {

@@ -33,8 +33,6 @@ namespace Imperium.Persistence
             this.bulletControllerPersistances = bulletControllerPersistances;
         }
 
-
-
         public static GameSceneData NewGameDefault()
         {
             ///////////////////////////////////Player 1///////////////////////////////////////////////////////
@@ -73,7 +71,7 @@ namespace Imperium.Persistence
 
             AsteroidFieldAsteroidSettings asteroidFieldAsteroidSettings = AsteroidFieldAsteroidSettings.CreateDefaultSettings();
 
-            AsteroidFieldControllerPersistance middleAsteroidField = new AsteroidFieldControllerPersistance(asteroidFieldAsteroidSettings.Serialize(), new List<AsteroidControllerPersistance>(), false, new MapObjectPersitance(3, new Vector3(0,0,0), new Vector3(1,1,1), Quaternion.identity), new Vector3(15,3,15));
+            AsteroidFieldControllerPersistance middleAsteroidField = new AsteroidFieldControllerPersistance(asteroidFieldAsteroidSettings.Serialize(), new List<AsteroidControllerPersistance>(), false, new MapObjectPersitance(3, new Vector3(0, 0, 0), new Vector3(1, 1, 1), Quaternion.identity), new Vector3(15, 3, 15));
 
             return new GameSceneData("New Game", new Vector2(40, 50), players, new List<AsteroidFieldControllerPersistance>() { middleAsteroidField });
         }

@@ -11,6 +11,7 @@ namespace Imperium.Persistence
         public List<ResourcePersistance> resources;
         public List<ShipControllerPersistance> ships;
         public List<StationControllerPersistance> stations;
+
         public PlayerPersistance(int playerNumber, PlayerType playerType, List<ResourcePersistance> resources, List<ShipControllerPersistance> ships, List<StationControllerPersistance> stations)
         {
             this.playerNumber = playerNumber;

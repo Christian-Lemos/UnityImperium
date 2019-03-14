@@ -1,11 +1,11 @@
-﻿using System.Collections;
+﻿using Imperium;
+using Imperium.Economy;
+using Imperium.MapObjects;
+using Imperium.Persistence;
+using Imperium.Persistence.MapObjects;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Imperium.Persistence;
-using Imperium.Economy;
-using Imperium;
-using Imperium.MapObjects;
-using Imperium.Persistence.MapObjects;
 
 public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistance>>
 {
@@ -124,10 +124,9 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
         }
     }
 
-
     public HashSet<GameObject> GetObjects(int player)
     {
-        if(IsValidPlayer(player))
+        if (IsValidPlayer(player))
         {
             return playerObjects[player];
         }
@@ -176,33 +175,32 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
     public List<PlayerPersistance> Serialize()
     {
         List<PlayerPersistance> playerPersistances = new List<PlayerPersistance>();
-        for(int i = 0; i < playerResources.Count; i++)
+        for (int i = 0; i < playerResources.Count; i++)
         {
             PlayerType playerType = SceneManager.Instance.currentGameSceneData.players[i].playerType;
             List<ShipControllerPersistance> shipControllerPersistances = new List<ShipControllerPersistance>();
             List<ResourcePersistance> resourcePersistances = new List<ResourcePersistance>();
             List<StationControllerPersistance> stationControllerPersistances = new List<StationControllerPersistance>();
-            foreach(GameObject @gameObject in playerObjects[i])
+            foreach (GameObject @gameObject in playerObjects[i])
             {
                 MapObject mapObject = @gameObject.GetComponent<MapObject>();
 
-                if(mapObject.mapObjectType == MapObjectType.Ship)
+                if (mapObject.mapObjectType == MapObjectType.Ship)
                 {
                     shipControllerPersistances.Add(mapObject.gameObject.GetComponent<ShipController>().Serialize());
                 }
-                else if(mapObject.mapObjectType == MapObjectType.Station)
+                else if (mapObject.mapObjectType == MapObjectType.Station)
                 {
                     stationControllerPersistances.Add(mapObject.gameObject.GetComponent<StationController>().Serialize());
                 }
             }
 
-            foreach(KeyValuePair<ResourceType, int> keyValuePair in playerResources[i])
+            foreach (KeyValuePair<ResourceType, int> keyValuePair in playerResources[i])
             {
-               resourcePersistances.Add(new ResourcePersistance(keyValuePair.Key, keyValuePair.Value));
+                resourcePersistances.Add(new ResourcePersistance(keyValuePair.Key, keyValuePair.Value));
             }
-            
-            playerPersistances.Add(new PlayerPersistance( SceneManager.Instance.currentGameSceneData.players[i].playerNumber, playerType, resourcePersistances, shipControllerPersistances, stationControllerPersistances));
-            
+
+            playerPersistances.Add(new PlayerPersistance(SceneManager.Instance.currentGameSceneData.players[i].playerNumber, playerType, resourcePersistances, shipControllerPersistances, stationControllerPersistances));
         }
         return playerPersistances;
     }

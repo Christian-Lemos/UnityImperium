@@ -2,7 +2,7 @@
 {
     public enum BulletType
     {
-        Test, 
+        Test,
         Laser,
         Plasma
     }

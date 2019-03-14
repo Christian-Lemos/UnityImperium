@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerGameMenusController : MonoBehaviour {
-
+public class PlayerGameMenusController : MonoBehaviour
+{
     [SerializeField]
     private GameObject gameMainMenuObject;
 
@@ -16,7 +14,7 @@ public class PlayerGameMenusController : MonoBehaviour {
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             gameMainMenu.Show(!gameMainMenuObject.activeSelf);
         }

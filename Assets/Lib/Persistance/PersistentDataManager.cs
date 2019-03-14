@@ -5,7 +5,6 @@ namespace Imperium.Persistence
 {
     public class PersistantDataManager
     {
-        
         private static readonly string gameDataPath = "savegames";
         public static readonly string gameDataDirectory = Application.persistentDataPath + "/" + gameDataPath + "/";
         private static PersistantDataManager instance = null;

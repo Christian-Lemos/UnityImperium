@@ -74,9 +74,9 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
     {
         List<TurretControllerPersistance> turretControllerPersistances = new List<TurretControllerPersistance>();
 
-        TurretController[] turretControllers= GetComponentsInChildren<TurretController>();
+        TurretController[] turretControllers = GetComponentsInChildren<TurretController>();
 
-        foreach(TurretController turretController in turretControllers)
+        foreach (TurretController turretController in turretControllers)
         {
             turretControllerPersistances.Add(turretController.Serialize());
         }
@@ -91,7 +91,6 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
 
         return shipControllerPersistance;
     }
-
 
     public void SetIdle()
     {
@@ -141,9 +140,11 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
 
         mapObjectCombatter = GetComponent<MapObjectCombatter>();
         mapObjectCombatter.combatStats = ship.combatStats;
+
         StartCoroutine(mapObjectCombatter.ShieldRegeneration());
 
         stationConstructor = GetComponent<StationConstructor>();
+
     }
 
     private void Update()

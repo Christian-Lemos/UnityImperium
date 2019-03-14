@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-using Imperium.MapObjects;
-using System.Collections;
+﻿using Imperium.MapObjects;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
-using System.Collections.Generic;
+using UnityEngine;
 
 public class MapObject : MonoBehaviour, ISerializable<MapObjectPersitance>
 {
@@ -26,9 +24,9 @@ public class MapObject : MonoBehaviour, ISerializable<MapObjectPersitance>
     {
         MapObject[] mapObjects = GameObject.FindObjectsOfType<MapObject>();
 
-        foreach(MapObject mapObject in mapObjects)
+        foreach (MapObject mapObject in mapObjects)
         {
-            if(mapObject.id == id)
+            if (mapObject.id == id)
             {
                 return mapObject;
             }
@@ -48,7 +46,7 @@ public class MapObject : MonoBehaviour, ISerializable<MapObjectPersitance>
 
     public MapObjectPersitance Serialize()
     {
-        return new MapObjectPersitance(id, this.transform.position, this.transform.localScale, this.transform.rotation);
+        return new MapObjectPersitance(id, transform.position, transform.localScale, transform.rotation);
     }
 
     public ISerializable<MapObjectPersitance> SetObject(MapObjectPersitance serializedObject)

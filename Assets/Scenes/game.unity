@@ -1398,7 +1398,7 @@ Prefab:
         type: 2}
       propertyPath: ship_assosiations.Array.data[3].prefab
       value: 
-      objectReference: {fileID: 1221873838883834, guid: ec0e12aef591b94429079bf208d2782c,
+      objectReference: {fileID: 1183481545441364, guid: 113b94d0c87a7b24487a8ae04e6d70bf,
         type: 2}
     - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
         type: 2}

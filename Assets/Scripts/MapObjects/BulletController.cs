@@ -1,8 +1,8 @@
 ﻿using Imperium;
 using Imperium.MapObjects;
-using UnityEngine;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
+using UnityEngine;
 
 [RequireComponent(typeof(MapObject))]
 public class BulletController : MonoBehaviour, ISerializable<BulletControllerPersistance>

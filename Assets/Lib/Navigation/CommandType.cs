@@ -2,6 +2,6 @@
 {
     public enum CommandType
     {
-         Attack, Build, Mine, Move
+        Attack, Build, Mine, Move
     }
 }

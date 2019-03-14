@@ -10,8 +10,6 @@ public class SceneManager : MonoBehaviour
     private PersistantDataManager persistantDataManager;
     public static SceneManager Instance { get; private set; }
 
-
-
     public void CreateNewGame(int playerCount)
     {
         GameSceneData data = GameSceneData.NewGameDefault();
@@ -38,23 +36,22 @@ public class SceneManager : MonoBehaviour
         BulletController[] bulletControllers = FindObjectsOfType<BulletController>();
         List<BulletControllerPersistance> bulletControllerPersistances = new List<BulletControllerPersistance>();
 
-        foreach(BulletController bulletController in bulletControllers)
+        foreach (BulletController bulletController in bulletControllers)
         {
             bulletControllerPersistances.Add(bulletController.Serialize());
         }
 
         AsteroidFieldController[] asteroidFieldControllers = FindObjectsOfType<AsteroidFieldController>();
         List<AsteroidFieldControllerPersistance> asteroidFieldPersistances = new List<AsteroidFieldControllerPersistance>();
-        foreach(AsteroidFieldController asteroidFieldController in asteroidFieldControllers)
+        foreach (AsteroidFieldController asteroidFieldController in asteroidFieldControllers)
         {
             asteroidFieldPersistances.Add(asteroidFieldController.Serialize());
         }
 
-
         currentGameSceneData.players = PlayerDatabase.Instance.Serialize();
         currentGameSceneData.asteroidFields = asteroidFieldPersistances;
         currentGameSceneData.shipConstructionManagerPersistance = ShipConstructionManager.Instance.Serialize();
-        
+
         currentGameSceneData.bulletControllerPersistances = bulletControllerPersistances;
     }
 

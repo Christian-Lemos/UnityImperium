@@ -59,7 +59,7 @@ public class GameInitializer : MonoBehaviour
 
             AsteroidFieldController asteroidFieldController = asteroidField.GetComponent<AsteroidFieldController>();
             asteroidFieldController.initialized = asteroidFieldPersistance.initialized;
-            asteroidFieldController.size  = asteroidFieldPersistance.size;
+            asteroidFieldController.size = asteroidFieldPersistance.size;
             asteroidField.SetActive(true);
 
             if (!asteroidFieldController.initialized)

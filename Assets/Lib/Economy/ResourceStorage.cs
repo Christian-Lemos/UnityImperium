@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+
 namespace Imperium.Economy
 {
     public class ResourceStorage
@@ -15,8 +15,6 @@ namespace Imperium.Economy
             {
                 Storage.Add(resourceType, 0);
             }
-
-            
         }
 
         public ResourceStorage(uint maximumResourcesStorage, Dictionary<ResourceType, uint> storage) : this(maximumResourcesStorage)
@@ -78,9 +76,9 @@ namespace Imperium.Economy
         {
             List<ResourceQuantity> resourceQuantities = new List<ResourceQuantity>();
 
-            foreach(KeyValuePair<ResourceType, uint> keyValuePair in Storage)
+            foreach (KeyValuePair<ResourceType, uint> keyValuePair in Storage)
             {
-                resourceQuantities.Add(new ResourceQuantity((int) keyValuePair.Value, keyValuePair.Key));
+                resourceQuantities.Add(new ResourceQuantity((int)keyValuePair.Value, keyValuePair.Key));
             }
             return resourceQuantities;
         }

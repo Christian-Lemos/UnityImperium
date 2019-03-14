@@ -3,8 +3,10 @@ guid: 66dbabea7f44ab34aa50ab683f321d13
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
-  executionOrder: -1
+  defaultReferences:
+  - combatCanvasPrebab: {fileID: 1311451529848978, guid: 700ff54a04eb88b468f26c6306a20248,
+      type: 2}
+  executionOrder: 0
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

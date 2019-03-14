@@ -6,11 +6,11 @@ namespace Imperium.Navigation
     {
         private MapObjectCombatter mapObjectCombatter;
 
-        public AttackCommand(MapObject source, MapObject target) : base(source, target,CommandType.Attack)
+        public AttackCommand(MapObject source, MapObject target) : base(source, target, CommandType.Attack)
         {
             mapObjectCombatter = source.GetComponent<MapObjectCombatter>();
             base.destination = target.transform.position;
-            destinationOffset = mapObjectCombatter.lowestTurretRange / 2; 
+            destinationOffset = mapObjectCombatter.lowestTurretRange / 2;
         }
 
         public override void ExecuteCommand()

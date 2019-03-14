@@ -91,10 +91,9 @@ public class MapObjectCombatter : MonoBehaviour
         }
     }
 
-  
-
     private void Start()
     {
         lowestTurretRange = GetLowestTurretRange();
+        GetComponent<CombatStatsCanvasController>().enabled = true;
     }
 }

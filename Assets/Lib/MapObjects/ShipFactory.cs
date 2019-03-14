@@ -24,7 +24,7 @@ namespace Imperium
                     stats = new CombatStats(200, 200, 10, 40f);
                     shipName = "Test Ship";
                     shipIcon = "ship_icon";
-                    speed = 2f;
+                    speed = 5f;
                     angularSpeed = 50f;
                     break;
 
@@ -40,7 +40,7 @@ namespace Imperium
                     stats = new CombatStats(100, 100, 5, 45f);
                     shipName = "Construction Ship";
                     shipIcon = "construction_ship_icon";
-                    speed = 0.95f;
+                    speed = 3f;
                     angularSpeed = 45f;
                     break;
 
@@ -48,7 +48,7 @@ namespace Imperium
                     stats = new CombatStats(100, 100, 5, 45f);
                     shipName = "Freighter";
                     shipIcon = "freighter_icon";
-                    speed = 1f;
+                    speed = 2.5f;
                     angularSpeed = 25f;
                     break;
 

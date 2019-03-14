@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class GameCameraController : MonoBehaviour {
-
-
+public class GameCameraController : MonoBehaviour
+{
     public float movementSpeed;
     public float scrollSpeed;
 
@@ -14,7 +11,7 @@ public class GameCameraController : MonoBehaviour {
         float v_axis = Input.GetAxis("Vertical");
         float h_axis = Input.GetAxis("Horizontal");
         float z_axis = Input.GetAxis("Mouse ScrollWheel");
-        
+
         Move(h_axis, v_axis, z_axis);
     }
 

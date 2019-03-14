@@ -1,6 +1,5 @@
 ﻿using Imperium.Persistence;
 using System;
-using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace Imperium.Navigation
@@ -11,7 +10,7 @@ namespace Imperium.Navigation
         public Vector3 destination;
         public float destinationOffset;
         public MapObject target;
-        
+
         protected MapObject source;
         protected ShipController sourceShipController;
 
@@ -42,7 +41,6 @@ namespace Imperium.Navigation
             this.target = target;
             this.commandType = commandType;
             sourceShipController = source.GetComponent<ShipController>();
-            
         }
 
         public abstract void ExecuteCommand();
@@ -55,7 +53,7 @@ namespace Imperium.Navigation
 
         public override string ToString()
         {
-            return base.ToString() + this.destination;
+            return base.ToString() + destination;
         }
 
         public FleetCommandPersistance Serialize()

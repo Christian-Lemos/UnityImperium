@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using Imperium.Economy;
 using Imperium.Persistence;
-using Imperium.Economy;
 using Imperium.Persistence.MapObjects;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class AsteroidController : MonoBehaviour, ISerializable<AsteroidControllerPersistance>
 {
-
     public delegate void onDestroyDelegate(ResourceType resourceType, GameObject gameObject);
 
     public event onDestroyDelegate destroyObservers;
@@ -50,7 +49,7 @@ public class AsteroidController : MonoBehaviour, ISerializable<AsteroidControlle
 
     private void OnDestroy()
     {
-        destroyObservers(this.resourceType, this.gameObject);    
+        destroyObservers(resourceType, gameObject);
     }
 
     public AsteroidControllerPersistance Serialize()

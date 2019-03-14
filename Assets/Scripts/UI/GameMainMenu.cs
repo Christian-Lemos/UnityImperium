@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Imperium.Persistence;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
-using Imperium.Persistence;
-using Imperium.Persistence.MapObjects;
-public class GameMainMenu : MonoBehaviour {
 
-	[SerializeField]
+public class GameMainMenu : MonoBehaviour
+{
+    [SerializeField]
     private Button exitGameButton;
 
     [SerializeField]
@@ -16,7 +13,6 @@ public class GameMainMenu : MonoBehaviour {
     [SerializeField]
     private Button saveGameButton;
 
-
     private void ExitGameHandler()
     {
         SceneManager.Instance.LoadMainMenu();
@@ -24,7 +20,6 @@ public class GameMainMenu : MonoBehaviour {
 
     private void LoadGameHandler()
     {
-        
     }
 
     private void SaveGameHandler()

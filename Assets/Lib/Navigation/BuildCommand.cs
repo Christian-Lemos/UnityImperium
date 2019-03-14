@@ -22,7 +22,7 @@ namespace Imperium.Navigation
 
             if (distance > base.destinationOffset)
             {
-               sourceShipController.MoveControl(base.destination);
+                sourceShipController.MoveControl(base.destination);
             }
             else if (targetStationController.constructed == true)
             {

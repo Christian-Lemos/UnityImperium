@@ -100,7 +100,7 @@ public class Spawner : MonoBehaviour
             newShip.name += " " + player;
 
             newShip.GetComponent<MapObject>().id = id;
-
+            newShip.SetActive(true);
             return newShip;
         }
     }
