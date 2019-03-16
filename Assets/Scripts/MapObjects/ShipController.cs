@@ -10,10 +10,24 @@ using UnityEngine;
 public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersistance>
 {
     public FleetCommandQueue fleetCommandQueue = new FleetCommandQueue();
-    public Ship ship;
+
+    private Ship _ship;
+    public Ship Ship
+    {
+        get
+        {
+            return _ship;
+        }
+        set
+        {
+            _ship = value;
+        }
+    }
     public ShipType shipType;
     public StationConstructor stationConstructor;
     private MapObjectCombatter mapObjectCombatter;
+
+    public bool initialized = true;
 
     public void AttackTarget(GameObject target, bool resetCommands, bool loopCommands)
     {
@@ -59,8 +73,8 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
     public void MoveControl(Vector3 destination)
     {
         Quaternion desRotation = Quaternion.LookRotation(destination - transform.position, Vector3.up);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, desRotation, ship.angularSpeed * Time.deltaTime);
-        transform.position += transform.forward * ship.speed * Time.deltaTime;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, desRotation, Ship.angularSpeed * Time.deltaTime);
+        transform.position += transform.forward * Ship.speed * Time.deltaTime;
     }
 
     public void MoveToPosition(Vector3 destination, float destinationOffset, bool resetCommands, bool loopCommands)
@@ -81,7 +95,7 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
             turretControllerPersistances.Add(turretController.Serialize());
         }
 
-        ShipControllerPersistance shipControllerPersistance = new ShipControllerPersistance(ship, shipType, GetComponent<MapObject>().Serialize(), fleetCommandQueue.Serialize(), turretControllerPersistances);
+        ShipControllerPersistance shipControllerPersistance = new ShipControllerPersistance(Ship, shipType, GetComponent<MapObject>().Serialize(), fleetCommandQueue.Serialize(), turretControllerPersistances, true);
 
         MineController mineController = GetComponent<MineController>();
         ResourceStorageController resourceStorageController = GetComponent<ResourceStorageController>();
@@ -100,7 +114,30 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
 
     public ISerializable<ShipControllerPersistance> SetObject(ShipControllerPersistance serializedObject)
     {
-        throw new System.NotImplementedException();
+        this.fleetCommandQueue = new FleetCommandQueue();
+        this.fleetCommandQueue.SetObject(serializedObject.fleetCommandQueuePersistance);
+
+        MineController mineController = GetComponent<MineController>();
+        if(mineController != null)
+        {
+            mineController.SetObject(serializedObject.mineControllerPersistance);
+        }
+        
+        ResourceStorageController resourceStorageController = GetComponent<ResourceStorageController>();
+        if(resourceStorageController != null)
+        {
+            resourceStorageController.SetObject(serializedObject.resourceStoragePersistance);
+        }
+
+        foreach(TurretControllerPersistance turretControllerPersistance in serializedObject.turretControllerPersistances)
+        {
+            transform.GetChild(turretControllerPersistance.turretIndex).GetComponent<TurretController>().SetObject(turretControllerPersistance);
+        }
+
+        this._ship = serializedObject.ship;
+        this.shipType = serializedObject.shipType;
+        
+        return this;
     }
 
     private void AddCommand(bool resetCommands, FleetCommand fleetCommand)
@@ -127,7 +164,7 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
         try
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(gameObject.transform.position, ship.combatStats.FieldOfViewDistance);
+            Gizmos.DrawWireSphere(gameObject.transform.position, Ship.combatStats.fieldOfViewDistance);
         }
         catch
         {
@@ -136,10 +173,14 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
 
     private void Start()
     {
-        ship = ShipFactory.getInstance().CreateShip(shipType);
+        if(_ship == null)
+        {
+            Ship = ShipFactory.getInstance().CreateShip(shipType);
+        }
+        
 
         mapObjectCombatter = GetComponent<MapObjectCombatter>();
-        mapObjectCombatter.combatStats = ship.combatStats;
+        mapObjectCombatter.combatStats = Ship.combatStats;
 
         StartCoroutine(mapObjectCombatter.ShieldRegeneration());
 

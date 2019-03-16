@@ -62,7 +62,6 @@ public class MouseCommandsController : MonoBehaviour
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
             if (Physics.Raycast(ray, out hit, 1000f, selectLayer))
             {
                 GameObject selected = hit.collider.gameObject;

@@ -9,7 +9,7 @@ public class StationConstructionManager : MonoBehaviour
 
     public void AddStationConstruction(StationType stationType, Vector3 position, Quaternion rotation, int player)
     {
-        Spawner.Instance.SpawnStation(stationType, player, position, rotation, 0);
+        Spawner.Instance.SpawnStation(stationType, player, position, rotation, 0, true);
     }
 
     public void Awake()

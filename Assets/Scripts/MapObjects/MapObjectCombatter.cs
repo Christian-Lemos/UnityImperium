@@ -31,7 +31,7 @@ public class MapObjectCombatter : MonoBehaviour
 
     public void FireAtClosestTarget()
     {
-        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, combatStats.FieldOfViewDistance, fireLayer);
+        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, combatStats.fieldOfViewDistance, fireLayer);
         GameObject closestTarget = null;
         float closestDistance = 0f;
         int thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
@@ -40,7 +40,7 @@ public class MapObjectCombatter : MonoBehaviour
             if (collider.gameObject.GetComponent<MapObject>() != null && !PlayerDatabase.Instance.IsFromPlayer(collider.gameObject, thisPlayer) && !collider.gameObject.Equals(gameObject))
             {
                 float distance = Vector3.Distance(collider.gameObject.transform.position, gameObject.transform.position);
-                if (distance >= closestDistance && distance <= combatStats.FieldOfViewDistance)
+                if (distance >= closestDistance && distance <= combatStats.fieldOfViewDistance)
                 {
                     closestTarget = collider.gameObject;
                 }
@@ -54,7 +54,7 @@ public class MapObjectCombatter : MonoBehaviour
 
     public float GetLowestTurretRange()
     {
-        float lowest = combatStats.FieldOfViewDistance;
+        float lowest = combatStats.fieldOfViewDistance;
         TurretController[] turretControllers = gameObject.GetComponentsInChildren<TurretController>(false);
         foreach (TurretController turretController in turretControllers)
         {

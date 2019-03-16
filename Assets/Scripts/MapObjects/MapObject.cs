@@ -3,6 +3,7 @@ using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class MapObject : MonoBehaviour, ISerializable<MapObjectPersitance>
 {
     public long id;
@@ -22,7 +23,7 @@ public class MapObject : MonoBehaviour, ISerializable<MapObjectPersitance>
 
     public static MapObject FindByID(long id)
     {
-        MapObject[] mapObjects = GameObject.FindObjectsOfType<MapObject>();
+        MapObject[] mapObjects = Resources.FindObjectsOfTypeAll<MapObject>();
 
         foreach (MapObject mapObject in mapObjects)
         {
@@ -46,11 +47,15 @@ public class MapObject : MonoBehaviour, ISerializable<MapObjectPersitance>
 
     public MapObjectPersitance Serialize()
     {
-        return new MapObjectPersitance(id, transform.position, transform.localScale, transform.rotation);
+        return new MapObjectPersitance(id, transform.localPosition, transform.localScale, transform.localRotation);
     }
 
     public ISerializable<MapObjectPersitance> SetObject(MapObjectPersitance serializedObject)
     {
-        throw new System.NotImplementedException();
+        this.id = serializedObject.id;
+        this.transform.localPosition = serializedObject.localPosition;
+        this.transform.rotation = serializedObject.localRotation;
+        this.transform.localScale = serializedObject.localScale;
+        return this;
     }
 }

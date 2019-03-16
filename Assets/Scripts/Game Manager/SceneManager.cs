@@ -6,9 +6,26 @@ using UnityEngine.SceneManagement;
 
 public class SceneManager : MonoBehaviour
 {
+    private static SceneManager s_instance;
     public GameSceneData currentGameSceneData;
     private PersistantDataManager persistantDataManager;
-    public static SceneManager Instance { get; private set; }
+
+    public static SceneManager Instance
+    {
+        get
+        {
+            if(s_instance == null)
+            {
+                s_instance = GameObject.Instantiate((GameObject) Resources.Load("Scene Manager")).GetComponent<SceneManager>();
+                s_instance.currentGameSceneData = GameSceneData.NewGameDefault();
+            }
+            return s_instance;
+        }
+        private set
+        {
+            s_instance = value;
+        }
+    }
 
     public void CreateNewGame(int playerCount)
     {
@@ -53,11 +70,23 @@ public class SceneManager : MonoBehaviour
         currentGameSceneData.shipConstructionManagerPersistance = ShipConstructionManager.Instance.Serialize();
 
         currentGameSceneData.bulletControllerPersistances = bulletControllerPersistances;
+        currentGameSceneData.nextMapObjectId = Spawner.Instance.nextId;
     }
 
     private void Awake()
     {
-        Instance = this;
+        SceneManager[] sceneManagers = GameObject.FindObjectsOfType<SceneManager>();
+        if(sceneManagers.Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+        
+        
     }
 
     private void Start()

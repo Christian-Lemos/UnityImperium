@@ -9,15 +9,16 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
 {
     public bool constructed;
     public float constructionProgress;
-    public Station station;
+
+    public Station Station { get; set;}
     public StationType stationType;
 
     private MapObjectCombatter mapObjectCombatter;
 
     public void AddConstructionProgress(int progress)
     {
-        station.combatStats.HP += progress;
-        float addedContructionProgress = (100 * (float)progress) / station.combatStats.maxHP;
+        Station.combatStats.HP += progress;
+        float addedContructionProgress = (100 * (float)progress) / Station.combatStats.maxHP;
 
         constructionProgress += addedContructionProgress;
 
@@ -42,22 +43,30 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
 
     public StationControllerPersistance Serialize()
     {
-        return new StationControllerPersistance(constructed, constructionProgress, GetComponent<MapObject>().Serialize(), station, stationType);
+        return new StationControllerPersistance(constructed, constructionProgress, GetComponent<MapObject>().Serialize(), Station, stationType);
     }
 
     public ISerializable<StationControllerPersistance> SetObject(StationControllerPersistance serializedObject)
     {
-        throw new System.NotImplementedException();
+        this.constructed = serializedObject.constructed;
+        this.constructionProgress = serializedObject.constructionProgress;
+        this.Station = serializedObject.station;
+        this.stationType = serializedObject.stationType;
+        return this;
     }
 
     private void Start()
     {
-        station = StationFactory.getInstance().CreateStation(stationType);
+        if(Station == null)
+        {
+             Station = StationFactory.getInstance().CreateStation(stationType);
+        }
+       
 
         mapObjectCombatter = GetComponent<MapObjectCombatter>();
-        mapObjectCombatter.combatStats = station.combatStats;
+        mapObjectCombatter.combatStats = Station.combatStats;
 
-        station.combatStats.HP = (int)(station.combatStats.maxHP * constructionProgress) / 100;
+        Station.combatStats.HP = (int)(Station.combatStats.maxHP * constructionProgress) / 100;
 
         if (constructionProgress >= 100)
         {
@@ -66,11 +75,11 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
         }
         else
         {
-            station.combatStats.Shields = 0;
+            Station.combatStats.Shields = 0;
         }
 
         mapObjectCombatter = GetComponent<MapObjectCombatter>();
-        mapObjectCombatter.combatStats = station.combatStats;
+        mapObjectCombatter.combatStats = Station.combatStats;
     }
 
     private void Update()

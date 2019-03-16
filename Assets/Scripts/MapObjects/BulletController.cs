@@ -27,7 +27,10 @@ public class BulletController : MonoBehaviour, ISerializable<BulletControllerPer
 
     public ISerializable<BulletControllerPersistance> SetObject(BulletControllerPersistance serializedObject)
     {
-        throw new System.NotImplementedException();
+        this.bullet = serializedObject.bullet;
+        this.initialized = serializedObject.initialized;
+        this.source = MapObject.FindByID(serializedObject.sourceID).gameObject;
+        return this;
     }
 
     private void FixedUpdate()

@@ -5,7 +5,6 @@ using Imperium.Persistence.MapObjects;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(MapObject))]
 [RequireComponent(typeof(AudioSource))]
 [DisallowMultipleComponent]
 public class TurretController : MonoBehaviour, ISerializable<TurretControllerPersistance>
@@ -22,7 +21,7 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
     private GameObject firePriority;
 
     [SerializeField]
-    private Timer fireTimer;
+    private Timer fireTimer = null;
 
     private bool isReloading = false;
 
@@ -42,7 +41,19 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         long targetId = target != null ? target.GetComponent<MapObject>().id : -1;
         long firePriorityId = firePriority != null ? firePriority.GetComponent<MapObject>().id : -1;
 
-        return new TurretControllerPersistance(targetId, firePriorityId, isReloading, GetComponent<MapObject>().Serialize(), fireTimer, turret, turretType);
+        return new TurretControllerPersistance(targetId, firePriorityId, isReloading, GetTurretIndex(), fireTimer, turret, turretType);
+    }
+
+    private int GetTurretIndex()
+    {
+        for(int i = 0; i < transform.parent.childCount; i++)
+        {
+            if(transform.parent.GetChild(i).gameObject.Equals(this.gameObject))
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void SetFirePriority(GameObject target)
@@ -52,7 +63,15 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
 
     public ISerializable<TurretControllerPersistance> SetObject(TurretControllerPersistance serializedObject)
     {
-        throw new System.NotImplementedException();
+        this.target = serializedObject.targetID != -1 ? MapObject.FindByID(serializedObject.targetID).gameObject : null; 
+        this.firePriority = serializedObject.firePriorityID != -1 ? MapObject.FindByID(serializedObject.firePriorityID).gameObject : null;
+        this.isReloading = serializedObject.isReloading;
+        this.fireTimer = serializedObject.timer;
+        this.fireTimer.action = ReloadControl;
+        this.turret = serializedObject.turret;
+        this.turretType = serializedObject.turretType;
+        return this;
+
     }
 
     private void FireBullet(GameObject target)
@@ -90,8 +109,12 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
     {
         audioSource = gameObject.GetComponent<AudioSource>();
         turret = TurretFactory.getInstance().CreateTurret(turretType);
-
-        fireTimer = new Timer(turret.reloadTime, false, ReloadControl);
+        
+        if(fireTimer == null || fireTimer.duration == 0)
+        {
+            fireTimer = new Timer(turret.reloadTime, false, ReloadControl);
+        }
+        
         @object = transform.parent.gameObject;
     }
 

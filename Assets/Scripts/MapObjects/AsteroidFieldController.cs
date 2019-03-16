@@ -47,8 +47,10 @@ public class AsteroidFieldController : MonoBehaviour, ISerializable<AsteroidFiel
         {
             foreach (GameObject asteroid in keyValuePair.Value)
             {
+                Debug.Log("Saving Asteroid");
                 asteroidPersistances.Add(asteroid.GetComponent<AsteroidController>().Serialize());
             }
+            Debug.Log("----------");
         }
 
         return new AsteroidFieldControllerPersistance(asteroidFieldAsteroidSettings.Serialize(), asteroidPersistances, initialized, GetComponent<MapObject>().Serialize(), size);
@@ -56,7 +58,10 @@ public class AsteroidFieldController : MonoBehaviour, ISerializable<AsteroidFiel
 
     public ISerializable<AsteroidFieldControllerPersistance> SetObject(AsteroidFieldControllerPersistance serializedObject)
     {
-        throw new System.NotImplementedException();
+        asteroidFieldAsteroidSettings.SetObject(serializedObject.AsteroidFieldAsteroidSettingsPersistance);
+        initialized = serializedObject.initialized;
+        size = serializedObject.size;
+        return this;
     }
 
     public GameObject SpawnAsteroid(ResourceType resourceType, Vector3 position, bool setActive)
@@ -149,13 +154,21 @@ public class AsteroidFieldController : MonoBehaviour, ISerializable<AsteroidFiel
         asteroidMinZAxis = transform.position.z - size.z / 2;
         asteroidMaxZAxis = transform.position.z + size.z / 2;
 
-        AsteroidController[] asteroidControllers = GetComponentsInChildren<AsteroidController>();
-
+        AsteroidController[] asteroidControllers = GetComponentsInChildren<AsteroidController>(true);
+        Debug.Log(asteroidControllers.Length);
         foreach (AsteroidController asteroidController in asteroidControllers)
         {
             ResourceType resourceType = asteroidController.resourceType;
 
             _asteroids[resourceType].Add(asteroidController.gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        if (!initialized)
+        {
+            SpawnAsteroidsOnField(false);
         }
     }
 }

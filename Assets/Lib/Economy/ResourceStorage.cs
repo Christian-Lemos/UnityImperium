@@ -5,6 +5,8 @@ namespace Imperium.Economy
 {
     public class ResourceStorage
     {
+        public uint maximumResourcesStorage;
+
         public ResourceStorage(uint maximumResourcesStorage)
         {
             this.maximumResourcesStorage = maximumResourcesStorage;
@@ -22,8 +24,17 @@ namespace Imperium.Economy
             Storage = storage;
         }
 
-        public uint maximumResourcesStorage;
         public Dictionary<ResourceType, uint> Storage { get; set; }
+
+        public static ResourceStorage FromResourceQuantities(uint maximumQuantity, List<ResourceQuantity> resourceQuantities)
+        {
+            ResourceStorage resourceStorage = new ResourceStorage(maximumQuantity);
+            foreach (ResourceQuantity resourceQuantity in resourceQuantities)
+            {
+                resourceStorage.Add(resourceQuantity.resourceType, (uint)resourceQuantity.quantity);
+            }
+            return resourceStorage;
+        }
 
         public void Add(ResourceType resourceType, uint quantity)
         {

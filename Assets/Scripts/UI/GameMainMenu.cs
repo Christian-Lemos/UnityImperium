@@ -20,6 +20,7 @@ public class GameMainMenu : MonoBehaviour
 
     private void LoadGameHandler()
     {
+        SceneManager.Instance.LoadGame("New Game");
     }
 
     private void SaveGameHandler()

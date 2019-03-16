@@ -3,6 +3,8 @@
     [System.Serializable]
     public class CombatStats
     {
+        public float fieldOfViewDistance;
+
         //Use proprieties.This is public due serialization simplification
         public int hp;
 
@@ -19,20 +21,18 @@
             this.shieldRegen = shieldRegen;
             HP = maxHP;
             Shields = this.maxShields;
-            FieldOfViewDistance = fieldOfViewDistance;
+            this.fieldOfViewDistance = fieldOfViewDistance;
         }
 
-        public CombatStats(int maxHP, int hP, int maxShields, int shields, int shieldRegen, float fieldOfViewDistanc)
+        public CombatStats(int maxHP, int hP, int maxShields, int shields, int shieldRegen, float fieldOfViewDistance)
         {
             this.maxHP = maxHP;
             this.maxShields = maxShields;
             this.shieldRegen = shieldRegen;
             Shields = shields;
             this.shieldRegen = shieldRegen;
-            FieldOfViewDistance = fieldOfViewDistanc;
+            this.fieldOfViewDistance = fieldOfViewDistance;
         }
-
-        public float FieldOfViewDistance { get; set; }
 
         public int HP
         {

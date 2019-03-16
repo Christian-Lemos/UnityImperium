@@ -49,7 +49,11 @@ public class AsteroidController : MonoBehaviour, ISerializable<AsteroidControlle
 
     private void OnDestroy()
     {
-        destroyObservers(resourceType, gameObject);
+        if(destroyObservers != null)
+        {
+             destroyObservers(resourceType, gameObject);
+        }
+       
     }
 
     public AsteroidControllerPersistance Serialize()
@@ -59,6 +63,8 @@ public class AsteroidController : MonoBehaviour, ISerializable<AsteroidControlle
 
     public ISerializable<AsteroidControllerPersistance> SetObject(AsteroidControllerPersistance serializedObject)
     {
-        throw new System.NotImplementedException();
+        this.resourceQuantity = serializedObject.resourceQuantity;
+        this.resourceType = serializedObject.resourceType;
+        return this;
     }
 }

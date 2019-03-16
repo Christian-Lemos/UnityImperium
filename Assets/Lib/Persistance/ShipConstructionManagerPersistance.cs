@@ -5,11 +5,14 @@ namespace Imperium.Persistence
     [System.Serializable]
     public class ShipConstructionManagerPersistance
     {
-        public List<Construction> constructions;
+        public List<Construction> constructions = new List<Construction>();
 
         public ShipConstructionManagerPersistance(List<Construction> constructions)
         {
-            this.constructions = constructions;
+            if(constructions != null)
+            {
+                this.constructions = constructions;
+            }
         }
 
         [System.Serializable]

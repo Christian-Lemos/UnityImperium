@@ -17,14 +17,19 @@ namespace Imperium.Navigation
         {
             resourceStorageController = source.GetComponent<ResourceStorageController>();
             mineController = source.GetComponent<MineController>();
-            asteroidController = target.GetComponent<AsteroidController>();
+            
+            if(target != null)
+            {
+                asteroidController = target.GetComponent<AsteroidController>() ?? null;
+            }
+            
             base.destinationOffset = 2f;
             player = PlayerDatabase.Instance.GetObjectPlayer(source.gameObject);
         }
 
         public override void ExecuteCommand()
         {
-            if (resourceStorageController.resourceStorage.GetRemainingStorage() > 0 && asteroidController != null) // It needs to moves to the asteroid
+            if (resourceStorageController.ResourceStorage.GetRemainingStorage() > 0 && asteroidController != null) // It needs to moves to the asteroid
             {
                 base.destination = base.target.transform.position;
                 float distance = Vector3.Distance(base.destination, base.source.transform.position);
@@ -68,7 +73,7 @@ namespace Imperium.Navigation
                     else
                     {
                         deliveryObject = null;
-                        Dictionary<ResourceType, uint> storage = resourceStorageController.resourceStorage.Storage;
+                        Dictionary<ResourceType, uint> storage = resourceStorageController.ResourceStorage.Storage;
 
                         List<ResourceType> keys = new List<ResourceType>(storage.Keys);
 
@@ -84,7 +89,7 @@ namespace Imperium.Navigation
 
         public override bool IsFinished()
         {
-            return asteroidController == null && resourceStorageController.resourceStorage.IsEmpty();
+            return asteroidController == null && resourceStorageController.ResourceStorage.IsEmpty();
         }
 
         public override void OnRemoved()

@@ -14,7 +14,6 @@ public class MineController : MonoBehaviour, ISerializable<MineControllerPersist
 
     private AsteroidController asteroidController;
 
-    [SerializeField]
     private Timer miningTimer;
 
     private ResourceStorageController resourceStorageController;
@@ -42,7 +41,12 @@ public class MineController : MonoBehaviour, ISerializable<MineControllerPersist
 
     public ISerializable<MineControllerPersistance> SetObject(MineControllerPersistance serializedObject)
     {
-        throw new System.NotImplementedException();
+        this.isMining = serializedObject.isMining;
+        this.miningInterval = serializedObject.miningInterval;
+        this.miningExtractionQuantity = serializedObject.miningExtractionQuantity;
+        this.miningTimer = serializedObject.miningTimer;
+        this.miningTimer.action = Mine;
+        return this;
     }
 
     public void StartMining(GameObject asteroid)
@@ -61,14 +65,14 @@ public class MineController : MonoBehaviour, ISerializable<MineControllerPersist
     {
         int extractQuantity = (miningExtractionQuantity > asteroidController.ResourceQuantity) ? asteroidController.ResourceQuantity : miningExtractionQuantity;
 
-        uint remainingSpace = resourceStorageController.resourceStorage.GetRemainingStorage();
+        uint remainingSpace = resourceStorageController.ResourceStorage.GetRemainingStorage();
 
         if (extractQuantity > remainingSpace)
         {
             extractQuantity = (int)remainingSpace;
         }
 
-        resourceStorageController.resourceStorage.Add(asteroidController.resourceType, (uint)extractQuantity);
+        resourceStorageController.ResourceStorage.Add(asteroidController.resourceType, (uint)extractQuantity);
 
         asteroidController.ResourceQuantity -= extractQuantity;
     }
@@ -90,7 +94,11 @@ public class MineController : MonoBehaviour, ISerializable<MineControllerPersist
     private void Start()
     {
         resourceStorageController = GetComponent<ResourceStorageController>();
-        miningTimer = new Timer(miningInterval, false, Mine);
+        if(miningTimer == null)
+        {
+            miningTimer = new Timer(miningInterval, false, Mine);
+        }
+        
     }
 
     private void Update()

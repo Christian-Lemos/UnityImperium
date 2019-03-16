@@ -112,7 +112,7 @@ public class Spawner : MonoBehaviour
         return ship;
     }
 
-    public GameObject SpawnStation(long id, StationType type, int player, Vector3 position, Quaternion rotation, int constructionProgress)
+    public GameObject SpawnStation(long id, StationType type, int player, Vector3 position, Quaternion rotation, float constructionProgress, bool setActive)
     {
         if (!PlayerDatabase.Instance.IsValidPlayer(player))
         {
@@ -131,18 +131,18 @@ public class Spawner : MonoBehaviour
             PlayerDatabase.Instance.AddToPlayer(newStation, player);
             newStation.GetComponent<StationController>().constructed = constructionProgress == 100;
             newStation.GetComponent<StationController>().constructionProgress = constructionProgress;
-            newStation.SetActive(true);
+            newStation.SetActive(setActive);
             newStation.name += " " + player;
 
             newStation.GetComponent<MapObject>().id = id;
 
             return newStation;
-        }
+        }   
     }
 
-    public GameObject SpawnStation(StationType type, int player, Vector3 position, Quaternion rotation, int constructionProgress)
+    public GameObject SpawnStation(StationType type, int player, Vector3 position, Quaternion rotation, float constructionProgress, bool setActive)
     {
-        GameObject station = SpawnStation(CreateID(), type, player, position, rotation, constructionProgress);
+        GameObject station = SpawnStation(CreateID(), type, player, position, rotation, constructionProgress, setActive);
         SetMapObjectChildrenID(station);
         return station;
     }

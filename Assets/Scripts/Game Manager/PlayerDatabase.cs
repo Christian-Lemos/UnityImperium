@@ -207,6 +207,23 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
 
     public ISerializable<List<PlayerPersistance>> SetObject(List<PlayerPersistance> serializedObject)
     {
-        throw new System.NotImplementedException();
+        foreach(PlayerPersistance pp in serializedObject)
+        {
+            foreach(ShipControllerPersistance scp in pp.ships)
+            {
+                playerObjects[pp.playerNumber].Add(MapObject.FindByID(scp.mapObjectPersitance.id).gameObject);
+            }
+
+            foreach(StationControllerPersistance scp in pp.stations)
+            {
+                playerObjects[pp.playerNumber].Add(MapObject.FindByID(scp.mapObjectPersitance.id).gameObject);
+            }
+
+            foreach(ResourcePersistance resourcePersistance in pp.resources)
+            {
+                playerResources[pp.playerNumber][resourcePersistance.resourceType] = resourcePersistance.quantity;
+            }
+        }
+        return this;
     }
 }

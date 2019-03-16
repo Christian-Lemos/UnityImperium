@@ -11,6 +11,7 @@ namespace Imperium.Persistence.MapObjects
         public MapObjectPersitance mapObjectPersitance;
         public Ship ship;
         public ShipType shipType;
+        public bool initialized;
 
         #region ShipModules
 
@@ -19,23 +20,25 @@ namespace Imperium.Persistence.MapObjects
 
         #endregion ShipModules
 
-        public List<TurretControllerPersistance> turretControllerPersistances;
+        public List<TurretControllerPersistance> turretControllerPersistances = new List<TurretControllerPersistance>();
 
-        public ShipControllerPersistance(Ship ship, ShipType shipType, MapObjectPersitance mapObjectPersitance, FleetCommandQueuePersistance fleetCommandQueuePersistance, List<TurretControllerPersistance> turretControllerPersistances)
+        public ShipControllerPersistance(Ship ship, ShipType shipType, MapObjectPersitance mapObjectPersitance, FleetCommandQueuePersistance fleetCommandQueuePersistance, List<TurretControllerPersistance> turretControllerPersistances, bool initialized)
         {
             this.ship = ship;
             this.shipType = shipType;
             this.mapObjectPersitance = mapObjectPersitance;
             this.fleetCommandQueuePersistance = fleetCommandQueuePersistance;
             this.turretControllerPersistances = turretControllerPersistances;
+            this.initialized = initialized;
         }
 
-        public ShipControllerPersistance(Ship ship, ShipType shipType, MapObjectPersitance mapObjectPersitance, FleetCommandQueuePersistance fleetCommandQueuePersistance)
+        public ShipControllerPersistance(Ship ship, ShipType shipType, MapObjectPersitance mapObjectPersitance, FleetCommandQueuePersistance fleetCommandQueuePersistance, bool initialized)
         {
             this.ship = ship;
             this.shipType = shipType;
             this.mapObjectPersitance = mapObjectPersitance;
             this.fleetCommandQueuePersistance = fleetCommandQueuePersistance;
+            this.initialized = initialized;
         }
     }
 }

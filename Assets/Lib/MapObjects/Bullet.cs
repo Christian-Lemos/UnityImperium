@@ -8,25 +8,26 @@ namespace Imperium.MapObjects
     {
         public string bulletPrefabName;
 
+        public BulletType bulletType;
         public int damage;
 
         public GameObject prefab;
 
         public float speed;
-
         private static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
 
-        public Bullet(float speed, int damage, string bulletPrefabName)
+        public Bullet(float speed, int damage, string bulletPrefabName, BulletType bulletType)
         {
             this.speed = speed;
             this.damage = damage;
             this.bulletPrefabName = bulletPrefabName;
-            LoadPrefab();
+            this.bulletType = bulletType;
+            LoadPrefab(bulletPrefabName);
         }
 
-        public GameObject LoadPrefab()
+        public GameObject LoadPrefab(string prefabName)
         {
-            if (prefabs.ContainsKey(bulletPrefabName))
+            if (prefabs.ContainsKey(prefabName))
             {
                 prefab = prefabs[bulletPrefabName];
             }

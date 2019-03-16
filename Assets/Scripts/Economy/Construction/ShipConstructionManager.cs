@@ -31,6 +31,20 @@ public class ShipConstructionManager : MonoBehaviour, ISerializable<ShipConstruc
         }
     }
 
+    private void ScheduleShipConstruction(OnGoingShipConstruction onGoingShipConstruction)
+    {
+        if (!shipConstructions.ContainsKey(onGoingShipConstruction.constructor))
+        {
+
+            IEnumerator enumerator = ConstructionCoroutine(onGoingShipConstruction);
+            onGoingShipConstruction.enumerator = enumerator;
+
+            shipConstructions.Add(onGoingShipConstruction.constructor, onGoingShipConstruction);
+
+            StartCoroutine(enumerator);
+        }
+    }
+
     public ShipConstructionManagerPersistance Serialize()
     {
         List<ShipConstructionManagerPersistance.Construction> constructions = new List<ShipConstructionManagerPersistance.Construction>();
@@ -44,7 +58,26 @@ public class ShipConstructionManager : MonoBehaviour, ISerializable<ShipConstruc
 
     public ISerializable<ShipConstructionManagerPersistance> SetObject(ShipConstructionManagerPersistance serializedObject)
     {
-        throw new System.NotImplementedException();
+        if(serializedObject.constructions != null)
+        {
+            foreach(ShipConstructionManagerPersistance.Construction construction in serializedObject.constructions)
+            {
+
+                MapObject source = MapObject.FindByID(construction.sourceID);
+
+                construction.onGoingShipConstruction.constructor = source.GetComponent<ShipConstructor>();
+
+                ScheduleShipConstruction(construction.onGoingShipConstruction);
+
+               // Debug.Log(MapObject.FindByID(construction.sourceID));
+
+                //ScheduleShipConstruction(MapObject.FindByID(construction.sourceID).GetComponent<ShipConstructor>(), new ShipConstruction(construction.onGoingShipConstruction.));
+
+                //shipConstructions.Add(MapObject.FindByID(construction.sourceID).GetComponent<ShipConstructor>(), new OnGoingShipConstruction(construction.sourceID));
+            }
+        }
+        
+        return this;
     }
 
     private void Awake()
@@ -58,6 +91,7 @@ public class ShipConstructionManager : MonoBehaviour, ISerializable<ShipConstruc
         {
             if (onGoingShipConstruction.constructor == null)
             {
+                Debug.Log("break");
                 break;
             }
 

@@ -38,7 +38,7 @@ public class StationConstructor : MonoBehaviour
                     PlayerDatabase.Instance.AddResourcesToPlayer(entry.Key, -entry.Value, player);
                 }
 
-                return Spawner.Instance.SpawnStation(stationConstruction.stationType, player, position, Quaternion.identity, 1);
+                return Spawner.Instance.SpawnStation(stationConstruction.stationType, player, position, Quaternion.identity, 1, true);
             }
         }
         throw new System.Exception("This station type can't be constructed");

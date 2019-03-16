@@ -19,13 +19,20 @@ namespace Imperium.Misc
             this.action = action;
         }
 
+        public Timer(float duration, bool timerSet)
+        {
+            this.duration = duration;
+            remainingDuration = duration;
+            this.timerSet = timerSet;
+        }
+
         public void Execute()
         {
-            if (timerSet)
+            if (timerSet && !GameTimeOptions.Instance.paused)
             {
                 remainingDuration -= Time.deltaTime;
 
-                if (IsFinished)
+                if (IsFinished && action != null)
                 {
                     action.Invoke();
                 }

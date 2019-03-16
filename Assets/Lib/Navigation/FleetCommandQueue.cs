@@ -99,7 +99,23 @@ namespace Imperium.Navigation
 
         public ISerializable<FleetCommandQueuePersistance> SetObject(FleetCommandQueuePersistance serializedObject)
         {
-            throw new System.NotImplementedException();
+           this.loopFleetCommands = serializedObject.loopFleetCommands;
+
+            int i = 0;
+            foreach(FleetCommandPersistance fleetCommandPersistance in serializedObject.fleetCommands)
+            {
+                FleetCommand fleetCommand = fleetCommandPersistance.ToFleetCommand();
+                this.fleetCommands.Add(fleetCommand);
+                if(i == serializedObject.currentFleetCommand)
+                {
+                    currentFleetCommand = fleetCommand;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return this;
         }
     }
 }
