@@ -47,10 +47,8 @@ public class AsteroidFieldController : MonoBehaviour, ISerializable<AsteroidFiel
         {
             foreach (GameObject asteroid in keyValuePair.Value)
             {
-                Debug.Log("Saving Asteroid");
                 asteroidPersistances.Add(asteroid.GetComponent<AsteroidController>().Serialize());
             }
-            Debug.Log("----------");
         }
 
         return new AsteroidFieldControllerPersistance(asteroidFieldAsteroidSettings.Serialize(), asteroidPersistances, initialized, GetComponent<MapObject>().Serialize(), size);
@@ -155,7 +153,6 @@ public class AsteroidFieldController : MonoBehaviour, ISerializable<AsteroidFiel
         asteroidMaxZAxis = transform.position.z + size.z / 2;
 
         AsteroidController[] asteroidControllers = GetComponentsInChildren<AsteroidController>(true);
-        Debug.Log(asteroidControllers.Length);
         foreach (AsteroidController asteroidController in asteroidControllers)
         {
             ResourceType resourceType = asteroidController.resourceType;

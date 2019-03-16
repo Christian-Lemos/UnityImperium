@@ -19,7 +19,7 @@ namespace Imperium
             switch (type)
             {
                 case (StationType.TestStation):
-                    stats = new CombatStats(500, 1, 500, 1, 5, 10f);
+                    stats = new CombatStats(500, 1, 500, 1, 5, 20f);
                     stationName = "Test Station";
                     break;
 

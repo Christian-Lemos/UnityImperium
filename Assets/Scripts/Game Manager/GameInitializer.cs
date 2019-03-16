@@ -118,7 +118,7 @@ public class GameInitializer : MonoBehaviour
         {
             ShipController shipController = association.gameObject.GetComponent<ShipController>();
 
-            if (shipController.initialized != false)
+            if (shipController.initialized)
             {
                 shipController.SetObject(association.serializedObject);
             }

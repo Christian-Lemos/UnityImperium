@@ -35,6 +35,7 @@ public class MapObjectCombatter : MonoBehaviour
         GameObject closestTarget = null;
         float closestDistance = 0f;
         int thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
+
         foreach (Collider collider in colliders)
         {
             if (collider.gameObject.GetComponent<MapObject>() != null && !PlayerDatabase.Instance.IsFromPlayer(collider.gameObject, thisPlayer) && !collider.gameObject.Equals(gameObject))

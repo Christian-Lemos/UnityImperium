@@ -2,6 +2,7 @@
 using Imperium.MapObjects;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MapObject))]
@@ -43,7 +44,16 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
 
     public StationControllerPersistance Serialize()
     {
-        return new StationControllerPersistance(constructed, constructionProgress, GetComponent<MapObject>().Serialize(), Station, stationType);
+        List<TurretControllerPersistance> turretControllerPersistances = new List<TurretControllerPersistance>();
+
+        TurretController[] turretControllers = GetComponentsInChildren<TurretController>();
+
+        foreach (TurretController turretController in turretControllers)
+        {
+            turretControllerPersistances.Add(turretController.Serialize());
+        }
+
+        return new StationControllerPersistance(constructed, constructionProgress, GetComponent<MapObject>().Serialize(), Station, stationType,turretControllerPersistances, true);
     }
 
     public ISerializable<StationControllerPersistance> SetObject(StationControllerPersistance serializedObject)
@@ -52,6 +62,16 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
         this.constructionProgress = serializedObject.constructionProgress;
         this.Station = serializedObject.station;
         this.stationType = serializedObject.stationType;
+
+        if(serializedObject.initialized)
+        {
+            foreach(TurretControllerPersistance turretControllerPersistance in serializedObject.turretControllerPersistances)
+            {
+                transform.GetChild(turretControllerPersistance.turretIndex).GetComponent<TurretController>().SetObject(turretControllerPersistance);
+            }
+        }
+        
+
         return this;
     }
 
