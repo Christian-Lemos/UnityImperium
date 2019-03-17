@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4785215483357962}
   - component: {fileID: 82517984682646238}
   - component: {fileID: 114485030605293470}
-  - component: {fileID: 114676293998647550}
   m_Layer: 10
   m_Name: Turret
   m_TagString: Untagged
@@ -39,7 +38,6 @@ GameObject:
   - component: {fileID: 4303530020883256}
   - component: {fileID: 82373093424414276}
   - component: {fileID: 114712532109385580}
-  - component: {fileID: 114039830388598856}
   m_Layer: 10
   m_Name: Turret (3)
   m_TagString: Untagged
@@ -57,7 +55,6 @@ GameObject:
   - component: {fileID: 4878689423447072}
   - component: {fileID: 82437275474118804}
   - component: {fileID: 114755517844912338}
-  - component: {fileID: 114487871197281256}
   m_Layer: 10
   m_Name: Turret (5)
   m_TagString: Untagged
@@ -75,7 +72,6 @@ GameObject:
   - component: {fileID: 4934689689492890}
   - component: {fileID: 82909606086228946}
   - component: {fileID: 114780220593251756}
-  - component: {fileID: 114221008439281514}
   m_Layer: 10
   m_Name: Turret
   m_TagString: Untagged
@@ -93,7 +89,6 @@ GameObject:
   - component: {fileID: 4363693821668276}
   - component: {fileID: 82066708703312816}
   - component: {fileID: 114447773967645152}
-  - component: {fileID: 114380759586745298}
   m_Layer: 10
   m_Name: Turret (6)
   m_TagString: Untagged
@@ -111,7 +106,6 @@ GameObject:
   - component: {fileID: 4540306169981980}
   - component: {fileID: 82134353351136694}
   - component: {fileID: 114013637221689164}
-  - component: {fileID: 114860185530212288}
   m_Layer: 10
   m_Name: Turret (2)
   m_TagString: Untagged
@@ -129,7 +123,6 @@ GameObject:
   - component: {fileID: 4915733086848310}
   - component: {fileID: 82698759408397282}
   - component: {fileID: 114920267571805868}
-  - component: {fileID: 114849249342524182}
   m_Layer: 10
   m_Name: Turret (1)
   m_TagString: Untagged
@@ -172,7 +165,6 @@ GameObject:
   - component: {fileID: 4212381439904902}
   - component: {fileID: 82182922843520998}
   - component: {fileID: 114389540469408034}
-  - component: {fileID: 114768371747757362}
   m_Layer: 10
   m_Name: Turret (7)
   m_TagString: Untagged
@@ -190,7 +182,6 @@ GameObject:
   - component: {fileID: 4530427729282140}
   - component: {fileID: 82755790323835322}
   - component: {fileID: 114911984964031694}
-  - component: {fileID: 114544709753439782}
   m_Layer: 10
   m_Name: Turret (4)
   m_TagString: Untagged
@@ -1309,6 +1300,7 @@ MonoBehaviour:
     accuracy: 0
     bullet:
       bulletPrefabName: 
+      bulletType: 0
       damage: 0
       prefab: {fileID: 0}
       speed: 0
@@ -1334,37 +1326,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lowestTurretRange: 0
   combatStats:
+    fieldOfViewDistance: 0
     hp: 0
     maxHP: 0
     maxShields: 0
     shieldRegen: 0
     shields: 0
---- !u!114 &114039830388598856
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1184732746638712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  mapObjectType: 4
---- !u!114 &114221008439281514
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1371467540236260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  mapObjectType: 4
 --- !u!114 &114281450588646716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1381,6 +1348,7 @@ MonoBehaviour:
     type: 2}
   combatCanvasScale: 0.55
   combatStats:
+    fieldOfViewDistance: 0
     hp: 0
     maxHP: 0
     maxShields: 0
@@ -1388,19 +1356,6 @@ MonoBehaviour:
     shields: 0
   hp: {fileID: 0}
   shields: {fileID: 0}
---- !u!114 &114380759586745298
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1441669745222000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  mapObjectType: 4
 --- !u!114 &114389540469408034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1416,6 +1371,7 @@ MonoBehaviour:
     accuracy: 0
     bullet:
       bulletPrefabName: 
+      bulletType: 0
       damage: 0
       prefab: {fileID: 0}
       speed: 0
@@ -1443,6 +1399,7 @@ MonoBehaviour:
     accuracy: 0
     bullet:
       bulletPrefabName: 
+      bulletType: 0
       damage: 0
       prefab: {fileID: 0}
       speed: 0
@@ -1486,6 +1443,7 @@ MonoBehaviour:
     accuracy: 0
     bullet:
       bulletPrefabName: 
+      bulletType: 0
       damage: 0
       prefab: {fileID: 0}
       speed: 0
@@ -1498,32 +1456,6 @@ MonoBehaviour:
     timerSet: 0
   target: {fileID: 0}
   turretType: 0
---- !u!114 &114487871197281256
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1351748974927008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  mapObjectType: 4
---- !u!114 &114544709753439782
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1794643463366460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  mapObjectType: 4
 --- !u!114 &114614565060751116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1536,19 +1468,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endPosition: {x: 0, y: 0, z: 0}
---- !u!114 &114676293998647550
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1028041103747840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  mapObjectType: 4
 --- !u!114 &114712532109385580
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1564,6 +1483,7 @@ MonoBehaviour:
     accuracy: 0
     bullet:
       bulletPrefabName: 
+      bulletType: 0
       damage: 0
       prefab: {fileID: 0}
       speed: 0
@@ -1604,6 +1524,7 @@ MonoBehaviour:
     accuracy: 0
     bullet:
       bulletPrefabName: 
+      bulletType: 0
       damage: 0
       prefab: {fileID: 0}
       speed: 0
@@ -1616,19 +1537,6 @@ MonoBehaviour:
     timerSet: 0
   target: {fileID: 0}
   turretType: 0
---- !u!114 &114768371747757362
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1748116252484462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  mapObjectType: 4
 --- !u!114 &114780220593251756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1644,6 +1552,7 @@ MonoBehaviour:
     accuracy: 0
     bullet:
       bulletPrefabName: 
+      bulletType: 0
       damage: 0
       prefab: {fileID: 0}
       speed: 0
@@ -1656,32 +1565,6 @@ MonoBehaviour:
     timerSet: 0
   target: {fileID: 0}
   turretType: 0
---- !u!114 &114849249342524182
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1663252061239296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  mapObjectType: 4
---- !u!114 &114860185530212288
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1592329878770818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  mapObjectType: 4
 --- !u!114 &114877144355096746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1695,20 +1578,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fleetCommandQueue:
     loopFleetCommands: 0
-  ship:
-    angularSpeed: 0
-    iconName: 
-    name: 
-    shipIcon: {fileID: 0}
-    combatStats:
-      hp: 0
-      maxHP: 0
-      maxShields: 0
-      shieldRegen: 0
-      shields: 0
-    speed: 0
   shipType: 1
   stationConstructor: {fileID: 0}
+  initialized: 1
 --- !u!114 &114909788611761058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1758,6 +1630,7 @@ MonoBehaviour:
     accuracy: 0
     bullet:
       bulletPrefabName: 
+      bulletType: 0
       damage: 0
       prefab: {fileID: 0}
       speed: 0
@@ -1785,6 +1658,7 @@ MonoBehaviour:
     accuracy: 0
     bullet:
       bulletPrefabName: 
+      bulletType: 0
       damage: 0
       prefab: {fileID: 0}
       speed: 0

@@ -1,21 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using System;
+
 public class FogOfWarController : MonoBehaviour
 {
-    public Color[] meshColors;
+    private Color[] meshColors;
     public int[] players;
 
-    [SerializeField]
-    private LayerMask fogOfWarLayer;
+    private IEnumerator enumerator;
 
     [SerializeField]
     private GameObject fogOfWarPlane;
 
     private List<FogOfWarUtility> fogOfWarUtilities = new List<FogOfWarUtility>();
     private Mesh mesh;
-    private Dictionary<FogOfWarUtility, FogOfWarState> states = new Dictionary<FogOfWarUtility, FogOfWarState>();
-    
 
     private enum FogOfWarState
     {
@@ -25,16 +23,15 @@ public class FogOfWarController : MonoBehaviour
     private HashSet<GameObject> GetObjects()
     {
         HashSet<GameObject> gameObjects = new HashSet<GameObject>();
-
         for (int i = 0; i < players.Length; i++)
         {
             HashSet<GameObject> playerGOs = PlayerDatabase.Instance.GetObjects(players[i]);
             foreach (GameObject @object in playerGOs)
             {
-                if (@object.GetComponent<MapObjectCombatter>() != null)
-                {
-                    gameObjects.Add(@object);
-                }
+                //if (@object.GetComponent<MapObjectCombatter>() != null)
+                //{
+                gameObjects.Add(@object);
+                // }
             }
         }
 
@@ -49,9 +46,8 @@ public class FogOfWarController : MonoBehaviour
         meshColors = new Color[vertices.Length];
         for (int i = 0; i < vertices.Length; i++)
         {
-            FogOfWarUtility fogOfWarUtility =  new FogOfWarUtility(vertices[i], i, FogOfWarState.Unexplored);
+            FogOfWarUtility fogOfWarUtility = new FogOfWarUtility(fogOfWarPlane, vertices[i], i, FogOfWarState.Unexplored);
             fogOfWarUtilities.Add(fogOfWarUtility);
-            states.Add(fogOfWarUtility, FogOfWarState.Unexplored);
             meshColors[i] = Color.black;
         }
     }
@@ -59,17 +55,8 @@ public class FogOfWarController : MonoBehaviour
     private void Start()
     {
         Initialize();
-       
-    }
-
-    private void Update()
-    {
-        List<FogOfWarUtility> keys = new List<FogOfWarUtility>(states.Keys);
-        foreach(FogOfWarUtility key in keys)
-        {
-            states[key] = FogOfWarState.Unexplored;
-        }
-        UpdateFogOfWar();
+        enumerator = Updater();
+        StartCoroutine(enumerator);
     }
 
     private void UpdateFogOfWar()
@@ -78,83 +65,95 @@ public class FogOfWarController : MonoBehaviour
 
         foreach (GameObject @object in gameObjects)
         {
-            Vector3 fogPoint = new Vector3(@object.transform.position.x, fogOfWarPlane.transform.position.y, @object.transform.position.z);
-            float fogRadius = @object.GetComponent<MapObjectCombatter>().combatStats.fieldOfViewDistance;
-
-            foreach (FogOfWarUtility fowu in fogOfWarUtilities)
+            float fogRadius;
+            try
             {
-                FogOfWarState higherState = states[fowu];
+                fogRadius = @object.GetComponent<MapObjectCombatter>().combatStats.fieldOfViewDistance;
+            }
+            catch
+            {
+                continue;
+            }
 
-                if(higherState != FogOfWarState.Visible)
+            Vector3 fogPoint = new Vector3(@object.transform.position.x, fogOfWarPlane.transform.position.y, @object.transform.position.z);
+            for (int i = 0; i < fogOfWarUtilities.Count; i++)
+            {
+                FogOfWarUtility fowu = fogOfWarUtilities[i];
+                if (fowu.higherState != FogOfWarState.Visible)
                 {
-                    Vector3 v = fogOfWarPlane.transform.TransformPoint(fowu.vertice);
-
-                    float dist = (v - fogPoint).sqrMagnitude;
-
+                    float dist = (fowu.verticeInWorldSpace - fogPoint).sqrMagnitude;
                     bool inRange = dist < fogRadius * fogRadius;
-                
-                    FogOfWarState fogOfWarState = FogOfWarState.Unexplored;
 
                     switch (fowu.fogOfWarState)
                     {
                         case FogOfWarState.Unexplored:
-                            fogOfWarState = inRange ? FogOfWarState.Visible : FogOfWarState.Unexplored;
-
+                            fowu.fogOfWarState = inRange ? FogOfWarState.Visible : FogOfWarState.Unexplored;
                             break;
 
                         case FogOfWarState.Visible:
-                            fogOfWarState = inRange ? FogOfWarState.Visible : FogOfWarState.Explored;
+                            fowu.fogOfWarState = inRange ? FogOfWarState.Visible : FogOfWarState.Explored;
                             break;
 
                         case FogOfWarState.Explored:
-                            fogOfWarState = inRange ? FogOfWarState.Visible : FogOfWarState.Explored;
+                            fowu.fogOfWarState = inRange ? FogOfWarState.Visible : FogOfWarState.Explored;
                             break;
                     }
 
-                    if((int) fogOfWarState > (int) higherState)
+                    if ((int)fowu.fogOfWarState > (int)fowu.higherState)
                     {
-                        states[fowu] = fogOfWarState;
+                        fowu.higherState = fowu.fogOfWarState;
                     }
                 }
             }
         }
 
-        foreach(KeyValuePair<FogOfWarUtility, FogOfWarState> keyValuePair in states)
+        for (int i = 0; i < fogOfWarUtilities.Count; i++)
         {
-            keyValuePair.Key.fogOfWarState = keyValuePair.Value;
-
-            switch(keyValuePair.Value)
+            FogOfWarUtility fowu = fogOfWarUtilities[i];
+            switch (fowu.higherState)
             {
                 case FogOfWarState.Unexplored:
-                    meshColors[keyValuePair.Key.colorIndex].a = 0.6f;
+                    meshColors[fowu.colorIndex].a = 0.6f;
                     break;
+
                 case FogOfWarState.Explored:
-                    meshColors[keyValuePair.Key.colorIndex].a = 0.3f;
+                    meshColors[fowu.colorIndex].a = 0.3f;
                     break;
+
                 case FogOfWarState.Visible:
-                    meshColors[keyValuePair.Key.colorIndex].a = 0f;
+                    meshColors[fowu.colorIndex].a = 0f;
                     break;
             }
+            fowu.higherState = FogOfWarState.Unexplored;
         }
-        
-        
+
         mesh.colors = meshColors;
     }
 
+    private IEnumerator Updater()
+    {
+        while (true)
+        {
+            UpdateFogOfWar();
+            yield return null;
+        }
+    }
 
     private class FogOfWarUtility
     {
         public int colorIndex;
         public FogOfWarState fogOfWarState;
+        public FogOfWarState higherState;
         public Vector3 vertice;
+        public Vector3 verticeInWorldSpace;
 
-        public FogOfWarUtility(Vector3 vertice, int colorIndex, FogOfWarState fogOfWarState)
+        public FogOfWarUtility(GameObject fogOfWarPlane, Vector3 vertice, int colorIndex, FogOfWarState fogOfWarState)
         {
             this.vertice = vertice;
             this.colorIndex = colorIndex;
             this.fogOfWarState = fogOfWarState;
+            verticeInWorldSpace = fogOfWarPlane.transform.TransformPoint(vertice);
+            higherState = fogOfWarState;
         }
     }
-
- 
 }
