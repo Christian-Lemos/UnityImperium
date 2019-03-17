@@ -66,12 +66,13 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
     public void MineAsteroid(GameObject asteroid, bool resetCommands)
     {
         FleetCommand fleetCommand = new MineCommand(gameObject.GetComponent<MapObject>(), asteroid.GetComponent<MapObject>());
-        AddCommand(resetCommands, fleetCommand);
+        AddCommand(resetCommands, fleetCommand);    
         fleetCommandQueue.loopFleetCommands = false;
     }
 
     public void MoveControl(Vector3 destination)
     {
+        destination.y = 0;
         Quaternion desRotation = Quaternion.LookRotation(destination - transform.position, Vector3.up);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, desRotation, Ship.angularSpeed * Time.deltaTime);
         transform.position += transform.forward * Ship.speed * Time.deltaTime;
@@ -142,7 +143,7 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
 
     private void AddCommand(bool resetCommands, FleetCommand fleetCommand)
     {
-        Debug.Log("Added: " + fleetCommand);
+        //Debug.Log("Added: " + fleetCommand);
         if (resetCommands)
         {
             fleetCommandQueue.ResetCommands();
