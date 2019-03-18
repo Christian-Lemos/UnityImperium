@@ -171,9 +171,14 @@ public class Spawner : MonoBehaviour
     public void SetMapObjectChildrenID(GameObject @object)
     {
         MapObject[] mapObjects = @object.GetComponentsInChildren<MapObject>();
+        MapObject parent =  @object.GetComponent<MapObject>();
+
         foreach (MapObject mapObject in mapObjects)
         {
-            mapObject.id = CreateID();
+            if(!mapObject.Equals(parent))
+            {
+                mapObject.id = CreateID();
+            }
         }
     }
 

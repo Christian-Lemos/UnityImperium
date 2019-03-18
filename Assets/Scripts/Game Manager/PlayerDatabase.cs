@@ -193,6 +193,7 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
                 {
                     stationControllerPersistances.Add(mapObject.gameObject.GetComponent<StationController>().Serialize());
                 }
+                
             }
 
             foreach (KeyValuePair<ResourceType, int> keyValuePair in playerResources[i])

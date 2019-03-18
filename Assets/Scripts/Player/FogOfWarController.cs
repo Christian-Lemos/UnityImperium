@@ -30,12 +30,12 @@ public class FogOfWarController : MonoBehaviour
         };
 
         
-        MapObject[] mapObjects = GameObject.FindObjectsOfType<MapObject>();
+        HashSet<MapObject> mapObjects = MapObject.GetMapObjects();
         List<FogOfWarMeshVertice> fogOfWarUtilities = GetFogOfWarUtilities(players);
 
-        for(int i =0; i < mapObjects.Length; i++)
+        foreach(MapObject mapObject in mapObjects)
         {
-            objectFOWStates[GetObjectFOWState(mapObjects[i].gameObject, fogOfWarUtilities)].Add(mapObjects[i].gameObject);
+            objectFOWStates[GetObjectFOWState(mapObject.gameObject, fogOfWarUtilities)].Add(mapObject.gameObject);
         }
 
         if(includeSources)
@@ -91,10 +91,7 @@ public class FogOfWarController : MonoBehaviour
             HashSet<GameObject> playerGOs = PlayerDatabase.Instance.GetObjects(players[i]);
             foreach (GameObject @object in playerGOs)
             {
-                //if (@object.GetComponent<MapObjectCombatter>() != null)
-                //{
                 gameObjects.Add(@object);
-                // }
             }
         }
 

@@ -24,7 +24,33 @@ namespace Imperium.Rendering
                 }
             }
 
-            MapObject[] mapObjects = GameObject.FindObjectsOfType<MapObject>();
+
+            HashSet<MapObject> mapObjects = MapObject.GetMapObjects();
+            foreach(MapObject mapObject in mapObjects)
+            {
+                if(playersGOs.Contains(mapObject.gameObject))
+                {
+                    visible.Add(mapObject.gameObject);
+                }
+            }
+
+            foreach(MapObject mapObject in mapObjects)
+            {
+                if(!visible.Contains(mapObject.gameObject))
+                {
+                    foreach(GameObjectMOC gomoc in gameObjectMOCs)
+                    {
+                        float dist = (gomoc.gameObject.transform.position - mapObject.gameObject.transform.position).sqrMagnitude;
+                        if (dist < gomoc.fovSqr)
+                        {
+                            visible.Add(mapObject.gameObject);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            /*MapObject[] mapObjects = GameObject.FindObjectsOfType<MapObject>();
             for(int i = 0; i < mapObjects.Length; i++)
             {
                 if(playersGOs.Contains(mapObjects[i].gameObject))
@@ -49,7 +75,7 @@ namespace Imperium.Rendering
                         }
                     }
                 }
-            }
+            }*/
 
             return visible;
         }
@@ -99,7 +125,15 @@ namespace Imperium.Rendering
             {
                 this.gameObject = gameObject;
                 this.mapObjectCombatter = gameObject.GetComponent<MapObjectCombatter>();
-                fovSqr = mapObjectCombatter.combatStats.fieldOfViewDistance * mapObjectCombatter.combatStats.fieldOfViewDistance;
+                try
+                {
+                    fovSqr = mapObjectCombatter.combatStats.fieldOfViewDistance * mapObjectCombatter.combatStats.fieldOfViewDistance;
+                }
+                catch
+                {
+                   // Debug.Log(gameObject.name);
+                }
+                
             }
         }
     }
