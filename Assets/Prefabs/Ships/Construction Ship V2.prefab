@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 114084255763558954}
   - component: {fileID: 120098750039528678}
   - component: {fileID: 114841801037031234}
+  - component: {fileID: 114966712773797752}
   m_Layer: 10
   m_Name: Construction Ship V2
   m_TagString: Untagged
@@ -634,6 +635,7 @@ MonoBehaviour:
     type: 2}
   combatCanvasScale: 0.07
   combatStats:
+    fieldOfViewDistance: 0
     hp: 0
     maxHP: 0
     maxShields: 0
@@ -672,6 +674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lowestTurretRange: 0
   combatStats:
+    fieldOfViewDistance: 0
     hp: 0
     maxHP: 0
     maxShields: 0
@@ -689,6 +692,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &114966712773797752
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699482876744136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 173f1a628d907d34ca88374da46c4274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleObjects: []
 --- !u!114 &114998332378133354
 MonoBehaviour:
   m_ObjectHideFlags: 1

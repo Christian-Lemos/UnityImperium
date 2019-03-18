@@ -3,11 +3,12 @@ using Imperium.MapObjects;
 using Imperium.Navigation;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
+using Imperium.Rendering;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MapObject))]
-public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersistance>
+public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersistance>, INonExplorable
 {
     public FleetCommandQueue fleetCommandQueue = new FleetCommandQueue();
 
@@ -182,7 +183,6 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
 
         mapObjectCombatter = GetComponent<MapObjectCombatter>();
         mapObjectCombatter.combatStats = Ship.combatStats;
-
         StartCoroutine(mapObjectCombatter.ShieldRegeneration());
 
         stationConstructor = GetComponent<StationConstructor>();

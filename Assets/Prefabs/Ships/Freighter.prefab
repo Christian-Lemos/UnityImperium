@@ -31,6 +31,7 @@ GameObject:
   - component: {fileID: 114215273365515564}
   - component: {fileID: 120254386981988268}
   - component: {fileID: 114001824911213776}
+  - component: {fileID: 114527489991959784}
   m_Layer: 10
   m_Name: Freighter
   m_TagString: Untagged
@@ -163,6 +164,7 @@ MonoBehaviour:
     type: 2}
   combatCanvasScale: 1
   combatStats:
+    fieldOfViewDistance: 0
     hp: 0
     maxHP: 0
     maxShields: 0
@@ -182,6 +184,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceCapacity: 50
+--- !u!114 &114527489991959784
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1183481545441364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 173f1a628d907d34ca88374da46c4274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleObjects: []
 --- !u!114 &114586168358386170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -195,20 +209,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fleetCommandQueue:
     loopFleetCommands: 0
-  ship:
-    angularSpeed: 0
-    iconName: 
-    name: 
-    shipIcon: {fileID: 0}
-    combatStats:
-      hp: 0
-      maxHP: 0
-      maxShields: 0
-      shieldRegen: 0
-      shields: 0
-    speed: 0
   shipType: 3
   stationConstructor: {fileID: 0}
+  initialized: 1
 --- !u!114 &114639167477382772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -223,10 +226,6 @@ MonoBehaviour:
   isMining: 0
   miningExtractionQuantity: 10
   miningInterval: 5
-  miningTimer:
-    duration: 0
-    remainingDuration: 0
-    timerSet: 0
 --- !u!114 &114645584444820756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -240,6 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lowestTurretRange: 0
   combatStats:
+    fieldOfViewDistance: 0
     hp: 0
     maxHP: 0
     maxShields: 0

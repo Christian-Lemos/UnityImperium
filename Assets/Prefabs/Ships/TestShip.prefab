@@ -29,6 +29,7 @@ GameObject:
   - component: {fileID: 114066113572409250}
   - component: {fileID: 120718293654392780}
   - component: {fileID: 114698593141773770}
+  - component: {fileID: 114096490651138372}
   m_Layer: 10
   m_Name: TestShip
   m_TagString: Untagged
@@ -268,6 +269,18 @@ MonoBehaviour:
     shields: 0
   hp: {fileID: 0}
   shields: {fileID: 0}
+--- !u!114 &114096490651138372
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1306210491191302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 173f1a628d907d34ca88374da46c4274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleObjects: []
 --- !u!114 &114292036334787162
 MonoBehaviour:
   m_ObjectHideFlags: 1

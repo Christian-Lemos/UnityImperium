@@ -91,7 +91,6 @@ public class ShipConstructionManager : MonoBehaviour, ISerializable<ShipConstruc
         {
             if (onGoingShipConstruction.constructor == null)
             {
-                Debug.Log("break");
                 break;
             }
 

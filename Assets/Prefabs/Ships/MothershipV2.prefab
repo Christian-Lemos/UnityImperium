@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 114281450588646716}
   - component: {fileID: 120773975483462160}
   - component: {fileID: 114614565060751116}
+  - component: {fileID: 114450760579474326}
   m_Layer: 10
   m_Name: MothershipV2
   m_TagString: Untagged
@@ -1412,6 +1413,18 @@ MonoBehaviour:
     timerSet: 0
   target: {fileID: 0}
   turretType: 0
+--- !u!114 &114450760579474326
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1738834379677540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 173f1a628d907d34ca88374da46c4274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleObjects: []
 --- !u!114 &114470675054749188
 MonoBehaviour:
   m_ObjectHideFlags: 1

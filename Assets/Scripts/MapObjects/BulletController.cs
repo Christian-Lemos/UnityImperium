@@ -2,10 +2,11 @@
 using Imperium.MapObjects;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
+using Imperium.Rendering;
 using UnityEngine;
 
 [RequireComponent(typeof(MapObject))]
-public class BulletController : MonoBehaviour, ISerializable<BulletControllerPersistance>
+public class BulletController : MonoBehaviour, ISerializable<BulletControllerPersistance>, INonExplorable
 {
     private Bullet bullet;
     private bool initialized = false;

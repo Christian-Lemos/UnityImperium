@@ -148,6 +148,22 @@ public class GameInitializer : MonoBehaviour
         {
             ShipConstructionManager.Instance.SetObject(gameSceneData.shipConstructionManagerPersistance);
         }
+
+        MapObject[] trueMapObjects = GameObject.FindObjectsOfType<MapObject>();
+        for (int i = 0; i < trueMapObjects.Length; i++)
+        {
+            MeshRenderer[] meshRenderers = trueMapObjects[i].GetComponentsInChildren<MeshRenderer>();
+            for (int j = 0; j < meshRenderers.Length; j++)
+            {
+                meshRenderers[j].enabled = false;
+            }
+
+            TrailRenderer[] trailRenderers = trueMapObjects[i].GetComponentsInChildren<TrailRenderer>();
+            for (int j = 0; j < trailRenderers.Length; j++)
+            {
+                trailRenderers[j].enabled = false;
+            }
+        }
         
         SetUpPlayerManager();
     }
