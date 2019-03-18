@@ -1,26 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1082721284821788}
-  m_IsPrefabAsset: 1
 --- !u!1 &1082721284821788
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4482855161407186}
   - component: {fileID: 114710450473390194}
   - component: {fileID: 114253958629122612}
+  - component: {fileID: 1336995877}
+  - component: {fileID: 1336995878}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -30,9 +22,10 @@ GameObject:
   m_IsActive: 0
 --- !u!4 &4482855161407186
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082721284821788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -41,23 +34,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114253958629122612
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1082721284821788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 734b169f0a1696d44a3e0ee8e785f1d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameMainMenuObject: {fileID: 0}
 --- !u!114 &114710450473390194
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082721284821788}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -65,8 +47,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constructionButtonPrefab: {fileID: 1150228962956472, guid: 1ee176894cdba2141a762839cdc594e6,
-    type: 2}
+    type: 3}
   constructionSection: {fileID: 0}
   player: 0
-  selectPanel: {fileID: 0}
   selectedGOs: []
+  selectPanel: {fileID: 0}
+--- !u!114 &114253958629122612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082721284821788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b169f0a1696d44a3e0ee8e785f1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameMainMenuObject: {fileID: 0}
+--- !u!114 &1336995877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082721284821788}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91cf716adb2db2649a520502390f4964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playersVision: 00000000
+  fogOfWarPlane: {fileID: 0}
+--- !u!114 &1336995878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082721284821788}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa87eae9d5b999468a06e24666ed3b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players: 00000000

@@ -1,21 +1,11 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1650328200139088}
-  m_IsPrefabAsset: 1
 --- !u!1 &1650328200139088
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4152529043857510}
@@ -23,6 +13,7 @@ GameObject:
   - component: {fileID: 114063207122363726}
   - component: {fileID: 114962969850159042}
   - component: {fileID: 114121210284327604}
+  - component: {fileID: 1521141438}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -32,9 +23,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4152529043857510
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650328200139088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -43,32 +35,67 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114150497846309370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650328200139088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def10ae0f2ea3bc46a10b57a8eaee8fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114063207122363726
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650328200139088}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99dc25b762055e34ea970c4df197ab92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  asteroidFieldPreab: {fileID: 1817522024916946, guid: 07e432aba6a2bdd4daa0fd63e36e4cdc,
+    type: 3}
+  asteroidsPrefabs:
+  - {fileID: 1217605875423196, guid: fa49e460baf435b4780da7196c2ab473, type: 3}
+  - {fileID: 1594913485753456, guid: 84cc3cd234dfc9d4d9d2e92c0eb0af75, type: 3}
+  - {fileID: 1261018428019946, guid: 04d0bf4be9447154188d86f6e3b8dce9, type: 3}
+  nextId: 1
   ship_assosiations:
-  - shipType: 0
-    prefab: {fileID: 1306210491191302, guid: 38ab961b9a81d714cb68baa4b6bf2c6d, type: 2}
-  - shipType: 1
-    prefab: {fileID: 1332735339862588, guid: f0f46b064e060aa4997cf861702971ff, type: 2}
-  - shipType: 2
-    prefab: {fileID: 1486607332098058, guid: 5ad90ab0db860034987d69bb8f6e7fe5, type: 2}
+  - prefab: {fileID: 1306210491191302, guid: 38ab961b9a81d714cb68baa4b6bf2c6d, type: 3}
+    shipType: 0
+  - prefab: {fileID: 1738834379677540, guid: c877f17920ed4ef479225109c225caf7, type: 3}
+    shipType: 1
+  - prefab: {fileID: 1699482876744136, guid: e5078c17b52bb014882bc0363c060079, type: 3}
+    shipType: 2
+  - prefab: {fileID: 1183481545441364, guid: 113b94d0c87a7b24487a8ae04e6d70bf, type: 3}
+    shipType: 3
   station_assosiations:
-  - stationType: 0
-    prefab: {fileID: 1249487277988724, guid: 82e0a040e5e4ecf4d93f94e67b3657df, type: 2}
+  - prefab: {fileID: 1249487277988724, guid: 82e0a040e5e4ecf4d93f94e67b3657df, type: 3}
+    stationType: 0
+--- !u!114 &114962969850159042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650328200139088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65ab621b771faa24ebcb6d706d0b3bb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114121210284327604
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650328200139088}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -76,28 +103,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameSceneData:
-    Name: 
+    asteroidFields: []
+    bulletControllerPersistances: []
     MapSize: {x: 0, y: 0}
+    Name: 
     players: []
---- !u!114 &114150497846309370
+    shipConstructionManagerPersistance:
+      constructions: []
+    nextMapObjectId: 0
+  playerManager: {fileID: 0}
+  selectionPanelPrefab: {fileID: 1487339570365478, guid: 49f60bce01df1cc48bb4fd309322940e,
+    type: 3}
+--- !u!114 &1521141438
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650328200139088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: def10ae0f2ea3bc46a10b57a8eaee8fc, type: 3}
+  m_Script: {fileID: 11500000, guid: cb8abcb7d0e50834b916c48f183e71aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114962969850159042
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1650328200139088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65ab621b771faa24ebcb6d706d0b3bb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  paused: 0
+  masterSpeed: 1

@@ -21,10 +21,15 @@ public class MainMenuController : MonoBehaviour
     {
         SceneManager.Instance.CreateNewGame(2);
     }
+    private void LoadGameHandler()
+    {
+        SceneManager.Instance.LoadGame("New Game");
+    }
 
     private void Start()
     {
         newGameButton.onClick.AddListener(NewGameHandler);
+        loadGameButton.onClick.AddListener(LoadGameHandler);
         exitGameButton.onClick.AddListener(ExitGameHandler);
     }
 }

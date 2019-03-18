@@ -11,27 +11,41 @@ namespace Imperium.Rendering
 
         public static ICollection<GameObject> GetVisibleObjects(params int[] players)
         {
-            ICollection<GameObject> playersGOs = new HashSet<GameObject>();
+            ICollection<GameObjectMOC> gameObjectMOCs = new HashSet<GameObjectMOC>();
             ICollection<GameObject> visible = new HashSet<GameObject>();
+            ICollection<GameObject> playersGOs = new HashSet<GameObject>();
             for (int i = 0; i < players.Length; i++)
             {
                 HashSet<GameObject> playerGOs = PlayerDatabase.Instance.GetObjects(players[i]);
                 foreach (GameObject @object in playerGOs)
                 {
+                    gameObjectMOCs.Add(new GameObjectMOC(@object));
                     playersGOs.Add(@object);
                 }
             }
 
-            foreach (GameObject gameObject in playersGOs)
+            MapObject[] mapObjects = GameObject.FindObjectsOfType<MapObject>();
+            for(int i = 0; i < mapObjects.Length; i++)
             {
-                FOWAgent agent = gameObject.GetComponent<FOWAgent>();
-                if (agent != null)
+                if(playersGOs.Contains(mapObjects[i].gameObject))
                 {
-                    foreach (GameObject @object in agent.visibleObjects)
+                    visible.Add(mapObjects[i].gameObject);
+                }
+            }
+
+            for (int i = 0; i < mapObjects.Length; i++)
+            {
+                MapObject mapObject = mapObjects[i];
+
+                if(!visible.Contains(mapObject.gameObject))
+                {
+                    foreach(GameObjectMOC gomoc in gameObjectMOCs)
                     {
-                        if (@object != null && !visible.Contains(@object))
+                        float dist = (gomoc.gameObject.transform.position - mapObjects[i].gameObject.transform.position).sqrMagnitude;
+                        if (dist < gomoc.fovSqr)
                         {
-                            visible.Add(@object);
+                            visible.Add(mapObject.gameObject);
+                            break;
                         }
                     }
                 }
@@ -66,13 +80,26 @@ namespace Imperium.Rendering
             MeshRenderer[] meshRenderers = gameObject.GetComponentsInChildren<MeshRenderer>();
             for (int i = 0; i < meshRenderers.Length; i++)
             {
-                meshRenderers[i].enabled = true;
+                meshRenderers[i].enabled = value;
             }
 
             TrailRenderer[] trailRenderers = gameObject.GetComponentsInChildren<TrailRenderer>();
             for (int i = 0; i < trailRenderers.Length; i++)
             {
-                trailRenderers[i].enabled = true;
+                trailRenderers[i].enabled = value;
+            }
+        }
+
+        private class GameObjectMOC
+        {
+            public GameObject gameObject;
+            public MapObjectCombatter mapObjectCombatter;
+            public float fovSqr;
+            public GameObjectMOC(GameObject gameObject)
+            {
+                this.gameObject = gameObject;
+                this.mapObjectCombatter = gameObject.GetComponent<MapObjectCombatter>();
+                fovSqr = mapObjectCombatter.combatStats.fieldOfViewDistance * mapObjectCombatter.combatStats.fieldOfViewDistance;
             }
         }
     }

@@ -2,6 +2,7 @@
 using Imperium.MapObjects;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
+using Imperium.Rendering;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -152,17 +153,7 @@ public class GameInitializer : MonoBehaviour
         MapObject[] trueMapObjects = GameObject.FindObjectsOfType<MapObject>();
         for (int i = 0; i < trueMapObjects.Length; i++)
         {
-            MeshRenderer[] meshRenderers = trueMapObjects[i].GetComponentsInChildren<MeshRenderer>();
-            for (int j = 0; j < meshRenderers.Length; j++)
-            {
-                meshRenderers[j].enabled = false;
-            }
-
-            TrailRenderer[] trailRenderers = trueMapObjects[i].GetComponentsInChildren<TrailRenderer>();
-            for (int j = 0; j < trailRenderers.Length; j++)
-            {
-                trailRenderers[j].enabled = false;
-            }
+           FogOfWarUtility.SetRendering(false, trueMapObjects[i].gameObject);
         }
         
         SetUpPlayerManager();
@@ -191,6 +182,12 @@ public class GameInitializer : MonoBehaviour
             MouseCommandsController mouseCommandsController = playerManager.GetComponent<MouseCommandsController>();
             mouseCommandsController.selectPanel = selectionPanel;
             mouseCommandsController.constructionSection = constructionSection;
+
+            playerManager.GetComponent<MapObjecsRenderingController>().players = new int[1] {player};
+            playerManager.GetComponent<FogOfWarController>().playersVision = new int[1] {player};
+
+            playerManager.GetComponent<MapObjecsRenderingController>().enabled = true;
+            playerManager.GetComponent<FogOfWarController>().enabled = true;
 
             playerManager.SetActive(true);
         }
