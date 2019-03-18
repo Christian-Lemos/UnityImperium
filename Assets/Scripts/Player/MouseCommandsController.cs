@@ -199,7 +199,7 @@ public class MouseCommandsController : MonoBehaviour
             GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
 
             station.GetComponent<StationController>().enabled = false;
-            station.GetComponent<MapObjectCombatter>().enabled = false;  
+            station.GetComponent<MapObjectCombatter>().enabled = false;
             station.GetComponent<CombatStatsCanvasController>().enabled = false;
             station.GetComponent<StationConstructionProgressCanvasController>().enabled = false;
 

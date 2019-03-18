@@ -14,7 +14,7 @@ public class FogOfWarController : MonoBehaviour
     [SerializeField]
     private GameObject fogOfWarPlane;
 
-    private List<FogOfWarUtility> fogOfWarUtilities = new List<FogOfWarUtility>();
+    private List<FogOfWarMeshVertice> fogOfWarUtilities = new List<FogOfWarMeshVertice>();
     private Mesh mesh;
     private Color[] meshColors;
 
@@ -31,7 +31,7 @@ public class FogOfWarController : MonoBehaviour
 
         
         MapObject[] mapObjects = GameObject.FindObjectsOfType<MapObject>();
-        List<FogOfWarUtility> fogOfWarUtilities = GetFogOfWarUtilities(players);
+        List<FogOfWarMeshVertice> fogOfWarUtilities = GetFogOfWarUtilities(players);
 
         for(int i =0; i < mapObjects.Length; i++)
         {
@@ -52,16 +52,16 @@ public class FogOfWarController : MonoBehaviour
     
     public FogOfWarState GetObjectFOWState(GameObject @object, params int[] players)
     {
-        List<FogOfWarUtility> fogOfWarUtilities = GetFogOfWarUtilities(players);
+        List<FogOfWarMeshVertice> fogOfWarUtilities = GetFogOfWarUtilities(players);
         
         return GetObjectFOWState(@object, fogOfWarUtilities);
     }
 
-    public FogOfWarState GetObjectFOWState(GameObject @object, List<FogOfWarUtility> fogOfWarUtilities)
+    public FogOfWarState GetObjectFOWState(GameObject @object, List<FogOfWarMeshVertice> fogOfWarUtilities)
     {
         Vector3 fogPoint = new Vector3(@object.transform.position.x, fogOfWarPlane.transform.position.y, @object.transform.position.z);
 
-        FogOfWarUtility objectFOWU = null;
+        FogOfWarMeshVertice objectFOWU = null;
 
         float lowestMag = 99999999f;
         for(int i = 0; i < fogOfWarUtilities.Count; i++)
@@ -109,7 +109,7 @@ public class FogOfWarController : MonoBehaviour
         meshColors = new Color[vertices.Length];
         for (int i = 0; i < vertices.Length; i++)
         {
-            FogOfWarUtility fogOfWarUtility = new FogOfWarUtility(fogOfWarPlane, vertices[i], i, FogOfWarState.Unexplored);
+            FogOfWarMeshVertice fogOfWarUtility = new FogOfWarMeshVertice(fogOfWarPlane, vertices[i], i, FogOfWarState.Unexplored);
             fogOfWarUtilities.Add(fogOfWarUtility);
             meshColors[i] = Color.black;
         }
@@ -123,14 +123,14 @@ public class FogOfWarController : MonoBehaviour
         Instance = this;
     }
 
-    public List<FogOfWarUtility> GetFogOfWarUtilities(params int[] players)
+    public List<FogOfWarMeshVertice> GetFogOfWarUtilities(params int[] players)
     {
         Vector3[] vertices = mesh.vertices;
-        List<FogOfWarUtility> fogOfWarUtilities = new List<FogOfWarUtility>(vertices.Length);
+        List<FogOfWarMeshVertice> fogOfWarUtilities = new List<FogOfWarMeshVertice>(vertices.Length);
 
         for (int i = 0; i < vertices.Length; i++)
         {
-            FogOfWarUtility fogOfWarUtility = new FogOfWarUtility(fogOfWarPlane, vertices[i], i, FogOfWarState.Unexplored);
+            FogOfWarMeshVertice fogOfWarUtility = new FogOfWarMeshVertice(fogOfWarPlane, vertices[i], i, FogOfWarState.Unexplored);
             fogOfWarUtilities.Add(fogOfWarUtility);
         }
 
@@ -151,7 +151,7 @@ public class FogOfWarController : MonoBehaviour
             Vector3 fogPoint = new Vector3(@object.transform.position.x, fogOfWarPlane.transform.position.y, @object.transform.position.z);
             for (int i = 0; i < fogOfWarUtilities.Count; i++)
             {
-                FogOfWarUtility fowu = fogOfWarUtilities[i];
+                FogOfWarMeshVertice fowu = fogOfWarUtilities[i];
                 if (fowu.higherState != FogOfWarState.Visible)
                 {
                     float dist = (fowu.verticeInWorldSpace - fogPoint).sqrMagnitude;
@@ -201,7 +201,7 @@ public class FogOfWarController : MonoBehaviour
             Vector3 fogPoint = new Vector3(@object.transform.position.x, fogOfWarPlane.transform.position.y, @object.transform.position.z);
             for (int i = 0; i < fogOfWarUtilities.Count; i++)
             {
-                FogOfWarUtility fowu = fogOfWarUtilities[i];
+                FogOfWarMeshVertice fowu = fogOfWarUtilities[i];
                 if (fowu.higherState != FogOfWarState.Visible)
                 {
                     float dist = (fowu.verticeInWorldSpace - fogPoint).sqrMagnitude;
@@ -232,7 +232,7 @@ public class FogOfWarController : MonoBehaviour
 
         for (int i = 0; i < fogOfWarUtilities.Count; i++)
         {
-            FogOfWarUtility fowu = fogOfWarUtilities[i];
+            FogOfWarMeshVertice fowu = fogOfWarUtilities[i];
             switch (fowu.higherState)
             {
                 case FogOfWarState.Unexplored:
