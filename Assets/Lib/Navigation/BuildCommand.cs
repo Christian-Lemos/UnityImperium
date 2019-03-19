@@ -26,7 +26,7 @@ namespace Imperium.Navigation
                 {
                     sourceShipController.MoveControl(base.destination);
                 }
-                else if (targetStationController.constructed == true)
+                else if (targetStationController.Constructed == true)
                 {
                     stationConstructor.StopBuilding();
                 }
@@ -42,7 +42,7 @@ namespace Imperium.Navigation
 
         public override bool IsFinished()
         {
-            return base.target == null || targetStationController.constructed == true;
+            return base.target == null || targetStationController.Constructed == true;
         }
 
         public override void OnRemoved()

@@ -8,13 +8,43 @@ using UnityEngine;
 [RequireComponent(typeof(MapObject))]
 public class StationController : MonoBehaviour, ISerializable<StationControllerPersistance>
 {
-    public bool constructed;
+    
     public float constructionProgress;
 
     public Station Station { get; set;}
     public StationType stationType;
 
     private MapObjectCombatter mapObjectCombatter;
+
+
+    private bool _constructed;
+    public bool Constructed
+    {
+        get
+        {
+            return _constructed;
+        }
+        set
+        {
+            _constructed = value;
+            if(value == false)
+            {
+                try
+                {
+                    Station.combatStats.fieldOfViewDistance = 0f;
+                }
+                catch
+                {
+
+                }
+                
+            }
+            else
+            {
+                Station.combatStats.fieldOfViewDistance = StationFactory.getInstance().CreateStation(stationType).combatStats.fieldOfViewDistance;
+            }
+        }
+    }
 
     public void AddConstructionProgress(int progress)
     {
@@ -25,7 +55,7 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
 
         if (constructionProgress >= 100)
         {
-            constructed = true;
+            Constructed = true;
             StartCoroutine(mapObjectCombatter.ShieldRegeneration());
         }
     }
@@ -53,12 +83,12 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
             turretControllerPersistances.Add(turretController.Serialize());
         }
 
-        return new StationControllerPersistance(constructed, constructionProgress, GetComponent<MapObject>().Serialize(), Station, stationType,turretControllerPersistances, true);
+        return new StationControllerPersistance(Constructed, constructionProgress, GetComponent<MapObject>().Serialize(), Station, stationType,turretControllerPersistances, true);
     }
 
     public ISerializable<StationControllerPersistance> SetObject(StationControllerPersistance serializedObject)
     {
-        this.constructed = serializedObject.constructed;
+        this.Constructed = serializedObject.constructed;
         this.constructionProgress = serializedObject.constructionProgress;
         this.Station = serializedObject.station;
         this.stationType = serializedObject.stationType;
@@ -75,6 +105,8 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
         return this;
     }
 
+    
+
     private void Start()
     {
         if(Station == null)
@@ -82,7 +114,7 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
              Station = StationFactory.getInstance().CreateStation(stationType);
         }
        
-
+        
         mapObjectCombatter = GetComponent<MapObjectCombatter>();
         mapObjectCombatter.combatStats = Station.combatStats;
 
@@ -90,7 +122,7 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
 
         if (constructionProgress >= 100)
         {
-            constructed = true;
+            Constructed = true;
             StartCoroutine(mapObjectCombatter.ShieldRegeneration());
         }
         else
@@ -105,7 +137,7 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
     private void Update()
     {
         //Debug.Log(mapObjectCombatter.combatStats.hp);
-        if (constructed)
+        if (Constructed)
         {
             mapObjectCombatter.FireAtClosestTarget();
         }

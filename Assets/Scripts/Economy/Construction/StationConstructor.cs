@@ -67,7 +67,7 @@ public class StationConstructor : MonoBehaviour
 
     private IEnumerator BuildingEnumerator(StationController stationController)
     {
-        while (stationController.constructed == false)
+        while (stationController.Constructed == false)
         {
             yield return new WaitForSeconds(1f);
             stationController.AddConstructionProgress(constructionRate);

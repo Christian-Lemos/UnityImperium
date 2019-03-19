@@ -1,5 +1,6 @@
 ﻿using Imperium;
 using Imperium.Economy;
+using Imperium.Rendering;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -99,7 +100,7 @@ public class MouseCommandsController : MonoBehaviour
                     case (int)ObjectLayers.Station:
                         StationController stationController = selected.GetComponent<StationController>();
 
-                        if (stationController.constructed == false)
+                        if (stationController.Constructed == false)
                         {
                             foreach (GameObject go in selectedGOs)
                             {
@@ -194,6 +195,8 @@ public class MouseCommandsController : MonoBehaviour
 
             GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
 
+
+            
             station.GetComponent<MapObject>().enabled = false;
             station.GetComponent<StationController>().enabled = false;
             station.GetComponent<MapObjectCombatter>().enabled = false;
@@ -213,6 +216,7 @@ public class MouseCommandsController : MonoBehaviour
             }
 
             station.SetActive(true);
+            FogOfWarUtility.SetRendering(true, station);
             possibleStation = new PossibleStationConstruction(station, stationConstruction, stationConstructor);
         });
     }

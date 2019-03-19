@@ -19,7 +19,7 @@ public class StationConstructionProgressCanvasController : MonoBehaviour
     private void Start()
     {
         stationController = GetComponent<StationController>();
-        if (!stationController.constructed)
+        if (!stationController.Constructed)
         {
             stationConstructionProgressCanvas = Instantiate(progressCanvasPrefab, transform.position, progressCanvasPrefab.transform.rotation, transform)
                 .GetComponent<StationConstructionProgressCanvas>();
@@ -34,14 +34,13 @@ public class StationConstructionProgressCanvasController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(MapObjecsRenderingController.Instance.visibleObjects.Contains(gameObject));
         if(stationConstructionProgressCanvas != null)
         {
             stationConstructionProgressCanvas.gameObject.SetActive(false);
             stationConstructionProgressCanvas.gameObject.SetActive(MapObjecsRenderingController.Instance.visibleObjects.Contains(gameObject));
         }
 
-        if (stationController.constructed && stationConstructionProgressCanvas != null)
+        if (stationController.Constructed && stationConstructionProgressCanvas != null)
         {
             stationConstructionProgressCanvas.gameObject.SetActive(false);
             enabled = false;

@@ -1,4 +1,5 @@
-﻿using Imperium.Economy;
+﻿using Imperium;
+using Imperium.Economy;
 using Imperium.MapObjects;
 using System.Collections.Generic;
 using UnityEngine;
@@ -129,7 +130,8 @@ public class Spawner : MonoBehaviour
         {
             GameObject newStation = Instantiate(prefab, position, rotation);
             PlayerDatabase.Instance.AddToPlayer(newStation, player);
-            newStation.GetComponent<StationController>().constructed = constructionProgress == 100;
+            newStation.GetComponent<StationController>().Station = StationFactory.getInstance().CreateStation(type);
+            newStation.GetComponent<StationController>().Constructed = constructionProgress >= 100;
             newStation.GetComponent<StationController>().constructionProgress = constructionProgress;
             newStation.SetActive(setActive);
             newStation.name += " " + player;
