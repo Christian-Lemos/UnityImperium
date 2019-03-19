@@ -34,13 +34,17 @@ public class StationConstructionProgressCanvasController : MonoBehaviour
 
     private void Update()
     {
-        if (stationController.constructed)
+        Debug.Log(MapObjecsRenderingController.Instance.visibleObjects.Contains(gameObject));
+        if(stationConstructionProgressCanvas != null)
         {
-            if (stationConstructionProgressCanvas != null)
-            {
-                stationConstructionProgressCanvas.gameObject.SetActive(false);
-                enabled = false;
-            }
+            stationConstructionProgressCanvas.gameObject.SetActive(false);
+            stationConstructionProgressCanvas.gameObject.SetActive(MapObjecsRenderingController.Instance.visibleObjects.Contains(gameObject));
+        }
+
+        if (stationController.constructed && stationConstructionProgressCanvas != null)
+        {
+            stationConstructionProgressCanvas.gameObject.SetActive(false);
+            enabled = false;
         }
         else
         {

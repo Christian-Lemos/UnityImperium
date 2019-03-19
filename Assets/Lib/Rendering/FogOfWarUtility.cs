@@ -25,7 +25,7 @@ namespace Imperium.Rendering
             }
 
 
-            HashSet<MapObject> mapObjects = MapObject.GetMapObjects();
+           /* HashSet<MapObject> mapObjects = MapObject.GetMapObjects();
             foreach(MapObject mapObject in mapObjects)
             {
                 if(playersGOs.Contains(mapObject.gameObject))
@@ -48,9 +48,9 @@ namespace Imperium.Rendering
                         }
                     }
                 }
-            }
+            }*/
 
-            /*MapObject[] mapObjects = GameObject.FindObjectsOfType<MapObject>();
+            MapObject[] mapObjects = GameObject.FindObjectsOfType<MapObject>();
             for(int i = 0; i < mapObjects.Length; i++)
             {
                 if(playersGOs.Contains(mapObjects[i].gameObject))
@@ -75,7 +75,7 @@ namespace Imperium.Rendering
                         }
                     }
                 }
-            }*/
+            }
 
             return visible;
         }

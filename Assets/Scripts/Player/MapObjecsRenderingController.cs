@@ -6,10 +6,12 @@ using UnityEngine;
 public class MapObjecsRenderingController : MonoBehaviour
 {
     public int[] players;
+    public static MapObjecsRenderingController Instance;
     public ICollection<GameObject> visibleObjects = new HashSet<GameObject>();
 
     private void Start()
     {
+        Instance = this;
         StartCoroutine(RenderEnumerator());
     }
 

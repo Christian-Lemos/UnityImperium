@@ -140,9 +140,15 @@ public class MouseCommandsController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 1000f))
             {
                 GameObject selected = hit.collider.gameObject;
+                
                 if (selected.layer == (int)ObjectLayers.Ship || selected.layer == (int)ObjectLayers.Station)
                 {
-                    if (Input.GetKey(KeyCode.LeftShift)) //If the player is pressid leftShift, the selected GO must be added to selected
+                    if(!MapObjecsRenderingController.Instance.visibleObjects.Contains(selected))
+                    {
+                        return;
+                    }
+
+                    else if (Input.GetKey(KeyCode.LeftShift)) //If the player is pressid leftShift, the selected GO must be added to selected
                     {
                         //If selected is already on the selected list, it will be removed;
                         foreach (GameObject go in selectedGOs)
@@ -165,16 +171,6 @@ public class MouseCommandsController : MonoBehaviour
                 {
                     ClearSelectedGOList();
                 }
-
-                /*foreach (GameObject go in selectedGOs)
-                {
-                    CombatStatsCanvasController combatStatsCanvasController = go.GetComponent<CombatStatsCanvasController>();
-
-                    if (combatStatsCanvasController != null)
-                    {
-                        combatStatsCanvasController.SetActive(true);
-                    }
-                }*/
             }
             ShowConstructionOptions();
         }
@@ -198,6 +194,7 @@ public class MouseCommandsController : MonoBehaviour
 
             GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
 
+            station.GetComponent<MapObject>().enabled = false;
             station.GetComponent<StationController>().enabled = false;
             station.GetComponent<MapObjectCombatter>().enabled = false;
             station.GetComponent<CombatStatsCanvasController>().enabled = false;

@@ -74,7 +74,7 @@ public class CombatStatsCanvasController : MonoBehaviour
             shields.fillAmount = (float)combatStats.Shields / combatStats.maxShields;
         }
 
-        if (MouseCommandsController.Instance.selectedGOs.Contains(gameObject) || mouseOver)
+        if (MapObjecsRenderingController.Instance.visibleObjects.Contains(gameObject) && (MouseCommandsController.Instance.selectedGOs.Contains(gameObject) || mouseOver))
         {
             if (!active)
             {
