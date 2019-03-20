@@ -337,10 +337,24 @@ public class MouseCommandsController : MonoBehaviour
             {
                 ObjectSelector(); //left click
                 FleetCommand(); //right click
+                DeleteSelected(); //Delete key
             }
         }
     }
 
+    private bool DeleteSelected()
+    {
+        if(Input.GetKeyDown(KeyCode.Delete))
+        {
+            foreach(GameObject gameObject in selectedGOs)
+            {
+                Destroy(gameObject);
+            }
+            selectedGOs.Clear();
+            return true;
+        }
+        return false;
+    }
     private class PossibleStationConstruction
     {
         public GameObject gameObject;
