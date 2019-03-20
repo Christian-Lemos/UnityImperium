@@ -250,7 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa8e6b09894e8c44a0e600b480b1acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  constructed: 0
   constructionProgress: 0
   stationType: 0
 --- !u!114 &114314809407518032
@@ -416,7 +415,6 @@ GameObject:
   - component: {fileID: 4173394084587634}
   - component: {fileID: 114761841545041188}
   - component: {fileID: 82183005145428816}
-  - component: {fileID: 114243889185903798}
   m_Layer: 11
   m_Name: Turret
   m_TagString: Untagged
@@ -563,17 +561,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114243889185903798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1926782471225634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77812bbc344348941955117d6dee694b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  mapObjectType: 4

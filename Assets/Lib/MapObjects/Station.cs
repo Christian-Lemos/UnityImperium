@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Imperium
+namespace Imperium.MapObjects
 {
     [System.Serializable]
     public class Station

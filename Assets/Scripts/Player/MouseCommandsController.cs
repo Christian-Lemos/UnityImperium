@@ -1,5 +1,6 @@
 ﻿using Imperium;
 using Imperium.Economy;
+using Imperium.MapObjects;
 using Imperium.Rendering;
 using System.Collections.Generic;
 using UnityEngine;
@@ -189,14 +190,11 @@ public class MouseCommandsController : MonoBehaviour
     {
         button.GetComponent<Button>().onClick.AddListener(() =>
         {
-            GameObject stationPrefab = Spawner.Instance.true_station_associations[stationConstruction.stationType];
+             Vector3 spawnPosition = stationConstructor.gameObject.transform.position;
 
-            Vector3 spawnPosition = stationConstructor.gameObject.transform.position;
+            /*GameObject stationPrefab = Spawner.Instance.trueStationDictionary[stationConstruction.stationType];
 
             GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
-
-
-            
             station.GetComponent<MapObject>().enabled = false;
             station.GetComponent<StationController>().enabled = false;
             station.GetComponent<MapObjectCombatter>().enabled = false;
@@ -209,7 +207,11 @@ public class MouseCommandsController : MonoBehaviour
                 turretController.gameObject.SetActive(false);
             }
 
-            station.layer = 0;
+            station.layer = 0;*/
+
+            GameObject stationPrefab = Spawner.Instance.dummyStationDictionary[stationConstruction.stationType];
+            GameObject station = Instantiate(stationPrefab, spawnPosition, Quaternion.identity);
+
             if (possibleStation != null)
             {
                 Destroy(possibleStation.gameObject);

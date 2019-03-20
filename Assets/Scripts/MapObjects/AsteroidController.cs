@@ -12,12 +12,14 @@ public class AsteroidController : MonoBehaviour, ISerializable<AsteroidControlle
 
     public static readonly Dictionary<ResourceType, Color> asteroidColors = new Dictionary<ResourceType, Color>()
     {
-          {ResourceType.Metal, Color.black},
-          {ResourceType.Crystal, Color.magenta},
+          {ResourceType.Metal, Color.white},
+          {ResourceType.Crystal, Color.blue},
           {ResourceType.Energy, Color.yellow},
     };
 
     public ResourceType resourceType;
+
+    public int prefabIndex;
 
     [SerializeField]
     private int resourceQuantity;
@@ -58,13 +60,14 @@ public class AsteroidController : MonoBehaviour, ISerializable<AsteroidControlle
 
     public AsteroidControllerPersistance Serialize()
     {
-        return new AsteroidControllerPersistance(GetComponent<MapObject>().Serialize(), resourceQuantity, resourceType);
+        return new AsteroidControllerPersistance(GetComponent<MapObject>().Serialize(), resourceQuantity, resourceType, prefabIndex);
     }
 
     public ISerializable<AsteroidControllerPersistance> SetObject(AsteroidControllerPersistance serializedObject)
     {
         this.resourceQuantity = serializedObject.resourceQuantity;
         this.resourceType = serializedObject.resourceType;
+        this.prefabIndex = serializedObject.prefabIndex;
         return this;
     }
 }

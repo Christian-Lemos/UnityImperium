@@ -2,6 +2,6 @@
 {
     public enum MapObjectType
     {
-        Ship, Station, Bullet, Asteroid, Turret
+        Ship, Station, Bullet, Asteroid, AsteroidField, Turret
     }
 }

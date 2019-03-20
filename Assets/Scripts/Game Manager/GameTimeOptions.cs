@@ -8,9 +8,16 @@ public class GameTimeOptions : MonoBehaviour {
 	public float masterSpeed;
 
     public static GameTimeOptions Instance;
+    public float currentTime;
+
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Update()
+    {
+        currentTime += Time.deltaTime;
     }
 }

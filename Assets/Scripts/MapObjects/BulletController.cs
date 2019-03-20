@@ -44,7 +44,7 @@ public class BulletController : MonoBehaviour, ISerializable<BulletControllerPer
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((other.gameObject.layer == (int)ObjectLayers.Ship || other.gameObject.layer == (int)ObjectLayers.Station) && !other.gameObject.Equals(source))
+        if (other.gameObject.GetComponent<MapObject>() != null && (other.gameObject.layer == (int)ObjectLayers.Ship || other.gameObject.layer == (int)ObjectLayers.Station) && !other.gameObject.Equals(source))
         {
             MapObjectCombatter mapObjectCombatter = other.gameObject.GetComponent<MapObjectCombatter>();
             mapObjectCombatter.TakeDamage(bullet.damage);

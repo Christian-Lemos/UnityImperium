@@ -70,13 +70,21 @@ public class GameInitializer : MonoBehaviour
 
             mapObjects.Add(new MapObjectSerializedObjectAssociation(field.GetComponent<MapObject>(), asteroidFieldControllerPersistance.mapObjectPersitance));
 
-            foreach (AsteroidControllerPersistance asteroidControllerPersistance in asteroidFieldControllerPersistance.asteroids)
+            foreach (AsteroidControllerPersistance acp in asteroidFieldControllerPersistance.asteroids)
             {
-                GameObject asteroid = Spawner.Instance.SpawnAsteroid(asteroidControllerPersistance.mapObjectPersitance.id, field.GetComponent<AsteroidFieldController>(), asteroidControllerPersistance.resourceType, asteroidControllerPersistance.resourceQuantity
-                    , new Vector3(asteroidControllerPersistance.mapObjectPersitance.localPosition.x + asteroidControllerPersistance.mapObjectPersitance.localPosition.x, asteroidControllerPersistance.mapObjectPersitance.localPosition.y + asteroidControllerPersistance.mapObjectPersitance.localPosition.y,
-                    asteroidControllerPersistance.mapObjectPersitance.localPosition.z + asteroidControllerPersistance.mapObjectPersitance.localPosition.z), false);
-                asteroids.Add(new GameObjectSerializedObjectAssociation<AsteroidControllerPersistance>(asteroid, asteroidControllerPersistance));
-                mapObjects.Add(new MapObjectSerializedObjectAssociation(asteroid.GetComponent<MapObject>(), asteroidControllerPersistance.mapObjectPersitance));
+                Vector3 position = acp.mapObjectPersitance.localPosition +  acp.mapObjectPersitance.localPosition;
+                GameObject asteroid;
+                if(acp.prefabIndex == -1)
+                {
+                    asteroid = Spawner.Instance.SpawnAsteroid(acp.mapObjectPersitance.id, field.GetComponent<AsteroidFieldController>(), acp.resourceType, acp.resourceQuantity, position, false);
+                }
+                else
+                {
+                    asteroid = Spawner.Instance.SpawnAsteroid(acp.prefabIndex,  acp.mapObjectPersitance.id, field.GetComponent<AsteroidFieldController>(), acp.resourceType, acp.resourceQuantity, position, false);
+                }
+
+                asteroids.Add(new GameObjectSerializedObjectAssociation<AsteroidControllerPersistance>(asteroid, acp));
+                mapObjects.Add(new MapObjectSerializedObjectAssociation(asteroid.GetComponent<MapObject>(), acp.mapObjectPersitance));
             }
         }
 

@@ -9,20 +9,49 @@ public class Spawner : MonoBehaviour
     public static Spawner Instance;
 
     public GameObject asteroidFieldPreab;
-    public GameObject[] asteroidsPrefabs;
+    public GameObject[] trueAsteroidsPrefabs;
+    public GameObject[] dummyAsteroidsPrefabs;
+
+    public ShipAssociation[] dummyShipAssociations;
+    public Dictionary<ShipType, GameObject> dummyShipDictionary = new Dictionary<ShipType, GameObject>();
+    public StationAssociation[] dummyStationAssociation;
+    public Dictionary<StationType, GameObject> dummyStationDictionary = new Dictionary<StationType, GameObject>();
     public long nextId = 1;
-    public ShipAssosiation[] ship_assosiations;
 
-    public StationAssosiation[] station_assosiations;
-    public Dictionary<ShipType, GameObject> true_ship_associations = new Dictionary<ShipType, GameObject>();
+    public ShipAssociation[] trueShipAssociations;
+    public Dictionary<ShipType, GameObject> trueShipDictionary = new Dictionary<ShipType, GameObject>();
+    public StationAssociation[] trueStationAssociation;
+    public Dictionary<StationType, GameObject> trueStationDictionary = new Dictionary<StationType, GameObject>();
 
-    public Dictionary<StationType, GameObject> true_station_associations = new Dictionary<StationType, GameObject>();
+    public long CreateID()
+    {
+        long id = nextId;
+        nextId++;
+        return id;
+    }
+
+    public void SetMapObjectChildrenID(GameObject @object)
+    {
+        MapObject[] mapObjects = @object.GetComponentsInChildren<MapObject>();
+        MapObject parent = @object.GetComponent<MapObject>();
+
+        foreach (MapObject mapObject in mapObjects)
+        {
+            if (!mapObject.Equals(parent))
+            {
+                mapObject.id = CreateID();
+            }
+        }
+    }
 
     public GameObject SpawnAsteroid(long id, AsteroidFieldController asteroidFieldController, ResourceType resourceType, int resourceQuantity, Vector3 position, bool setActive)
     {
-        System.Random random = new System.Random();
+        return SpawnAsteroid(new System.Random().Next(0, trueAsteroidsPrefabs.Length), CreateID(), asteroidFieldController, resourceType, resourceQuantity, position, setActive);
+    }
 
-        GameObject prefab = asteroidsPrefabs[random.Next(0, asteroidsPrefabs.Length)]; //Picks a random prefab
+    public GameObject SpawnAsteroid(int prefabIndex, long id, AsteroidFieldController asteroidFieldController, ResourceType resourceType, int resourceQuantity, Vector3 position, bool setActive)
+    {
+        GameObject prefab = trueAsteroidsPrefabs[prefabIndex]; //Picks a random prefab
 
         Vector3 prefabScale = prefab.transform.localScale;
         Vector3 fieldScale = asteroidFieldController.transform.localScale;
@@ -32,12 +61,32 @@ public class Spawner : MonoBehaviour
         AsteroidController asteroidController = asteroid.GetComponent<AsteroidController>();
         asteroidController.resourceType = resourceType;
         asteroidController.ResourceQuantity = resourceQuantity;
+        asteroidController.prefabIndex = prefabIndex;
 
         asteroid.SetActive(setActive);
-
         asteroid.GetComponent<MapObject>().id = id;
 
         return asteroid;
+    }
+
+    public GameObject SpawnDummyAsteroid(int prefabIndex, ResourceType resourceType, int resourceQuantity, Vector3 position, Quaternion rotation, bool setActive)
+    {
+        GameObject prefab = dummyAsteroidsPrefabs[prefabIndex];
+
+        GameObject createdAsteroid = Instantiate(prefab, position, rotation);
+
+        DummyAsteroid dummyAsteroid = createdAsteroid.GetComponent<DummyAsteroid>();
+        dummyAsteroid.resourceType = resourceType;
+        dummyAsteroid.resourceQuantity = resourceQuantity;
+        
+        createdAsteroid.SetActive(setActive);
+
+        return createdAsteroid;
+    }
+
+    public GameObject SpawnDummyAsteroid(ResourceType resourceType, int resourceQuantity, Vector3 position, Quaternion rotation, bool setActive)
+    {
+        return SpawnDummyAsteroid(new System.Random().Next(0, dummyAsteroidsPrefabs.Length), resourceType, resourceQuantity, position, rotation, setActive);
     }
 
     public GameObject SpawnAsteroid(AsteroidFieldController asteroidFieldController, ResourceType resourceType, int resourceQuantity, Vector3 position, bool setActive)
@@ -82,6 +131,21 @@ public class Spawner : MonoBehaviour
         return bullet;
     }
 
+    public GameObject SpawnDummyStation(StationType stationType, Station station, Vector3 position, Quaternion rotation, float constructionProgress, bool setActive)
+    {
+        GameObject prefab = dummyStationDictionary[stationType];
+        GameObject createdStation = Instantiate(prefab, position, Quaternion.identity);
+
+        DummyStation dummyStation = createdStation.GetComponent<DummyStation>();
+        dummyStation.station = station;
+        dummyStation.stationType = stationType;
+        dummyStation.constructionProgress = constructionProgress;
+
+        createdStation.SetActive(setActive);
+
+        return createdStation;
+    }
+
     public GameObject SpawnShip(long id, ShipType type, int player, Vector3 position, Quaternion rotation)
     {
         if (!PlayerDatabase.Instance.IsValidPlayer(player))
@@ -89,7 +153,7 @@ public class Spawner : MonoBehaviour
             throw new System.Exception("Not a valid player");
         }
 
-        GameObject prefab = true_ship_associations[type];
+        GameObject prefab = trueShipDictionary[type];
         if (prefab == null)
         {
             throw new System.Exception("Ship type not supported");
@@ -120,7 +184,7 @@ public class Spawner : MonoBehaviour
             throw new System.Exception("Not a valid player");
         }
 
-        GameObject prefab = true_station_associations[type];
+        GameObject prefab = trueStationDictionary[type];
 
         if (prefab == null)
         {
@@ -139,7 +203,7 @@ public class Spawner : MonoBehaviour
             newStation.GetComponent<MapObject>().id = id;
 
             return newStation;
-        }   
+        }
     }
 
     public GameObject SpawnStation(StationType type, int player, Vector3 position, Quaternion rotation, float constructionProgress, bool setActive)
@@ -151,48 +215,36 @@ public class Spawner : MonoBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i < ship_assosiations.Length; i++)
+        for (int i = 0; i < trueShipAssociations.Length; i++)
         {
-            true_ship_associations.Add(ship_assosiations[i].shipType, ship_assosiations[i].prefab);
+            trueShipDictionary.Add(trueShipAssociations[i].shipType, trueShipAssociations[i].prefab);
         }
-        for (int i = 0; i < station_assosiations.Length; i++)
+        for (int i = 0; i < trueStationAssociation.Length; i++)
         {
-            true_station_associations.Add(station_assosiations[i].stationType, station_assosiations[i].prefab);
+            trueStationDictionary.Add(trueStationAssociation[i].stationType, trueStationAssociation[i].prefab);
+        }
+
+        for (int i = 0; i < dummyShipAssociations.Length; i++)
+        {
+            dummyShipDictionary.Add(dummyShipAssociations[i].shipType, dummyShipAssociations[i].prefab);
+        }
+        for (int i = 0; i < dummyStationAssociation.Length; i++)
+        {
+            dummyStationDictionary.Add(dummyStationAssociation[i].stationType, dummyStationAssociation[i].prefab);
         }
 
         Instance = this;
     }
 
-    public long CreateID()
-    {
-        long id = nextId;
-        nextId++;
-        return id;
-    }
-
-    public void SetMapObjectChildrenID(GameObject @object)
-    {
-        MapObject[] mapObjects = @object.GetComponentsInChildren<MapObject>();
-        MapObject parent =  @object.GetComponent<MapObject>();
-
-        foreach (MapObject mapObject in mapObjects)
-        {
-            if(!mapObject.Equals(parent))
-            {
-                mapObject.id = CreateID();
-            }
-        }
-    }
-
     [System.Serializable]
-    public struct ShipAssosiation
+    public struct ShipAssociation
     {
         public GameObject prefab;
         public ShipType shipType;
     }
 
     [System.Serializable]
-    public struct StationAssosiation
+    public struct StationAssociation
     {
         public GameObject prefab;
         public StationType stationType;

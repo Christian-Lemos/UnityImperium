@@ -5,7 +5,6 @@ using Imperium.Persistence.MapObjects;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MapObject))]
 public class StationController : MonoBehaviour, ISerializable<StationControllerPersistance>
 {
     
