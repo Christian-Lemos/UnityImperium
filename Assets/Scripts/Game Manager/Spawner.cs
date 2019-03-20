@@ -3,6 +3,7 @@ using Imperium.Economy;
 using Imperium.MapObjects;
 using System;
 using System.Collections.Generic;
+using Imperium.AI;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -181,6 +182,8 @@ public class Spawner : MonoBehaviour
             newShip.GetComponent<MapObject>().id = id;
             newShip.SetActive(true);
 
+            AddAI(player, newShip);
+
             CallShipCreationObservers(player, newShip);
 
             return newShip;
@@ -264,6 +267,34 @@ public class Spawner : MonoBehaviour
         foreach (Action<GameObject> action in playerShipCreationObservers[player])
         {
             action.Invoke(ship);
+        }
+    }
+
+    public bool AddAI(int player, GameObject gameObject)
+    {
+        if(SceneManager.Instance.currentGameSceneData.players[player].playerType == PlayerType.AI)
+        {
+            ShipController shipController = gameObject.GetComponent<ShipController>();
+            if(shipController != null)
+            {
+                switch (shipController.shipType)
+                {
+                    case ShipType.Freighter:
+                        gameObject.AddComponent<FreighterShipAI>();
+                        return true;
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
         }
     }
 
