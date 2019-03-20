@@ -9,11 +9,11 @@ namespace Imperium.Rendering
     {
         private FogOfWarUtility() { }
 
-        public static ICollection<GameObject> GetVisibleObjects(params int[] players)
+        public static HashSet<GameObject> GetVisibleObjects(params int[] players)
         {
-            ICollection<GameObjectMOC> gameObjectMOCs = new HashSet<GameObjectMOC>();
-            ICollection<GameObject> visible = new HashSet<GameObject>();
-            ICollection<GameObject> playersGOs = new HashSet<GameObject>();
+            HashSet<GameObjectMOC> gameObjectMOCs = new HashSet<GameObjectMOC>();
+            HashSet<GameObject> visible = new HashSet<GameObject>();
+            HashSet<GameObject> playersGOs = new HashSet<GameObject>();
             for (int i = 0; i < players.Length; i++)
             {
                 HashSet<GameObject> playerGOs = PlayerDatabase.Instance.GetObjects(players[i]);

@@ -7,7 +7,7 @@ namespace Imperium.AI
 {
     public class ScoutData
     {
-        public ICollection<GameObject> visibleObjetcs = new HashSet<GameObject>();
+        public HashSet<GameObject> visibleObjetcs = new HashSet<GameObject>();
         public ICollection<StationScout> knowScoutedStations = new HashSet<StationScout>(); 
         public ICollection<AsteroidScout> knowScoutedAsteroids = new HashSet<AsteroidScout>(); 
 
@@ -21,7 +21,12 @@ namespace Imperium.AI
 
         public void Update()
         {
-            ICollection<GameObject> visibleNow = FogOfWarUtility.GetVisibleObjects(players);
+            HashSet<GameObject> visibleNow = FogOfWarUtility.GetVisibleObjects(players);
+
+            visibleObjetcs.RemoveWhere((GameObject go) =>
+            {
+                return go == null;
+            });
 
             foreach (GameObject gameObject in visibleObjetcs)
             {
