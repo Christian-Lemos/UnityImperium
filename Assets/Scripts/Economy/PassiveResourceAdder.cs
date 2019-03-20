@@ -12,7 +12,7 @@ public class PassiveResourceAdder : MonoBehaviour
     {
         for (int i = 0; i < assosiations.Length; i++)
         {
-            true_associations.Add(assosiations[i].shipType, assosiations[i].ResourcesPerSecound);
+            true_associations.Add(assosiations[i].resourceType, assosiations[i].ResourcesPerSecound);
         }
     }
 
@@ -20,6 +20,6 @@ public class PassiveResourceAdder : MonoBehaviour
     public struct Assosiation
     {
         public int ResourcesPerSecound;
-        public ResourceType shipType;
+        public ResourceType resourceType;
     }
 }

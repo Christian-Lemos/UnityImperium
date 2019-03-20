@@ -1210,9 +1210,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assosiations:
   - ResourcesPerSecound: 1
-    shipType: 0
+    resourceType: 0
   - ResourcesPerSecound: 1
-    shipType: 1
+    resourceType: 1
 --- !u!114 &114909788611761058
 MonoBehaviour:
   m_ObjectHideFlags: 0

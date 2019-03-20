@@ -316,7 +316,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Exit Game
+  m_Text: Exit To Menu
 --- !u!222 &64619535
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -718,8 +718,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44be6ce6335325943903425c41ed9f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 50
-  scrollSpeed: 90
+  movementSpeed: 0.75
+  minMovementSpeed: 40
+  maxMovementSpeed: 250
+  scrollSpeed: 1.9
+  minScrollSpeed: 200
+  maxScrollSpeed: 230
+  movementPerAltitude: 0.009
+  speed: 0
+  sSpeed: 0
 --- !u!45 &534669907
 Skybox:
   m_ObjectHideFlags: 0
@@ -1042,12 +1049,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIResourcePrefab: {fileID: 1781234535188792, guid: d3f0148871070ad4face82ab089e0052,
     type: 3}
---- !u!1 &1336995873 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1082721284821788, guid: e15701f6cbaff9f42b66a090dc470946,
-    type: 3}
-  m_PrefabInstance: {fileID: 85625836}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1401333952 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224128710988973122, guid: 2dd9f5098e5dbcc479e2d3f36c32d989,
@@ -1472,6 +1473,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09dab43f5434a304499a3cfe9eed087b, type: 3}
+--- !u!1 &1640233388 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1082721284821788, guid: e15701f6cbaff9f42b66a090dc470946,
+    type: 3}
+  m_PrefabInstance: {fileID: 85625836}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1693708046
 GameObject:
   m_ObjectHideFlags: 0
@@ -1605,7 +1612,7 @@ PrefabInstance:
         type: 3}
       propertyPath: playerManager
       value: 
-      objectReference: {fileID: 1336995873}
+      objectReference: {fileID: 1640233388}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2380862eb8f4b5e438f25fff5ade826e, type: 3}
 --- !u!1 &1717343146
