@@ -282,6 +282,12 @@ public class Spawner : MonoBehaviour
                     case ShipType.Freighter:
                         gameObject.AddComponent<FreighterShipAI>();
                         return true;
+                    case ShipType.Destroyer:
+                        gameObject.AddComponent<MilitaryShipAI>();
+                        return true;
+                    case ShipType.Test:
+                        gameObject.AddComponent<MilitaryShipAI>();
+                        return true;
                     default:
                         return false;
                 }

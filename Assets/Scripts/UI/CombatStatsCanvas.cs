@@ -9,5 +9,4 @@ public class CombatStatsCanvas : MonoBehaviour {
     public GameObject hp;
     public GameObject shields;
 
-	
 }

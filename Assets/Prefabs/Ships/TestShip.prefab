@@ -114,7 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fleetCommandQueue:
     loopFleetCommands: 0
-  shipType: 0
+  shipType: 2
   stationConstructor: {fileID: 0}
   initialized: 1
 --- !u!54 &54561347199161464

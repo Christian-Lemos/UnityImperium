@@ -1194,7 +1194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fleetCommandQueue:
     loopFleetCommands: 0
-  shipType: 1
+  shipType: 4
   stationConstructor: {fileID: 0}
   initialized: 1
 --- !u!114 &114470675054749188
@@ -1242,13 +1242,20 @@ MonoBehaviour:
     - quantity: 1
       resourceType: 1
     shipType: 2
-  - constructionTime: 5
+  - constructionTime: 1
     resourceCosts:
     - quantity: 1
       resourceType: 0
     - quantity: 1
       resourceType: 1
     shipType: 3
+  - constructionTime: 5
+    resourceCosts:
+    - quantity: 1
+      resourceType: 0
+    - quantity: 1
+      resourceType: 1
+    shipType: 1
 --- !u!114 &114726365497871788
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -51,6 +51,13 @@ namespace Imperium
                     speed = 2.5f;
                     angularSpeed = 25f;
                     break;
+                case (ShipType.Destroyer):
+                    stats = new CombatStats(600, 300, 4, 25f);
+                    shipName = "Destroyer";
+                    shipIcon = "destroyer";
+                    speed = 2.5f;
+                    angularSpeed = 25f;
+                    break;
 
                 default:
                     throw new System.Exception("Type of ship not supported");

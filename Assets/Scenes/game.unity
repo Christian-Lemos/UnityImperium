@@ -1749,6 +1749,22 @@ PrefabInstance:
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 1640233388}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 3}
+      propertyPath: trueShipAssociations.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 3}
+      propertyPath: trueShipAssociations.Array.data[4].prefab
+      value: 
+      objectReference: {fileID: 1718406266474456, guid: d1ccc45dbb5133a40938f229f5052c6e,
+        type: 3}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 3}
+      propertyPath: trueShipAssociations.Array.data[4].shipType
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2380862eb8f4b5e438f25fff5ade826e, type: 3}
 --- !u!1 &1717343146

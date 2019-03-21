@@ -61,10 +61,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidFieldPreab: {fileID: 1817522024916946, guid: 07e432aba6a2bdd4daa0fd63e36e4cdc,
     type: 3}
-  trueAsteroidsPrefabs:
-  - {fileID: 1217605875423196, guid: fa49e460baf435b4780da7196c2ab473, type: 3}
-  - {fileID: 1594913485753456, guid: 84cc3cd234dfc9d4d9d2e92c0eb0af75, type: 3}
-  - {fileID: 1261018428019946, guid: 04d0bf4be9447154188d86f6e3b8dce9, type: 3}
   dummyAsteroidsPrefabs:
   - {fileID: 1559191775500992841, guid: 39c8e0a4a0be14c4db1700aeb25230a2, type: 3}
   - {fileID: 2944690948384555617, guid: 1b3298644ee6d614987923fb2089ccd9, type: 3}
@@ -75,15 +71,19 @@ MonoBehaviour:
       type: 3}
     stationType: 0
   nextId: 1
+  trueAsteroidsPrefabs:
+  - {fileID: 1217605875423196, guid: fa49e460baf435b4780da7196c2ab473, type: 3}
+  - {fileID: 1594913485753456, guid: 84cc3cd234dfc9d4d9d2e92c0eb0af75, type: 3}
+  - {fileID: 1261018428019946, guid: 04d0bf4be9447154188d86f6e3b8dce9, type: 3}
   trueShipAssociations:
   - prefab: {fileID: 1699482876744136, guid: e5078c17b52bb014882bc0363c060079, type: 3}
-    shipType: 2
-  - prefab: {fileID: 1183481545441364, guid: 113b94d0c87a7b24487a8ae04e6d70bf, type: 3}
-    shipType: 3
-  - prefab: {fileID: 1738834379677540, guid: c877f17920ed4ef479225109c225caf7, type: 3}
-    shipType: 1
-  - prefab: {fileID: 1306210491191302, guid: 38ab961b9a81d714cb68baa4b6bf2c6d, type: 3}
     shipType: 0
+  - prefab: {fileID: 1183481545441364, guid: 113b94d0c87a7b24487a8ae04e6d70bf, type: 3}
+    shipType: 1
+  - prefab: {fileID: 1738834379677540, guid: c877f17920ed4ef479225109c225caf7, type: 3}
+    shipType: 4
+  - prefab: {fileID: 1306210491191302, guid: 38ab961b9a81d714cb68baa4b6bf2c6d, type: 3}
+    shipType: 2
   trueStationAssociation:
   - prefab: {fileID: 1249487277988724, guid: 82e0a040e5e4ecf4d93f94e67b3657df, type: 3}
     stationType: 0
