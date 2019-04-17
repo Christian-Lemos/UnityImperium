@@ -2,6 +2,6 @@
 {
     public enum ResourceType
     {
-        Metal, Crystal, Energy
+        Metal, Crystal, BlackMatter
     };
 }

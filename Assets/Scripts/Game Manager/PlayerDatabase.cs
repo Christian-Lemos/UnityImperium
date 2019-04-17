@@ -5,12 +5,15 @@ using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
 using System.Collections;
 using System.Collections.Generic;
+using Imperium.Research;
 using UnityEngine;
 
 public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistance>>
 {
     public List<HashSet<GameObject>> playerObjects = new List<HashSet<GameObject>>();
     private List<Dictionary<ResourceType, int>> playerResources = new List<Dictionary<ResourceType, int>>();
+    private List<List<ResearchTree>> researchTrees = new List<List<ResearchTree>>();
+
     public static PlayerDatabase Instance { get; private set; }
 
     public void AddResourcesToPlayer(ResourceType resourceType, int total, int player)
@@ -142,13 +145,28 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
         {
             playerObjects.Add(new HashSet<GameObject>());
             playerResources.Add(new Dictionary<ResourceType, int>());
-
+            researchTrees.Add(new List<ResearchTree>());
             foreach (ResourceType resource in System.Enum.GetValues(typeof(ResourceType)))
             {
                 playerResources[i].Add(resource, 0);
             }
         }
+        SetUpResearchTrees(playerCount);
         StartCoroutine(PassiveResoursesAdderIEnumerator());
+    }
+
+    private void SetUpResearchTrees(int playerCount)
+    {
+        for (int i = 0; i < playerCount; i++)
+        {
+            researchTrees.Add(new List<ResearchTree>());
+
+            foreach(ResearchTreeDefinition researchTreeDefinition in System.Enum.GetValues(typeof(ResearchTreeDefinition)))
+            {
+                researchTrees[i].Add(ResearchFactory.Instance.CreateResearchTree(researchTreeDefinition));
+
+            }
+        }
     }
 
     private IEnumerator AddResourcesToPlayerIEnumerator(int player)
@@ -226,5 +244,14 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
             }
         }
         return this;
+    }
+
+    public List<ResearchTree> GetResearchTrees(int player)
+    {
+        if (IsValidPlayer(player))
+        {
+            return researchTrees[player];
+        }
+        return null;
     }
 }

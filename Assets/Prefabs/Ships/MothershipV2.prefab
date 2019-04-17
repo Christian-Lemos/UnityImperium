@@ -1118,6 +1118,7 @@ GameObject:
   - component: {fileID: 114281450588646716}
   - component: {fileID: 120773975483462160}
   - component: {fileID: 114614565060751116}
+  - component: {fileID: 4056370439748091061}
   m_Layer: 10
   m_Name: MothershipV2
   m_TagString: Untagged
@@ -1423,6 +1424,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &4056370439748091061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738834379677540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f048486cac8fc734d9c84345338b7899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  researchCategories: 00000000
+  researchTrees: []
 --- !u!1 &1748116252484462
 GameObject:
   m_ObjectHideFlags: 0

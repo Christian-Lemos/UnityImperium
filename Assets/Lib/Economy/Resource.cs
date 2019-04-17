@@ -20,7 +20,7 @@ namespace Imperium.Economy
                     Icon = Resources.Load("icons" + System.IO.Path.DirectorySeparatorChar + "crystal_icon") as Texture;
                     break;
 
-                case ResourceType.Energy:
+                case ResourceType.BlackMatter:
                     Name = "Energy";
                     Icon = Resources.Load("icons" + System.IO.Path.DirectorySeparatorChar + "energy_icon") as Texture;
                     break;

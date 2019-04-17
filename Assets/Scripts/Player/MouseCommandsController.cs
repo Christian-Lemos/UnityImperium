@@ -2,6 +2,7 @@
 using Imperium.Economy;
 using Imperium.MapObjects;
 using Imperium.Rendering;
+using Imperium.Research;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -285,6 +286,31 @@ public class MouseCommandsController : MonoBehaviour
                         SetStationConstructionButtonClickCallback(stationConstructor, button, stationConstructions[i]);
                     }
                 }
+            }
+
+            ResearchController researchController = selectedGOs[0].GetComponent<ResearchController>();
+
+            List<ResearchTree> researchTrees = researchController.researchTrees;
+       
+            for (int i = 0; i < researchTrees.Count; i++)
+            {
+  
+                float buttonPositionX = (constructionButtonPrefabOriginalPosX - 10) + (constructionButtonPrefabWidth * i) + 10; //10 It's the offset between buttons
+
+                GameObject button = Instantiate(constructionButtonPrefab, constructionSection.transform);
+
+                RectTransform rectTransform = button.GetComponent<RectTransform>();
+
+                float yPosition = rectTransform.position.y - 550;
+                rectTransform.anchoredPosition3D = new Vector3(buttonPositionX, yPosition, rectTransform.localPosition.z);
+
+                //Debug.Log("( " + constructionButtonPrefabOriginalPosX + "- 10 )" + " + " + "( " + constructionButtonPrefabWidth + " * " + i + ") + 10 = " + buttonPositionX);
+
+                button.GetComponentInChildren<RawImage>().texture = researchTrees[i].NextNode.research.texture;
+                button.SetActive(true);
+
+                //SetShipConstructionButtonClickCallback(constructor, button, stationConstructions[i]);
+               
             }
         }
     }

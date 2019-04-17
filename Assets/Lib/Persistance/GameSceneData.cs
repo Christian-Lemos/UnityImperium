@@ -47,7 +47,7 @@ namespace Imperium.Persistence
             {
                 new ResourcePersistance(ResourceType.Metal, 500),
                 new ResourcePersistance(ResourceType.Crystal, 500),
-                new ResourcePersistance(ResourceType.Energy, 100)
+                new ResourcePersistance(ResourceType.BlackMatter, 100)
             };
 
             List<ShipControllerPersistance> player1Ships = new List<ShipControllerPersistance>()
@@ -62,7 +62,7 @@ namespace Imperium.Persistence
             {
                 new ResourcePersistance(ResourceType.Metal, 500),
                 new ResourcePersistance(ResourceType.Crystal, 500),
-                new ResourcePersistance(ResourceType.Energy, 100)
+                new ResourcePersistance(ResourceType.BlackMatter, 100)
             };
 
             List<ShipControllerPersistance> player2Ships = new List<ShipControllerPersistance>()

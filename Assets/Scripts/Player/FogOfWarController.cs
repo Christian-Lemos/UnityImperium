@@ -258,7 +258,5 @@ public class FogOfWarController : MonoBehaviour
             UpdateFogOfWar();
             yield return null;
         }
-    }
-
-    
+    } 
 }

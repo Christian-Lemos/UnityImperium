@@ -14,7 +14,7 @@ public class AsteroidController : MonoBehaviour, ISerializable<AsteroidControlle
     {
           {ResourceType.Metal, Color.white},
           {ResourceType.Crystal, Color.blue},
-          {ResourceType.Energy, Color.yellow},
+          {ResourceType.BlackMatter, Color.yellow},
     };
 
     public ResourceType resourceType;
