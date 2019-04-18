@@ -54,6 +54,7 @@ public class ResearchManager : MonoBehaviour
     public void ScheduleResearch(ResearchNode researchNode, GameObject source, int player)
     {
         OnGoingResearch onGoingResearch = new OnGoingResearch(source, new Timer(researchNode.research.duration, true, () => { 
+            Debug.Log("Player: " + player);
             FinishResearch(player);
         }), researchNode);
         onGoingResearches[player].Add(onGoingResearch);
@@ -62,7 +63,7 @@ public class ResearchManager : MonoBehaviour
     private void FinishResearch(int player)
     {
         onGoingResearches[player][0].researchNode.completed = true;
-        onGoingResearches.RemoveAt(0);
+        onGoingResearches[player].RemoveAt(0);
     }
 
     public ResearchNode GetOnGoingResearchNode(GameObject source, int player)

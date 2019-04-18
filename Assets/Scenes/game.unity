@@ -1339,24 +1339,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461088601}
   m_CullTransparentMesh: 0
---- !u!1 &1516801725 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1650328200139088, guid: 2380862eb8f4b5e438f25fff5ade826e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1702087593}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1516801732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1516801725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 407cee2e3fbc23e43afcaa5c4a091f23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1517333728
 GameObject:
   m_ObjectHideFlags: 0
@@ -1632,7 +1614,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1978898283708864, guid: 09dab43f5434a304499a3cfe9eed087b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4589941046818310, guid: 09dab43f5434a304499a3cfe9eed087b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1808,22 +1790,6 @@ PrefabInstance:
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 1640233388}
-    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
-        type: 3}
-      propertyPath: trueShipAssociations.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
-        type: 3}
-      propertyPath: trueShipAssociations.Array.data[4].prefab
-      value: 
-      objectReference: {fileID: 1718406266474456, guid: d1ccc45dbb5133a40938f229f5052c6e,
-        type: 3}
-    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
-        type: 3}
-      propertyPath: trueShipAssociations.Array.data[4].shipType
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2380862eb8f4b5e438f25fff5ade826e, type: 3}
 --- !u!1 &1717343146

@@ -289,31 +289,47 @@ public class MouseCommandsController : MonoBehaviour
             }
 
             ResearchController researchController = selectedGOs[0].GetComponent<ResearchController>();
-
             List<ResearchTree> researchTrees = researchController.researchTrees;
-       
-            for (int i = 0; i < researchTrees.Count; i++)
+            if(researchController != null)
             {
-  
-                float buttonPositionX = (constructionButtonPrefabOriginalPosX - 10) + (constructionButtonPrefabWidth * i) + 10; //10 It's the offset between buttons
+                for (int i = 0, j = 0; i < researchTrees.Count; i++)
+                {
+                    if(researchTrees[i].NextNode != null)
+                    {
+                        float buttonPositionX = (constructionButtonPrefabOriginalPosX - 10) + (constructionButtonPrefabWidth * j) + 10; //10 It's the offset between buttons
 
-                GameObject button = Instantiate(constructionButtonPrefab, constructionSection.transform);
+                        GameObject button = Instantiate(constructionButtonPrefab, constructionSection.transform);
 
-                RectTransform rectTransform = button.GetComponent<RectTransform>();
+                        RectTransform rectTransform = button.GetComponent<RectTransform>();
 
-                float yPosition = rectTransform.position.y - 550;
-                rectTransform.anchoredPosition3D = new Vector3(buttonPositionX, yPosition, rectTransform.localPosition.z);
+                        float yPosition = rectTransform.position.y - 550;
+                        rectTransform.anchoredPosition3D = new Vector3(buttonPositionX, yPosition, rectTransform.localPosition.z);
 
-                //Debug.Log("( " + constructionButtonPrefabOriginalPosX + "- 10 )" + " + " + "( " + constructionButtonPrefabWidth + " * " + i + ") + 10 = " + buttonPositionX);
+                        //Debug.Log("( " + constructionButtonPrefabOriginalPosX + "- 10 )" + " + " + "( " + constructionButtonPrefabWidth + " * " + i + ") + 10 = " + buttonPositionX);
 
-                button.GetComponentInChildren<RawImage>().texture = researchTrees[i].NextNode.research.texture;
-                button.SetActive(true);
-
-                //SetShipConstructionButtonClickCallback(constructor, button, stationConstructions[i]);
+                        button.GetComponentInChildren<RawImage>().texture = researchTrees[i].NextNode.research.texture;
+                        button.SetActive(true);
+                
+                        //SetShipConstructionButtonClickCallback(constructor, button, stationConstructions[i]);
+                        SetResearchButtonCallback(researchController, researchTrees[i], button); 
+                        j++;
+                    }
+                       
                
+                }
             }
         }
     }
+
+    private void SetResearchButtonCallback(ResearchController researchController, ResearchTree researchTree, GameObject button)
+    {
+        button.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            researchController.DoResearch(researchTree.NextNode);
+        });
+    }
+    
+
 
     private void Start()
     {

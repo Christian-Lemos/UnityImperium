@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 114962969850159042}
   - component: {fileID: 114121210284327604}
   - component: {fileID: 1521141438}
+  - component: {fileID: 1516801732}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -84,6 +85,8 @@ MonoBehaviour:
     shipType: 4
   - prefab: {fileID: 1306210491191302, guid: 38ab961b9a81d714cb68baa4b6bf2c6d, type: 3}
     shipType: 2
+  - prefab: {fileID: 1718406266474456, guid: d1ccc45dbb5133a40938f229f5052c6e, type: 3}
+    shipType: 3
   trueStationAssociation:
   - prefab: {fileID: 1249487277988724, guid: 82e0a040e5e4ecf4d93f94e67b3657df, type: 3}
     stationType: 0
@@ -138,3 +141,15 @@ MonoBehaviour:
   paused: 0
   masterSpeed: 1
   currentTime: 0
+--- !u!114 &1516801732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650328200139088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 407cee2e3fbc23e43afcaa5c4a091f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
