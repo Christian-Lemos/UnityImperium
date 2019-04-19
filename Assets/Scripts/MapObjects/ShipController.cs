@@ -178,15 +178,13 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
         if(_ship == null)
         {
             Ship = ShipFactory.getInstance().CreateShip(shipType);
-        }
-        
+        }   
 
         mapObjectCombatter = GetComponent<MapObjectCombatter>();
         mapObjectCombatter.combatStats = Ship.combatStats;
         StartCoroutine(mapObjectCombatter.ShieldRegeneration());
 
         stationConstructor = GetComponent<StationConstructor>();
-
     }
 
     private void Update()

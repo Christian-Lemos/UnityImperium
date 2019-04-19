@@ -22,7 +22,10 @@ public class FleetCommander : MonoBehaviour
                 if (Physics.Raycast(ray, out RaycastHit hit, 1000f, selectLayer))
                 {
                     GameObject selected = hit.collider.gameObject;
-
+                    if(selected.layer != (int)ObjectLayers.Map && selected.GetComponent<MapObject>() == null)
+                    {
+                        return;
+                    }
                     switch (selected.layer)
                     {
                         case (int)ObjectLayers.Map:

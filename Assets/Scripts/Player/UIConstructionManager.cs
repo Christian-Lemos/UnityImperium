@@ -178,11 +178,14 @@ public class UIConstructionManager : MonoBehaviour
                 possibleStation.stationConstructor.GetComponent<ShipController>().BuildStation(station, !Input.GetKey(KeyCode.LeftShift), false);
 
                 possibleStation = null;
+                ObjectSelector.Instance.lockSelection = true;
+
             }
             else if (Input.GetMouseButtonDown(1))//right click
             {
                 Destroy(possibleStation.gameObject);
                 possibleStation = null;
+                ObjectSelector.Instance.lockSelection = false;
             }
         }
     }

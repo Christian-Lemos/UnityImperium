@@ -39,7 +39,6 @@ public class ResearchManager : MonoBehaviour
         }
     }
 
-    
     void Update()
     {
         for(int i = 0; i < onGoingResearches.Count; i++)

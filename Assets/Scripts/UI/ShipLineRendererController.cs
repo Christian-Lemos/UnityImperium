@@ -47,7 +47,7 @@ public class ShipLineRendererController : MonoBehaviour
         }
         else
         {
-            endPosition = shipController.fleetCommandQueue.CurrentFleetCommand.destination;
+           endPosition = shipController.fleetCommandQueue.CurrentFleetCommand.destination;
             if (!Active)
             {
                 Active = true;
@@ -107,8 +107,6 @@ public class ShipLineRendererController : MonoBehaviour
         if (gameObjects.Contains(gameObject) || mouseOver)
         {
             shipController.fleetCommandQueue.AddCommandObserver(UpdateLine);
-            //ActivateIfPossible();
-            //SetLineRendererColor();
         }
         else
         {
@@ -133,24 +131,11 @@ public class ShipLineRendererController : MonoBehaviour
             AnimateLineRenderer();
             UpdateLineRendererPositions();
         }
-
-       /* if (ObjectSelector.Instance.selectedGOs.Contains(gameObject) || mouseOver)
-        {
-            ActivateIfPossible();
-            SetLineRendererColor();
-        }
-        else
-        {
-            if (Active)
-            {
-                Active = false;
-            }
-        }*/
     }
 
     private void UpdateLineRendererPositions()
     {
-        //LineRenderer must use world space
+        endPosition = shipController.fleetCommandQueue.CurrentFleetCommand.destination;
         lineRenderer.SetPosition(0, transform.position);
         lineRenderer.SetPosition(1, endPosition);
     }

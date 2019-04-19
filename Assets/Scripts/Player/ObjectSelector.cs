@@ -10,6 +10,7 @@ public class ObjectSelector : MonoBehaviour
     private static ObjectSelector _instance;
     private List<GameObject> previousSelectedGOs = new List<GameObject>();
     private HashSet<Action<List<GameObject>>> selectionObservers = new HashSet<Action<List<GameObject>>>();
+    public bool lockSelection = false;
     // private int selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Map) | (1 << (int)ObjectLayers.Station) | (1 << (int)ObjectLayers.Asteroid);
 
     public ObjectSelector()
@@ -136,7 +137,7 @@ public class ObjectSelector : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (!EventSystem.current.IsPointerOverGameObject())
+        if (!this.lockSelection && !EventSystem.current.IsPointerOverGameObject())
         {
             if (Input.GetMouseButtonUp(0)) //If left click
             {
