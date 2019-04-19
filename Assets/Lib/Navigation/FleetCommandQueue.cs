@@ -1,4 +1,5 @@
 ﻿using Imperium.Persistence;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Imperium.Navigation
@@ -9,6 +10,28 @@ namespace Imperium.Navigation
         public List<FleetCommand> fleetCommands = new List<FleetCommand>();
         public bool loopFleetCommands = false;
         private FleetCommand currentFleetCommand;
+
+        private HashSet<Action<FleetCommand, FleetCommand>> commandObservers = new HashSet<Action<FleetCommand, FleetCommand>>();
+
+        public void AddCommandObserver(Action<FleetCommand, FleetCommand> action)
+        {
+            commandObservers.Add(action);
+        }
+
+        public void RemoveCommandObserver(Action<FleetCommand, FleetCommand> action)
+        {
+            commandObservers.RemoveWhere((Action<FleetCommand, FleetCommand> a) => {
+                return a.Equals(action);
+            });
+        }
+
+        private void CallCommandObservers(FleetCommand previousCommand, FleetCommand newCommand)
+        {
+            foreach(Action<FleetCommand, FleetCommand> action in commandObservers)
+            {
+                action.Invoke(previousCommand, newCommand); 
+            }
+        }
 
         public FleetCommand CurrentFleetCommand
         {
@@ -23,7 +46,9 @@ namespace Imperium.Navigation
                 {
                     currentFleetCommand.OnRemoved();
                 }
+                FleetCommand previous = currentFleetCommand;
                 currentFleetCommand = value;
+                CallCommandObservers(previous, currentFleetCommand);
             }
         }
 

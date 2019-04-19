@@ -2,8 +2,7 @@
 
 public class PrebuiltPlayerAdder : MonoBehaviour
 {
-    [SerializeField]
-    private int addToPlayer;
+    public int addToPlayer;
 
     private PlayerDatabase playerDatabase;
 

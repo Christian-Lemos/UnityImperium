@@ -4,14 +4,11 @@ using UnityEngine.UI;
 
 public class GameMainMenu : MonoBehaviour
 {
-    [SerializeField]
-    private Button exitGameButton;
+    public Button exitGameButton;
 
-    [SerializeField]
-    private Button loadGameButton;
+    public Button loadGameButton;
 
-    [SerializeField]
-    private Button saveGameButton;
+    public Button saveGameButton;
 
     private void ExitGameHandler()
     {

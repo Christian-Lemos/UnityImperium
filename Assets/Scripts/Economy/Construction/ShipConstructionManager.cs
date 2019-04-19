@@ -115,7 +115,7 @@ public class ShipConstructionManager : MonoBehaviour, ISerializable<ShipConstruc
         int player = PlayerDatabase.Instance.GetObjectPlayer(constructor.gameObject);
         Vector3 thisPosition = constructor.gameObject.transform.position;
         Vector3 spawnPosition = new Vector3(thisPosition.x + constructor.relativeConstructionSpawn.x, thisPosition.y + constructor.relativeConstructionSpawn.y, thisPosition.z + constructor.relativeConstructionSpawn.z);
-        Spawner.Instance.SpawnShip(shipConstruction.shipType, player, spawnPosition, Quaternion.identity);
+        Spawner.Instance.SpawnShip(shipConstruction.shipType, player, spawnPosition, Quaternion.identity, true);
     }
 
     [System.Serializable]

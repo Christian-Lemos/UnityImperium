@@ -4,27 +4,14 @@ using UnityEngine.UI;
 
 public class CombatStatsCanvasController : MonoBehaviour
 {
+    public Vector3 combatCanvasPositionOffset;
+    public GameObject combatCanvasPrebab;
+    public float combatCanvasScale;
+    public CombatStats combatStats;
+    public Image hp;
+    public Image shields;
     private bool active;
-
-    [SerializeField]
-    private Vector3 combatCanvasPositionOffset;
-
-    [SerializeField]
-    private GameObject combatCanvasPrebab;
-
-    [SerializeField]
-    private float combatCanvasScale;
-
-    [SerializeField]
-    private CombatStats combatStats;
-
-    [SerializeField]
-    private Image hp;
-
     private bool mouseOver;
-
-    [SerializeField]
-    private Image shields;
 
     public void SetActive(bool active)
     {
@@ -43,7 +30,7 @@ public class CombatStatsCanvasController : MonoBehaviour
     {
         mouseOver = false;
 
-        if (!MouseCommandsController.Instance.selectedGOs.Contains(gameObject))
+        if (!ObjectSelector.Instance.selectedGOs.Contains(gameObject))
         {
             SetActive(false);
         }
@@ -74,7 +61,7 @@ public class CombatStatsCanvasController : MonoBehaviour
             shields.fillAmount = (float)combatStats.Shields / combatStats.maxShields;
         }
 
-        if (MapObjecsRenderingController.Instance.visibleObjects.Contains(gameObject) && (MouseCommandsController.Instance.selectedGOs.Contains(gameObject) || mouseOver))
+        if (MapObjecsRenderingController.Instance.visibleObjects.Contains(gameObject) && (ObjectSelector.Instance.selectedGOs.Contains(gameObject) || mouseOver))
         {
             if (!active)
             {

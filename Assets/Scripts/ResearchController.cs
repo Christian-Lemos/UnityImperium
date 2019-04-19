@@ -1,42 +1,45 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Imperium.Misc;
 using Imperium.Research;
-using Imperium.Misc;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class ResearchController : MonoBehaviour
 {
+    public List<OnGoingResearch> onGoingResearches = new List<OnGoingResearch>();
     public List<ResearchCategory> researchCategories;
     public List<ResearchTree> researchTrees;
 
-    [System.Serializable]
-    public class OnGoingResearch
-    {
-        public Timer timer;
-        public ResearchNode researchNode;
+    private int player;
 
-        public OnGoingResearch(Timer timer, ResearchNode researchNode)
+    public bool DoResearch(ResearchNode researchNode)
+    {
+        if (ResearchManager.Instance.GetOnGoingResearchNode(gameObject, player) == null)
         {
-            this.timer = timer;
-            this.researchNode = researchNode;
+            ResearchManager.Instance.ScheduleResearch(researchNode, gameObject, player);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
-    private int player;
-
-    public List<OnGoingResearch> onGoingResearches = new List<OnGoingResearch>();
+    private void FinishResearch()
+    {
+        onGoingResearches[0].researchNode.completed = true;
+        onGoingResearches.RemoveAt(0);
+    }
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
-        int player = PlayerDatabase.Instance.GetObjectPlayer(this.gameObject);
         List<ResearchTree> allResearchTrees = PlayerDatabase.Instance.GetResearchTrees(player);
 
-        for(int i = 0; i < researchCategories.Count; i++)
+        for (int i = 0; i < researchCategories.Count; i++)
         {
-            for(int j = 0; j < allResearchTrees.Count; j++)
+            for (int j = 0; j < allResearchTrees.Count; j++)
             {
-                if(allResearchTrees[j].researchCategory == researchCategories[i])
+                if (allResearchTrees[j].researchCategory == researchCategories[i])
                 {
                     researchTrees.Add(allResearchTrees[j]);
                     break;
@@ -44,35 +47,27 @@ public class ResearchController : MonoBehaviour
             }
         }
 
-        player = PlayerDatabase.Instance.GetObjectPlayer(this.gameObject);
-
+        player = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
     }
 
     private void Update()
     {
-        if(onGoingResearches.Count > 0)
+        if (onGoingResearches.Count > 0)
         {
             onGoingResearches[0].timer.Execute();
         }
     }
 
-    public bool DoResearch(ResearchNode researchNode)
+    [System.Serializable]
+    public class OnGoingResearch
     {
-        if(ResearchManager.Instance.GetOnGoingResearchNode(this.gameObject, player) == null)
-        {
-            ResearchManager.Instance.ScheduleResearch(researchNode, this.gameObject, player);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-        
-    }
+        public ResearchNode researchNode;
+        public Timer timer;
 
-    private void FinishResearch()
-    {
-        onGoingResearches[0].researchNode.completed = true;
-        onGoingResearches.RemoveAt(0);
+        public OnGoingResearch(Timer timer, ResearchNode researchNode)
+        {
+            this.timer = timer;
+            this.researchNode = researchNode;
+        }
     }
 }

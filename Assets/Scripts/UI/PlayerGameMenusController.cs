@@ -2,8 +2,7 @@
 
 public class PlayerGameMenusController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject gameMainMenuObject;
+    public GameObject gameMainMenuObject;
 
     private GameMainMenu gameMainMenu;
 

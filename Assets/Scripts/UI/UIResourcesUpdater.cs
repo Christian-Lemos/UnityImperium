@@ -10,8 +10,8 @@ public class UIResourcesUpdater : MonoBehaviour
 
     private Dictionary<ResourceType, Text> texts = new Dictionary<ResourceType, Text>();
 
-    [SerializeField]
-    private GameObject UIResourcePrefab;
+
+    public GameObject UIResourcePrefab;
 
     private void Start()
     {

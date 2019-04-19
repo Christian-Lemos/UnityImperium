@@ -1125,7 +1125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4190174119096174
 Transform:
   m_ObjectHideFlags: 0
@@ -1438,6 +1438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   researchCategories: 00000000
   researchTrees: []
+  onGoingResearches: []
 --- !u!1 &1748116252484462
 GameObject:
   m_ObjectHideFlags: 0

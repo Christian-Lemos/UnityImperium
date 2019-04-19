@@ -96,6 +96,34 @@ public class ShipLineRendererController : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
         shipController = GetComponent<ShipController>();
+        
+        ObjectSelector.Instance.AddSelectionObserver(OnSelectionChange);
+    }
+
+
+
+    private void OnSelectionChange(List<GameObject> gameObjects)
+    {
+        if (gameObjects.Contains(gameObject) || mouseOver)
+        {
+            shipController.fleetCommandQueue.AddCommandObserver(UpdateLine);
+            //ActivateIfPossible();
+            //SetLineRendererColor();
+        }
+        else
+        {
+            shipController.fleetCommandQueue.RemoveCommandObserver(UpdateLine);
+            if (Active)
+            {
+                Active = false;
+            }
+        }
+    }
+
+    private void UpdateLine(FleetCommand previous, FleetCommand current)
+    {
+        ActivateIfPossible();
+        SetLineRendererColor();
     }
 
     private void Update()
@@ -106,7 +134,7 @@ public class ShipLineRendererController : MonoBehaviour
             UpdateLineRendererPositions();
         }
 
-        if (MouseCommandsController.Instance.selectedGOs.Contains(gameObject) || mouseOver)
+       /* if (ObjectSelector.Instance.selectedGOs.Contains(gameObject) || mouseOver)
         {
             ActivateIfPossible();
             SetLineRendererColor();
@@ -117,7 +145,7 @@ public class ShipLineRendererController : MonoBehaviour
             {
                 Active = false;
             }
-        }
+        }*/
     }
 
     private void UpdateLineRendererPositions()
@@ -137,5 +165,10 @@ public class ShipLineRendererController : MonoBehaviour
             this.startColor = startColor;
             this.endColor = endColor;
         }
+    }
+
+    private void OnDestroy()
+    {
+        ObjectSelector.Instance.RemoveSelectionObserver(OnSelectionChange);
     }
 }

@@ -161,7 +161,7 @@ public class Spawner : MonoBehaviour
         return createdStation;
     }
 
-    public GameObject SpawnShip(long id, ShipType type, int player, Vector3 position, Quaternion rotation)
+    public GameObject SpawnShip(long id, ShipType type, int player, Vector3 position, Quaternion rotation, bool setActive)
     {
         if (!PlayerDatabase.Instance.IsValidPlayer(player))
         {
@@ -180,7 +180,7 @@ public class Spawner : MonoBehaviour
             newShip.name += " " + player;
 
             newShip.GetComponent<MapObject>().id = id;
-            newShip.SetActive(true);
+            newShip.SetActive(setActive);
 
             AddAI(player, newShip);
 
@@ -190,9 +190,9 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    public GameObject SpawnShip(ShipType type, int player, Vector3 position, Quaternion rotation)
+    public GameObject SpawnShip(ShipType type, int player, Vector3 position, Quaternion rotation, bool setActive)
     {
-        GameObject ship = SpawnShip(CreateID(), type, player, position, rotation);
+        GameObject ship = SpawnShip(CreateID(), type, player, position, rotation, setActive);
         SetMapObjectChildrenID(ship);
         return ship;
     }

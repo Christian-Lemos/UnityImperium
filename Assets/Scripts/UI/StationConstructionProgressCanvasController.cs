@@ -3,14 +3,11 @@
 [RequireComponent(typeof(StationController))]
 public class StationConstructionProgressCanvasController : MonoBehaviour
 {
-    [SerializeField]
-    private Vector3 offset;
+    public Vector3 offset;
 
-    [SerializeField]
-    private GameObject progressCanvasPrefab;
+    public GameObject progressCanvasPrefab;
 
-    [SerializeField]
-    private float scale;
+    public float scale;
 
     private StationConstructionProgressCanvas stationConstructionProgressCanvas;
 
@@ -34,7 +31,7 @@ public class StationConstructionProgressCanvasController : MonoBehaviour
 
     private void Update()
     {
-        if(stationConstructionProgressCanvas != null)
+        if (stationConstructionProgressCanvas != null)
         {
             stationConstructionProgressCanvas.gameObject.SetActive(false);
             stationConstructionProgressCanvas.gameObject.SetActive(MapObjecsRenderingController.Instance.visibleObjects.Contains(gameObject));

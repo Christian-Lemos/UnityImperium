@@ -11,8 +11,7 @@ public class FogOfWarController : MonoBehaviour
     public int[] playersVision;
     private IEnumerator enumerator;
 
-    [SerializeField]
-    private GameObject fogOfWarPlane;
+    public GameObject fogOfWarPlane;
 
     private List<FogOfWarMeshVertice> fogOfWarUtilities = new List<FogOfWarMeshVertice>();
     private Mesh mesh;

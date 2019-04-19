@@ -19,8 +19,7 @@ public class ShipSpawner : MonoBehaviour
 
     private Vector3 lastClickedPosition = new Vector3(0, 0, 0);
 
-    [SerializeField]
-    private ShipType shipType;
+    public ShipType shipType;
 
     private Spawner spawner;
 
@@ -29,7 +28,7 @@ public class ShipSpawner : MonoBehaviour
         int player;
         if (Int32.TryParse(inputJogador.text, out player))
         {
-            spawner.SpawnShip(shipType, player, lastClickedPosition, Quaternion.identity);
+            spawner.SpawnShip(shipType, player, lastClickedPosition, Quaternion.identity, true);
         }
         else
         {

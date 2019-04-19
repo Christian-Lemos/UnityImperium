@@ -10,11 +10,10 @@ public class GameInitializer : MonoBehaviour
 {
     public GameSceneData gameSceneData;
 
-    [SerializeField]
-    private GameObject playerManager;
+   
+    public GameObject playerManager;
 
-    [SerializeField]
-    private GameObject selectionPanelPrefab;
+    public GameObject selectionPanelPrefab;
 
     public static GameInitializer Instance { get; private set; }
 
@@ -44,7 +43,7 @@ public class GameInitializer : MonoBehaviour
         CreateAsteroidFields();
 
         SetUpPlayerManager();*/
-
+        SetUpPlayerManager();
         LoadGameSceneData();
     }
 
@@ -99,7 +98,7 @@ public class GameInitializer : MonoBehaviour
         {
             foreach (ShipControllerPersistance sp in playerPersistance.ships)
             {
-                GameObject ship = Spawner.Instance.SpawnShip(sp.mapObjectPersitance.id, sp.shipType, playerPersistance.playerNumber, sp.mapObjectPersitance.localPosition, Quaternion.identity);
+                GameObject ship = Spawner.Instance.SpawnShip(sp.mapObjectPersitance.id, sp.shipType, playerPersistance.playerNumber, sp.mapObjectPersitance.localPosition, Quaternion.identity, false);
                 ship.GetComponent<ShipController>().initialized = sp.initialized;
                 ships.Add(new GameObjectSerializedObjectAssociation<ShipControllerPersistance>(ship, sp));
                 mapObjects.Add(new MapObjectSerializedObjectAssociation(ship.GetComponent<MapObject>(), sp.mapObjectPersitance));
@@ -164,7 +163,7 @@ public class GameInitializer : MonoBehaviour
            FogOfWarUtility.SetRendering(false, trueMapObjects[i].gameObject);
         }
         
-        SetUpPlayerManager();
+        
     }
 
     private void SetUpPlayerManager()
@@ -187,9 +186,9 @@ public class GameInitializer : MonoBehaviour
             GameObject selectionPanel = Instantiate(selectionPanelPrefab, GameObject.FindGameObjectWithTag("MainCanvas").transform);
             GameObject constructionSection = selectionPanel.GetComponentInChildren<ConstructionSection>().gameObject;
 
-            MouseCommandsController mouseCommandsController = playerManager.GetComponent<MouseCommandsController>();
+            /*MouseCommandsController mouseCommandsController = playerManager.GetComponent<MouseCommandsController>();
             mouseCommandsController.selectPanel = selectionPanel;
-            mouseCommandsController.constructionSection = constructionSection;
+            mouseCommandsController.constructionSection = constructionSection;*/
 
             playerManager.GetComponent<MapObjecsRenderingController>().players = new int[1] {player};
             playerManager.GetComponent<FogOfWarController>().playersVision = new int[1] {player};

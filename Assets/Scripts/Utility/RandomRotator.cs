@@ -3,8 +3,7 @@
 [RequireComponent(typeof(Rigidbody))]
 public class RandomRotator : MonoBehaviour
 {
-    [SerializeField]
-    private float tumble;
+    public float tumble;
 
     private void Start()
     {
