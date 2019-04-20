@@ -106,6 +106,7 @@ public class ShipLineRendererController : MonoBehaviour
     {
         if (gameObjects.Contains(gameObject) || mouseOver)
         {
+            UpdateLine(null, null);
             shipController.fleetCommandQueue.AddCommandObserver(UpdateLine);
         }
         else

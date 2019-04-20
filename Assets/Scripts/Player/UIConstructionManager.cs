@@ -147,6 +147,7 @@ public class UIConstructionManager : MonoBehaviour
             station.SetActive(true);
             FogOfWarUtility.SetRendering(true, station);
             possibleStation = new PossibleStationConstruction(station, stationConstruction, stationConstructor);
+            ObjectSelector.Instance.lockSelection = true;
         });
     }
 
@@ -169,7 +170,7 @@ public class UIConstructionManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 1000f, 1 << (int)ObjectLayers.Map))
         {
             possibleStation.gameObject.transform.position = hit.point;
-            if (Input.GetMouseButtonDown(0))//Left click
+            if (Input.GetMouseButtonUp(0))//Left click
             {
                 Destroy(possibleStation.gameObject);
 
@@ -178,10 +179,10 @@ public class UIConstructionManager : MonoBehaviour
                 possibleStation.stationConstructor.GetComponent<ShipController>().BuildStation(station, !Input.GetKey(KeyCode.LeftShift), false);
 
                 possibleStation = null;
-                ObjectSelector.Instance.lockSelection = true;
+                ObjectSelector.Instance.lockSelection = false;
 
             }
-            else if (Input.GetMouseButtonDown(1))//right click
+            else if (Input.GetMouseButtonUp(1))//right click
             {
                 Destroy(possibleStation.gameObject);
                 possibleStation = null;
