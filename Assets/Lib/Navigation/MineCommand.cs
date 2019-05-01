@@ -49,8 +49,11 @@ namespace Imperium.Navigation
 
                 if (deliveryObject == null)
                 {
-                    ICollection<GameObject> playerObjects = PlayerDatabase.Instance.GetObjects(player);
 
+                    deliveryObject = ResourceDropPoint.FindClosest(this.source.gameObject);
+                        
+                    /*
+                     * ICollection<GameObject> playerObjects = PlayerDatabase.Instance.GetObjects(player)
                     foreach (GameObject @object in playerObjects)
                     {
                         if (!@object.Equals(source) && @object.GetComponent<ShipController>().shipType == ShipType.MotherShip)
@@ -58,7 +61,7 @@ namespace Imperium.Navigation
                             deliveryObject = @object;
                             break;
                         }
-                    }
+                    }*/
                 }
 
                 if (deliveryObject != null)

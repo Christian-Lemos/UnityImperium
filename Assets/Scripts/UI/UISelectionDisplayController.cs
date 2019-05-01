@@ -72,6 +72,8 @@ public class UISelectionDisplayController : MonoBehaviour
 
     private void SetVisibility(bool value)
     {
+        selectedImage.gameObject.SetActive(value);
+        selectedText.gameObject.SetActive(value);
         nameNStats.SetActive(value);
     }
 
