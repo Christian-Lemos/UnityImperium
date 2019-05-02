@@ -33,6 +33,14 @@ public class ResourceDropPoint : MonoBehaviour
             {
                 continue;
             }
+            else
+            {
+                StationController stationController = gameObject.GetComponent<StationController>();
+                if(stationController != null && !stationController.Constructed)
+                {
+                    continue;
+                }
+            }
 
             float magnitude = (target.transform.position - gameObject.transform.position).sqrMagnitude;
             if(magnitude < smallestMagnitude)

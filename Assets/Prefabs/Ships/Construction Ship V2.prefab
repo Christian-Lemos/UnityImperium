@@ -414,6 +414,10 @@ MonoBehaviour:
     - quantity: 1
       resourceType: 0
     stationType: 0
+  - resourceCosts:
+    - quantity: 1
+      resourceType: 0
+    stationType: 1
 --- !u!114 &114046977521135256
 MonoBehaviour:
   m_ObjectHideFlags: 0

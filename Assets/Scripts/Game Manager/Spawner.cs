@@ -16,6 +16,7 @@ public class Spawner : MonoBehaviour
     public Dictionary<ShipType, GameObject> dummyShipDictionary = new Dictionary<ShipType, GameObject>();
     public StationAssociation[] dummyStationAssociation;
     public Dictionary<StationType, GameObject> dummyStationDictionary = new Dictionary<StationType, GameObject>();
+    [NonSerialized]
     public long nextId = 1;
     public GameObject[] trueAsteroidsPrefabs;
     public ShipAssociation[] trueShipAssociations;

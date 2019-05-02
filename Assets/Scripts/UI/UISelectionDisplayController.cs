@@ -94,7 +94,7 @@ public class UISelectionDisplayController : MonoBehaviour
         stationStats.shieldText.text = stationController.Station.combatStats.Shields.ToString();
         if(stationController.constructionProgress < 100)
         {
-            stationStats.constructionText.text = stationController.constructionProgress.ToString() + "%";
+            stationStats.constructionText.text = stationController.constructionProgress.ToString("0") + "%";
             stationStats.constructionImage.gameObject.SetActive(true);
             stationStats.constructionText.gameObject.SetActive(true);
         }
