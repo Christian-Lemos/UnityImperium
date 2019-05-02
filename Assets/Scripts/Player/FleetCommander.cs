@@ -46,7 +46,7 @@ public class FleetCommander : MonoBehaviour
                             break;
 
                         case (int)ObjectLayers.Ship:
-                            int selectedPlayer = PlayerDatabase.Instance.GetObjectPlayer(selected);
+                            Player selectedPlayer = PlayerDatabase.Instance.GetObjectPlayer(selected);
                             foreach (GameObject go in selectedGOs)
                             {
                                 if (!PlayerDatabase.Instance.IsFromPlayer(go, selectedPlayer))

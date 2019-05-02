@@ -1,4 +1,5 @@
-﻿using Imperium.MapObjects;
+﻿using Imperium.Combat;
+using Imperium.MapObjects;
 using Imperium.Misc;
 
 namespace Imperium.Persistence.MapObjects
@@ -8,21 +9,25 @@ namespace Imperium.Persistence.MapObjects
     {
         public long targetID;
         public long firePriorityID;
-        public bool isReloading;
+        public FireStage fireStage;
         public int turretIndex;
-        public Timer timer;
+        public Timer reloadTimer;
         public Turret turret;
         public TurretType turretType;
+        public int salvoCount;
+        public Timer salvoTimer;
 
-        public TurretControllerPersistance(long targetID, long firePriorityID, bool isReloading, int turretIndex, Timer timer, Turret turret, TurretType turretType)
+        public TurretControllerPersistance(long targetID, long firePriorityID, FireStage fireStage, int turretIndex, Timer reloadTimer, Turret turret, TurretType turretType, int salvoCount, Timer salvoTimer)
         {
             this.targetID = targetID;
             this.firePriorityID = firePriorityID;
-            this.isReloading = isReloading;
+            this.fireStage = fireStage;
             this.turretIndex = turretIndex;
-            this.timer = timer;
+            this.reloadTimer = reloadTimer;
             this.turret = turret;
             this.turretType = turretType;
+            this.salvoCount = salvoCount;
+            this.salvoTimer = salvoTimer;
         }
     }
 }

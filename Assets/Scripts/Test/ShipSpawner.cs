@@ -25,16 +25,25 @@ public class ShipSpawner : MonoBehaviour
 
     private void SpawnShip()
     {
-        int player;
-        if (Int32.TryParse(inputJogador.text, out player))
+        int playerNumber;
+        if (Int32.TryParse(inputJogador.text, out playerNumber))
         {
-            spawner.SpawnShip(shipType, player, lastClickedPosition, Quaternion.identity, true);
+            Player player = PlayerDatabase.Instance.FindPlayaerByNumber(playerNumber);
+            if(player != null)
+            {
+                spawner.SpawnShip(shipType, player, lastClickedPosition, Quaternion.identity, true);
+            }
+            else
+            {
+                Debug.Log("Player " + playerNumber + " not found!");
+            }
         }
         else
         {
             Debug.Log("Failed to convert " + inputJogador.text + " to integer");
         }
     }
+
 
     private void Start()
     {

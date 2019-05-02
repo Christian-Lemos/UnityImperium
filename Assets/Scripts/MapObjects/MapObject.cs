@@ -1,4 +1,5 @@
-﻿using Imperium.MapObjects;
+﻿using Imperium;
+using Imperium.MapObjects;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ public class MapObject : MonoBehaviour, ISerializable<MapObjectPersitance>
     {
         try
         {
-            int thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
+            Player thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
             PlayerDatabase.Instance.RemoveFromPlayer(gameObject, thisPlayer);
            
         }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UIResourcesUpdater : MonoBehaviour
 {
-    private int player;
+    private Player player;
 
     private Dictionary<ResourceType, Text> texts = new Dictionary<ResourceType, Text>();
 
@@ -17,9 +17,9 @@ public class UIResourcesUpdater : MonoBehaviour
     {
         for (int j = 0; j < GameInitializer.Instance.gameSceneData.players.Count; j++)
         {
-            if (GameInitializer.Instance.gameSceneData.players[j].playerType == PlayerType.Real)
+            if (GameInitializer.Instance.gameSceneData.players[j].player.PlayerType == PlayerType.Real)
             {
-                player = GameInitializer.Instance.gameSceneData.players[j].playerNumber;
+                player = GameInitializer.Instance.gameSceneData.players[j].player;
             }
         }
 

@@ -6,16 +6,14 @@ namespace Imperium.Persistence
     [System.Serializable]
     public class PlayerPersistance
     {
-        public int playerNumber;
-        public PlayerType playerType;
+        public Player player;
         public List<ResourcePersistance> resources;
         public List<ShipControllerPersistance> ships;
         public List<StationControllerPersistance> stations;
 
-        public PlayerPersistance(int playerNumber, PlayerType playerType, List<ResourcePersistance> resources, List<ShipControllerPersistance> ships, List<StationControllerPersistance> stations)
+        public PlayerPersistance(Player player, List<ResourcePersistance> resources, List<ShipControllerPersistance> ships, List<StationControllerPersistance> stations)
         {
-            this.playerNumber = playerNumber;
-            this.playerType = playerType;
+            this.player = player;
             this.resources = resources;
             this.ships = ships;
             this.stations = stations;

@@ -4,7 +4,7 @@ namespace Imperium.AI
 {
     public abstract class UnitLevelAI : MonoBehaviour
     {
-        public int player = 1;
+        public Player player;
         public StrategicAI strategicAI;
 
         public abstract void Execute();

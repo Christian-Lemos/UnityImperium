@@ -15,6 +15,8 @@ public class GameInitializer : MonoBehaviour
 
     public GameObject selectionPanelPrefab;
 
+    public GameObject AIStorage;
+
     public static GameInitializer Instance { get; private set; }
 
     // Use this for initialization
@@ -29,8 +31,14 @@ public class GameInitializer : MonoBehaviour
         {
             gameSceneData = GameSceneData.NewGameDefault();
         }
+        Player[] players = new Player[gameSceneData.players.Count];
 
-        PlayerDatabase.Instance.SetUpDatabase(gameSceneData.players.Count);
+        for(int i =0; i < gameSceneData.players.Count; i++)
+        {
+            players[i] = gameSceneData.players[i].player;
+        }
+
+        PlayerDatabase.Instance.SetUpDatabase(players);
 
         /*foreach (PlayerPersistance playerPersistance in gameSceneData.players)
         {
@@ -44,7 +52,21 @@ public class GameInitializer : MonoBehaviour
 
         SetUpPlayerManager();*/
         SetUpPlayerManager();
+        SetUpAI();
         LoadGameSceneData();
+    }
+
+    private void SetUpAI()
+    {
+        for (int i = 0; i < gameSceneData.players.Count; i++)
+        {
+            Player player = gameSceneData.players[i].player;
+            if(player.PlayerType == PlayerType.AI)
+            {
+                StrategicAI strategicAI = AIStorage.AddComponent<StrategicAI>();
+                strategicAI.player = player;
+            }
+        }
     }
 
     
@@ -98,7 +120,7 @@ public class GameInitializer : MonoBehaviour
         {
             foreach (ShipControllerPersistance sp in playerPersistance.ships)
             {
-                GameObject ship = Spawner.Instance.SpawnShip(sp.mapObjectPersitance.id, sp.shipType, playerPersistance.playerNumber, sp.mapObjectPersitance.localPosition, Quaternion.identity, false);
+                GameObject ship = Spawner.Instance.SpawnShip(sp.mapObjectPersitance.id, sp.shipType, playerPersistance.player, sp.mapObjectPersitance.localPosition, Quaternion.identity, false);
                 ship.GetComponent<ShipController>().initialized = sp.initialized;
                 ships.Add(new GameObjectSerializedObjectAssociation<ShipControllerPersistance>(ship, sp));
                 mapObjects.Add(new MapObjectSerializedObjectAssociation(ship.GetComponent<MapObject>(), sp.mapObjectPersitance));
@@ -106,7 +128,7 @@ public class GameInitializer : MonoBehaviour
 
             foreach (StationControllerPersistance scp in playerPersistance.stations)
             {
-                GameObject station = Spawner.Instance.SpawnStation(scp.mapObjectPersitance.id, scp.stationType, playerPersistance.playerNumber, scp.mapObjectPersitance.localPosition, scp.mapObjectPersitance.localRotation, scp.constructionProgress, false);
+                GameObject station = Spawner.Instance.SpawnStation(scp.mapObjectPersitance.id, scp.stationType, playerPersistance.player, scp.mapObjectPersitance.localPosition, scp.mapObjectPersitance.localRotation, scp.constructionProgress, false);
                 stations.Add(new GameObjectSerializedObjectAssociation<StationControllerPersistance>(station, scp));
                 mapObjects.Add(new MapObjectSerializedObjectAssociation(station.GetComponent<MapObject>(), scp.mapObjectPersitance));
             }
@@ -168,16 +190,16 @@ public class GameInitializer : MonoBehaviour
 
     private void SetUpPlayerManager()
     {
-        int player = -1;
+        Player player = null;
         for (int j = 0; j < GameInitializer.Instance.gameSceneData.players.Count; j++)
         {
-            if (GameInitializer.Instance.gameSceneData.players[j].playerType == PlayerType.Real)
+            if (GameInitializer.Instance.gameSceneData.players[j].player.PlayerType == PlayerType.Real)
             {
-                player = GameInitializer.Instance.gameSceneData.players[j].playerNumber;
+                player = GameInitializer.Instance.gameSceneData.players[j].player;
             }
         }
 
-        if (player == -1)
+        if (player == null)
         {
             return;
         }
@@ -190,8 +212,8 @@ public class GameInitializer : MonoBehaviour
             mouseCommandsController.selectPanel = selectionPanel;
             mouseCommandsController.constructionSection = constructionSection;*/
 
-            playerManager.GetComponent<MapObjecsRenderingController>().players = new int[1] {player};
-            playerManager.GetComponent<FogOfWarController>().playersVision = new int[1] {player};
+            playerManager.GetComponent<MapObjecsRenderingController>().players = new Player[1] {player};
+            playerManager.GetComponent<FogOfWarController>().playersVision = new Player[1] {player};
 
             playerManager.GetComponent<MapObjecsRenderingController>().enabled = true;
             playerManager.GetComponent<FogOfWarController>().enabled = true;

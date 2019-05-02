@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Imperium;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ public class ResourceDropPoint : MonoBehaviour
 
     public static GameObject FindClosest(GameObject target)
     {   
-        int targetPlayer = PlayerDatabase.Instance.GetObjectPlayer(target);
+        Player targetPlayer = PlayerDatabase.Instance.GetObjectPlayer(target);
         GameObject closest = null;
         float smallestMagnitude = 999999999999999999999999999999999f;
         foreach(GameObject gameObject in _Instances)

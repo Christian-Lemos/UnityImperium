@@ -9,7 +9,7 @@ namespace Imperium.Rendering
     {
         private FogOfWarUtility() { }
 
-        public static HashSet<GameObject> GetVisibleObjects(params int[] players)
+        public static HashSet<GameObject> GetVisibleObjects(params Player[] players)
         {
             HashSet<GameObjectMOC> gameObjectMOCs = new HashSet<GameObjectMOC>();
             HashSet<GameObject> visible = new HashSet<GameObject>();
@@ -80,7 +80,7 @@ namespace Imperium.Rendering
             return visible;
         }
 
-        public static bool IsGameObjectVisible(GameObject gameObject, params int[] players)
+        public static bool IsGameObjectVisible(GameObject gameObject, params Player[] players)
         {
             return GetVisibleObjects(players).Contains(gameObject);
         }

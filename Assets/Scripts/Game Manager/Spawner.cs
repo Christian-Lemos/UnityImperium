@@ -24,7 +24,7 @@ public class Spawner : MonoBehaviour
     public StationAssociation[] trueStationAssociation;
     public Dictionary<StationType, GameObject> trueStationDictionary = new Dictionary<StationType, GameObject>();
 
-    private Dictionary<int, HashSet<Action<GameObject>>> playerShipCreationObservers = new Dictionary<int, HashSet<Action<GameObject>>>();
+    private Dictionary<Player, HashSet<Action<GameObject>>> playerShipCreationObservers = new Dictionary<Player, HashSet<Action<GameObject>>>();
 
     public long CreateID()
     {
@@ -33,12 +33,12 @@ public class Spawner : MonoBehaviour
         return id;
     }
 
-    public void ObserveShipCreation(int player, Action<GameObject> action)
+    public void ObserveShipCreation(Player player, Action<GameObject> action)
     {
         playerShipCreationObservers[player].Add(action);
     }
 
-    public void RemoveObservationShipCreation(int player, Action<GameObject> action)
+    public void RemoveObservationShipCreation(Player player, Action<GameObject> action)
     {
         playerShipCreationObservers[player].RemoveWhere((Action<GameObject> a) =>
         {
@@ -162,7 +162,7 @@ public class Spawner : MonoBehaviour
         return createdStation;
     }
 
-    public GameObject SpawnShip(long id, ShipType type, int player, Vector3 position, Quaternion rotation, bool setActive)
+    public GameObject SpawnShip(long id, ShipType type, Player player, Vector3 position, Quaternion rotation, bool setActive)
     {
         if (!PlayerDatabase.Instance.IsValidPlayer(player))
         {
@@ -177,7 +177,7 @@ public class Spawner : MonoBehaviour
         else
         {
             GameObject newShip = Instantiate(prefab, position, rotation);
-            PlayerDatabase.Instance.AddToPlayer(newShip, player);
+            PlayerDatabase.Instance.AddObjectToPlayer(newShip, player);
             newShip.name += " " + player;
 
             newShip.GetComponent<MapObject>().id = id;
@@ -191,14 +191,14 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    public GameObject SpawnShip(ShipType type, int player, Vector3 position, Quaternion rotation, bool setActive)
+    public GameObject SpawnShip(ShipType type, Player player, Vector3 position, Quaternion rotation, bool setActive)
     {
         GameObject ship = SpawnShip(CreateID(), type, player, position, rotation, setActive);
         SetMapObjectChildrenID(ship);
         return ship;
     }
 
-    public GameObject SpawnStation(long id, StationType type, int player, Vector3 position, Quaternion rotation, float constructionProgress, bool setActive)
+    public GameObject SpawnStation(long id, StationType type, Player player, Vector3 position, Quaternion rotation, float constructionProgress, bool setActive)
     {
         if (!PlayerDatabase.Instance.IsValidPlayer(player))
         {
@@ -214,7 +214,7 @@ public class Spawner : MonoBehaviour
         else
         {
             GameObject newStation = Instantiate(prefab, position, rotation);
-            PlayerDatabase.Instance.AddToPlayer(newStation, player);
+            PlayerDatabase.Instance.AddObjectToPlayer(newStation, player);
             newStation.GetComponent<StationController>().Station = StationFactory.getInstance().CreateStation(type);
             newStation.GetComponent<StationController>().Constructed = constructionProgress >= 100;
             newStation.GetComponent<StationController>().constructionProgress = constructionProgress;
@@ -227,7 +227,7 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    public GameObject SpawnStation(StationType type, int player, Vector3 position, Quaternion rotation, float constructionProgress, bool setActive)
+    public GameObject SpawnStation(StationType type, Player player, Vector3 position, Quaternion rotation, float constructionProgress, bool setActive)
     {
         GameObject station = SpawnStation(CreateID(), type, player, position, rotation, constructionProgress, setActive);
         SetMapObjectChildrenID(station);
@@ -239,7 +239,7 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < SceneManager.Instance.currentGameSceneData.players.Count; i++)
         {
-            playerShipCreationObservers.Add(i, new HashSet<Action<GameObject>>());
+            playerShipCreationObservers.Add(SceneManager.Instance.currentGameSceneData.players[i].player, new HashSet<Action<GameObject>>());
         }
 
         for (int i = 0; i < trueShipAssociations.Length; i++)
@@ -263,7 +263,7 @@ public class Spawner : MonoBehaviour
         Instance = this;
     }
 
-    private void CallShipCreationObservers(int player, GameObject ship)
+    private void CallShipCreationObservers(Player player, GameObject ship)
     {
         foreach (Action<GameObject> action in playerShipCreationObservers[player])
         {
@@ -271,9 +271,9 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    public bool AddAI(int player, GameObject gameObject)
+    public bool AddAI(Player player, GameObject gameObject)
     {
-        if(SceneManager.Instance.currentGameSceneData.players[player].playerType == PlayerType.AI)
+        if(player.PlayerType == PlayerType.AI)
         {
             ShipController shipController = gameObject.GetComponent<ShipController>();
             if(shipController != null)

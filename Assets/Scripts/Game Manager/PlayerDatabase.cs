@@ -1,22 +1,44 @@
 ﻿using Imperium;
 using Imperium.Economy;
 using Imperium.MapObjects;
+using Imperium.Misc;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
+using Imperium.Research;
 using System.Collections;
 using System.Collections.Generic;
-using Imperium.Research;
 using UnityEngine;
 
 public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistance>>
 {
-    public List<HashSet<GameObject>> playerObjects = new List<HashSet<GameObject>>();
-    private List<Dictionary<ResourceType, int>> playerResources = new List<Dictionary<ResourceType, int>>();
-    private List<List<ResearchTree>> researchTrees = new List<List<ResearchTree>>();
+    //public List<HashSet<GameObject>> playerObjects = new List<HashSet<GameObject>>();
+    //private List<Dictionary<ResourceType, int>> playerResources = new List<Dictionary<ResourceType, int>>();
+    // private List<List<ResearchTree>> researchTrees = new List<List<ResearchTree>>();
+
+    private Dictionary<Player, HashSet<GameObject>> playerObjects = new Dictionary<Player, HashSet<GameObject>>();
+    private Dictionary<Player, Dictionary<ResourceType, int>> playerResources = new Dictionary<Player, Dictionary<ResourceType, int>>();
+    private Dictionary<Player, List<ResearchTree>> researchTrees = new Dictionary<Player, List<ResearchTree>>(); 
+
+    private Dictionary<Player, Timer> playersPassiveResourcesTimers = new Dictionary<Player, Timer>();
+
+    public HashSet<Player> players = new HashSet<Player>();
 
     public static PlayerDatabase Instance { get; private set; }
 
-    public void AddResourcesToPlayer(ResourceType resourceType, int total, int player)
+    public Player FindPlayaerByNumber(int number)
+    {
+        foreach(Player player in this.players)
+        {
+            if(player.Number == number)
+            {
+                return player;
+            }
+        }
+
+        return null;
+    }
+
+    public void AddResourcesToPlayer(ResourceType resourceType, int total, Player player)
     {
         if (IsValidPlayer(player))
         {
@@ -25,7 +47,7 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
         }
     }
 
-    public void AddToPlayer(GameObject target, int player)
+    public void AddObjectToPlayer(GameObject target, Player player)
     {
         if (IsValidPlayer(player))
         {
@@ -40,34 +62,51 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
 
     public bool AreFromSamePlayer(GameObject obj_a, GameObject obj_b)
     {
-        int obj_a_player = GetObjectPlayer(obj_a);
-        int obj_b_player = GetObjectPlayer(obj_b);
-        return obj_a_player == obj_b_player;
+        Player obj_a_player = GetObjectPlayer(obj_a);
+        Player obj_b_player = GetObjectPlayer(obj_b);
+        return obj_a_player.Equals(obj_b_player);
     }
 
-    public int GetObjectPlayer(GameObject obj)
+    public Player GetObjectPlayer(GameObject obj)
     {
-        for (int i = 0; i < playerObjects.Count; i++)
+        foreach(KeyValuePair<Player, HashSet<GameObject>> objects in playerObjects)
         {
-            if (playerObjects[i].Contains(obj))
+            if (objects.Value.Contains(obj))
             {
-                return i;
+                return objects.Key;
             }
         }
-
-        return -1;
+        return null;
     }
 
-    public Dictionary<ResourceType, int> GetPlayerResources(int player)
+    public HashSet<GameObject> GetObjects(Player player)
+    {
+        if (IsValidPlayer(player))
+        {
+            return playerObjects[player];
+        }
+        return null;
+    }
+
+    public Dictionary<ResourceType, int> GetPlayerResources(Player player)
     {
         return playerResources[player];
     }
 
+    public List<ResearchTree> GetResearchTrees(Player player)
+    {
+        if (IsValidPlayer(player))
+        {
+            return researchTrees[player];
+        }
+        return null;
+    }
+
     public bool IsAtDatabase(GameObject obj)
     {
-        for (int i = 0; i < playerObjects.Count; i++)
+        foreach (KeyValuePair<Player, HashSet<GameObject>> objects in playerObjects)
         {
-            if (playerObjects[i].Contains(obj))
+            if (objects.Value.Contains(obj))
             {
                 return true;
             }
@@ -75,7 +114,7 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
         return false;
     }
 
-    public bool IsFromPlayer(GameObject obj, int player)
+    public bool IsFromPlayer(GameObject obj, Player player)
     {
         if (IsValidPlayer(player))
         {
@@ -88,32 +127,13 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
         }
     }
 
-    public bool IsValidPlayer(int player)
+    public bool IsValidPlayer(Player player)
     {
-        try
-        {
-            HashSet<GameObject> playerSet = playerObjects[player];
-            return playerSet != null;
-        }
-        catch
-        {
-            return false;
-        }
+        return players.Contains(player);
     }
 
-    public IEnumerator PassiveResoursesAdderIEnumerator()
-    {
-        while (true)
-        {
-            for (int i = 0; i < playerObjects.Count; i++)
-            {
-                StartCoroutine(AddResourcesToPlayerIEnumerator(i));
-            }
-            yield return new WaitForSeconds(1f);
-        }
-    }
 
-    public void RemoveFromPlayer(GameObject target, int player)
+    public void RemoveFromPlayer(GameObject target, Player player)
     {
         HashSet<GameObject> playerSet = playerObjects[player];
 
@@ -127,79 +147,23 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
         }
     }
 
-    public HashSet<GameObject> GetObjects(int player)
-    {
-        if (IsValidPlayer(player))
-        {
-            return playerObjects[player];
-        }
-        return null;
-    }
-
-    public void SetUpDatabase(int playerCount)
-    {
-        //playerObjects = new List<GameObject>[playerCount];
-        //playerResources = new Dictionary<ResourceType, int>[playerCount];
-
-        for (int i = 0; i < playerCount; i++)
-        {
-            playerObjects.Add(new HashSet<GameObject>());
-            playerResources.Add(new Dictionary<ResourceType, int>());
-            researchTrees.Add(new List<ResearchTree>());
-            foreach (ResourceType resource in System.Enum.GetValues(typeof(ResourceType)))
-            {
-                playerResources[i].Add(resource, 0);
-            }
-        }
-        SetUpResearchTrees(playerCount);
-        StartCoroutine(PassiveResoursesAdderIEnumerator());
-    }
-
-    private void SetUpResearchTrees(int playerCount)
-    {
-        for (int i = 0; i < playerCount; i++)
-        {
-            researchTrees.Add(new List<ResearchTree>());
-
-            foreach(ResearchTreeDefinition researchTreeDefinition in System.Enum.GetValues(typeof(ResearchTreeDefinition)))
-            {
-                researchTrees[i].Add(ResearchFactory.Instance.CreateResearchTree(researchTreeDefinition));
-
-            }
-        }
-    }
-
-    private IEnumerator AddResourcesToPlayerIEnumerator(int player)
-    {
-        foreach (GameObject obj in playerObjects[player])
-        {
-            PassiveResourceAdder adder = obj.GetComponent<PassiveResourceAdder>();
-            if (adder != null)
-            {
-                foreach (KeyValuePair<ResourceType, int> entry in adder.true_associations)
-                {
-                    AddResourcesToPlayer(entry.Key, entry.Value, player);
-                }
-            }
-            yield return null;
-        }
-    }
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-
     public List<PlayerPersistance> Serialize()
     {
         List<PlayerPersistance> playerPersistances = new List<PlayerPersistance>();
-        for (int i = 0; i < playerResources.Count; i++)
+
+
+        foreach(Player player in players)
         {
-            PlayerType playerType = SceneManager.Instance.currentGameSceneData.players[i].playerType;
             List<ShipControllerPersistance> shipControllerPersistances = new List<ShipControllerPersistance>();
             List<ResourcePersistance> resourcePersistances = new List<ResourcePersistance>();
             List<StationControllerPersistance> stationControllerPersistances = new List<StationControllerPersistance>();
-            foreach (GameObject @gameObject in playerObjects[i])
+
+            foreach(KeyValuePair<Player, HashSet<GameObject>> keyValuePair in playerObjects)
+            {
+
+            }
+
+            foreach (GameObject @gameObject in playerObjects[player])
             {
                 MapObject mapObject = @gameObject.GetComponent<MapObject>();
 
@@ -211,47 +175,97 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
                 {
                     stationControllerPersistances.Add(mapObject.gameObject.GetComponent<StationController>().Serialize());
                 }
-                
             }
 
-            foreach (KeyValuePair<ResourceType, int> keyValuePair in playerResources[i])
+            foreach (KeyValuePair<ResourceType, int> keyValuePair in playerResources[player])
             {
                 resourcePersistances.Add(new ResourcePersistance(keyValuePair.Key, keyValuePair.Value));
             }
 
-            playerPersistances.Add(new PlayerPersistance(SceneManager.Instance.currentGameSceneData.players[i].playerNumber, playerType, resourcePersistances, shipControllerPersistances, stationControllerPersistances));
+            playerPersistances.Add(new PlayerPersistance(player, resourcePersistances, shipControllerPersistances, stationControllerPersistances));
         }
+
         return playerPersistances;
     }
 
     public ISerializable<List<PlayerPersistance>> SetObject(List<PlayerPersistance> serializedObject)
     {
-        foreach(PlayerPersistance pp in serializedObject)
+        foreach (PlayerPersistance pp in serializedObject)
         {
-            foreach(ShipControllerPersistance scp in pp.ships)
+            foreach (ShipControllerPersistance scp in pp.ships)
             {
-                playerObjects[pp.playerNumber].Add(MapObject.FindByID(scp.mapObjectPersitance.id).gameObject);
+                playerObjects[pp.player].Add(MapObject.FindByID(scp.mapObjectPersitance.id).gameObject);
             }
 
-            foreach(StationControllerPersistance scp in pp.stations)
+            foreach (StationControllerPersistance scp in pp.stations)
             {
-                playerObjects[pp.playerNumber].Add(MapObject.FindByID(scp.mapObjectPersitance.id).gameObject);
+                playerObjects[pp.player].Add(MapObject.FindByID(scp.mapObjectPersitance.id).gameObject);
             }
 
-            foreach(ResourcePersistance resourcePersistance in pp.resources)
+            foreach (ResourcePersistance resourcePersistance in pp.resources)
             {
-                playerResources[pp.playerNumber][resourcePersistance.resourceType] = resourcePersistance.quantity;
+                playerResources[pp.player][resourcePersistance.resourceType] = resourcePersistance.quantity;
             }
         }
         return this;
     }
 
-    public List<ResearchTree> GetResearchTrees(int player)
+    public void SetUpDatabase(params Player[] players)
     {
-        if (IsValidPlayer(player))
+        //playerObjects = new List<GameObject>[playerCount];
+        //playerResources = new Dictionary<ResourceType, int>[playerCount];
+
+        for (int i = 0; i < players.Length; i++)
         {
-            return researchTrees[player];
+            this.players.Add(players[i]);
+            playerObjects.Add(players[i], new HashSet<GameObject>());
+            playerResources.Add(players[i], new Dictionary<ResourceType, int>());
+            researchTrees.Add(players[i], new List<ResearchTree>());
+            foreach (ResourceType resource in System.Enum.GetValues(typeof(ResourceType)))
+            {
+                playerResources[players[i]].Add(resource, 0);
+            }
+            foreach (ResearchTreeDefinition researchTreeDefinition in System.Enum.GetValues(typeof(ResearchTreeDefinition)))
+            {
+                researchTrees[players[i]].Add(ResearchFactory.Instance.CreateResearchTree(researchTreeDefinition));
+            }
+
+            playersPassiveResourcesTimers.Add(players[i], new Timer(1f, true));
         }
-        return null;
     }
+
+    private void PassiveResourceAdder(Player player)
+    {
+        foreach (GameObject obj in playerObjects[player])
+        {
+            PassiveResourceAdder adder = obj.GetComponent<PassiveResourceAdder>();
+            if (adder != null)
+            {
+                foreach (KeyValuePair<ResourceType, int> entry in adder.true_associations)
+                {
+                    AddResourcesToPlayer(entry.Key, entry.Value, player);
+                }
+            }
+        }
+    }
+
+    private void Update()
+    {
+        foreach(KeyValuePair<Player, Timer> keyValuePair in playersPassiveResourcesTimers)
+        {
+            keyValuePair.Value.Execute();
+            if(keyValuePair.Value.IsFinished)
+            {
+                PassiveResourceAdder(keyValuePair.Key);
+                keyValuePair.Value.ResetTimer();
+            }
+        }
+    }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+
 }

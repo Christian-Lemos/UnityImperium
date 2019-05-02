@@ -1,4 +1,5 @@
-﻿using Imperium.Rendering;
+﻿using Imperium;
+using Imperium.Rendering;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class FogOfWarController : MonoBehaviour
 
     public static FogOfWarController Instance;
 
-    public int[] playersVision;
+    public Player[] playersVision;
     private IEnumerator enumerator;
 
     public GameObject fogOfWarPlane;
@@ -19,7 +20,7 @@ public class FogOfWarController : MonoBehaviour
 
 
 
-    public Dictionary<FogOfWarState, HashSet<GameObject>> GetObjectsFOWState(bool includeSources, params int[] players)
+    public Dictionary<FogOfWarState, HashSet<GameObject>> GetObjectsFOWState(bool includeSources, params Player[] players)
     {
         Dictionary<FogOfWarState, HashSet<GameObject>> objectFOWStates = new Dictionary<FogOfWarState, HashSet<GameObject>>()
         {
@@ -49,7 +50,7 @@ public class FogOfWarController : MonoBehaviour
         return objectFOWStates;
     }
     
-    public FogOfWarState GetObjectFOWState(GameObject @object, params int[] players)
+    public FogOfWarState GetObjectFOWState(GameObject @object, params Player[] players)
     {
         List<FogOfWarMeshVertice> fogOfWarUtilities = GetFogOfWarUtilities(players);
         
@@ -82,7 +83,7 @@ public class FogOfWarController : MonoBehaviour
     }
 
 
-    public HashSet<GameObject> GetFOWSourceObjects(params int[] players)
+    public HashSet<GameObject> GetFOWSourceObjects(params Player[] players)
     {
         HashSet<GameObject> gameObjects = new HashSet<GameObject>();
         for (int i = 0; i < players.Length; i++)
@@ -119,7 +120,7 @@ public class FogOfWarController : MonoBehaviour
         Instance = this;
     }
 
-    public List<FogOfWarMeshVertice> GetFogOfWarUtilities(params int[] players)
+    public List<FogOfWarMeshVertice> GetFogOfWarUtilities(params Player[] players)
     {
         Vector3[] vertices = mesh.vertices;
         List<FogOfWarMeshVertice> fogOfWarUtilities = new List<FogOfWarMeshVertice>(vertices.Length);

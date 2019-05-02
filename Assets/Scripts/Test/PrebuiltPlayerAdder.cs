@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+﻿using Imperium;
+using UnityEngine;
 
 public class PrebuiltPlayerAdder : MonoBehaviour
 {
-    public int addToPlayer;
+    public Player addToPlayer;
 
     private PlayerDatabase playerDatabase;
 
     private void Start()
     {
         playerDatabase = GameObject.FindGameObjectWithTag("GameController").GetComponent<PlayerDatabase>();
-        playerDatabase.AddToPlayer(gameObject, addToPlayer);
+        playerDatabase.AddObjectToPlayer(gameObject, addToPlayer);
     }
 }

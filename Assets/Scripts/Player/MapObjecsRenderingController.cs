@@ -1,4 +1,5 @@
-﻿using Imperium.AI;
+﻿using Imperium;
+using Imperium.AI;
 using Imperium.MapObjects;
 using Imperium.Rendering;
 using System.Collections;
@@ -8,7 +9,7 @@ using UnityEngine;
 public class MapObjecsRenderingController : MonoBehaviour
 {
     public static MapObjecsRenderingController Instance;
-    public int[] players;
+    public Player[] players;
     public ScoutData scoutData;
     public ICollection<GameObject> visibleObjects = new HashSet<GameObject>();
 

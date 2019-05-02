@@ -10,7 +10,7 @@ namespace Imperium.Navigation
         private AsteroidController asteroidController;
         private GameObject deliveryObject = null;
         private MineController mineController;
-        private int player;
+        private Player player;
         private ResourceStorageController resourceStorageController;
 
         public MineCommand(MapObject source, MapObject target) : base(source, target, CommandType.Mine)

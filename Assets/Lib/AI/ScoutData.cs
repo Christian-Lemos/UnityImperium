@@ -11,9 +11,9 @@ namespace Imperium.AI
         public ICollection<StationScout> knowScoutedStations = new HashSet<StationScout>(); 
         public ICollection<AsteroidScout> knowScoutedAsteroids = new HashSet<AsteroidScout>(); 
 
-        public int[] players;
+        public Player[] players;
 
-        public ScoutData(params int[] players)
+        public ScoutData(params Player[] players)
         {
             this.players = players;
         }

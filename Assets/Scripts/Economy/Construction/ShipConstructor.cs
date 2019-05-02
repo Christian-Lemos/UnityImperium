@@ -1,4 +1,5 @@
-﻿using Imperium.Economy;
+﻿using Imperium;
+using Imperium.Economy;
 using Imperium.MapObjects;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class ShipConstructor : MonoBehaviour
         {
             if (shipConstruction.shipType == type)
             {
-                int player = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
+                Player player = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
                 Dictionary<ResourceType, int> resources = GetShipConstructionResources(shipConstruction);
                 Dictionary<ResourceType, int> playerResources = PlayerDatabase.Instance.GetPlayerResources(player);
 

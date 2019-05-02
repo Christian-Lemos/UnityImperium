@@ -1,4 +1,5 @@
-﻿using Imperium.Misc;
+﻿using Imperium;
+using Imperium.Misc;
 using Imperium.Research;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class ResearchController : MonoBehaviour
     public List<ResearchCategory> researchCategories;
     public List<ResearchTree> researchTrees;
 
-    private int player;
+    private Player player;
 
     public bool DoResearch(ResearchNode researchNode)
     {
@@ -33,6 +34,8 @@ public class ResearchController : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        player = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
+
         List<ResearchTree> allResearchTrees = PlayerDatabase.Instance.GetResearchTrees(player);
 
         for (int i = 0; i < researchCategories.Count; i++)
@@ -46,8 +49,7 @@ public class ResearchController : MonoBehaviour
                 }
             }
         }
-
-        player = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
+        
     }
 
     private void Update()

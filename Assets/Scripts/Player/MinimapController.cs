@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Imperium;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MinimapController : MonoBehaviour
@@ -37,7 +38,7 @@ public class MinimapController : MonoBehaviour
             if (value)
             {
                 Color color = Color.red;
-                int goPlayer = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
+                Player goPlayer = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
                 for (int i = 0; i < MapObjecsRenderingController.Instance.players.Length; i++)
                 {
                     if (goPlayer == MapObjecsRenderingController.Instance.players[i])

@@ -34,7 +34,7 @@ public class MapObjectCombatter : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, combatStats.fieldOfViewDistance, fireLayer);
         GameObject closestTarget = null;
         float closestDistance = 0f;
-        int thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
+        Player thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
 
         foreach (Collider collider in colliders)
         {

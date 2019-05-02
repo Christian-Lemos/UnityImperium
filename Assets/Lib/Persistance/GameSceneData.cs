@@ -3,6 +3,7 @@ using Imperium.MapObjects;
 using Imperium.Persistence.MapObjects;
 using System.Collections.Generic;
 using UnityEngine;
+using Imperium.Persistance;
 
 namespace Imperium.Persistence
 {
@@ -76,8 +77,8 @@ namespace Imperium.Persistence
 
             List<PlayerPersistance> players = new List<PlayerPersistance>()
             {
-                new PlayerPersistance(0, PlayerType.Real, player1Resources, player1Ships, new List<StationControllerPersistance>()),
-                new PlayerPersistance(1, PlayerType.AI, player2Resources, player2Ships, new List<StationControllerPersistance>())
+                new PlayerPersistance(new Player("player 1", 0, PlayerType.Real, new SerializableColor(Color.blue)), player1Resources, player1Ships, new List<StationControllerPersistance>()),
+                new PlayerPersistance(new Player("player 2", 1, PlayerType.AI, new SerializableColor(Color.red)), player2Resources, player2Ships, new List<StationControllerPersistance>())
             };
 
             #region asteroids

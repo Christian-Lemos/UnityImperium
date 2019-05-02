@@ -13,7 +13,7 @@ namespace Imperium.MapObjects
             switch (turretType)
             {
                 case TurretType.Test:
-                    return new Turret(0.6f, 70, 40f, BulletType.Test);
+                    return new Turret(5f, 70, 40f, 2, 0.75f, BulletType.Test);
 
                 default:
                     throw new System.Exception("Turret type not supported");

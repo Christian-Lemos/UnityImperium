@@ -1,4 +1,5 @@
-﻿using Imperium.Economy;
+﻿using Imperium;
+using Imperium.Economy;
 using Imperium.MapObjects;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ public class StationConstructor : MonoBehaviour
         {
             if (stationConstruction.stationType == type)
             {
-                int player = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
+                Player player = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
                 Dictionary<ResourceType, int> resources = GetStationConstructionResources(stationConstruction);
                 Dictionary<ResourceType, int> playerResources = PlayerDatabase.Instance.GetPlayerResources(player);
 

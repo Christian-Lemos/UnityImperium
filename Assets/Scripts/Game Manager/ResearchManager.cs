@@ -1,4 +1,6 @@
-﻿using Imperium.Misc;
+﻿using Imperium;
+using Imperium.Misc;
+using Imperium.Persistence;
 using Imperium.Research;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +23,7 @@ public class ResearchManager : MonoBehaviour
         }
     }
 
-    private List<List<OnGoingResearch>> onGoingResearches = new List<List<OnGoingResearch>>();
+    private Dictionary<Player, List<OnGoingResearch>> onGoingResearches = new Dictionary<Player, List<OnGoingResearch>>();
 
     public static ResearchManager Instance;
 
@@ -32,25 +34,25 @@ public class ResearchManager : MonoBehaviour
 
     void Start()
     {
-        int playersCount = SceneManager.Instance.currentGameSceneData.players.Count;
-        for(int i = 0; i < playersCount; i++)
+
+        foreach(Player player in PlayerDatabase.Instance.players)
         {
-            onGoingResearches.Add(new List<OnGoingResearch>());
+            onGoingResearches.Add(player, new List<OnGoingResearch>());
         }
     }
 
     void Update()
     {
-        for(int i = 0; i < onGoingResearches.Count; i++)
+        foreach(KeyValuePair<Player, List<OnGoingResearch>> keyValuePair in onGoingResearches)
         {
-            if(onGoingResearches[i].Count > 0)
+            if (keyValuePair.Value.Count > 0)
             {
-                onGoingResearches[i][0].timer.Execute();
+                keyValuePair.Value[0].timer.Execute();
             }
         }
     }
 
-    public void ScheduleResearch(ResearchNode researchNode, GameObject source, int player)
+    public void ScheduleResearch(ResearchNode researchNode, GameObject source, Player player)
     {
         OnGoingResearch onGoingResearch = new OnGoingResearch(source, new Timer(researchNode.research.duration, true, () => { 
             FinishResearch(player);
@@ -58,14 +60,14 @@ public class ResearchManager : MonoBehaviour
         onGoingResearches[player].Add(onGoingResearch);
     }
 
-    private void FinishResearch(int player)
+    private void FinishResearch(Player player)
     {
         Debug.Log(onGoingResearches[player][0].researchNode.research.name + " completed");
         onGoingResearches[player][0].researchNode.completed = true;
         onGoingResearches[player].RemoveAt(0);
     }
 
-    public ResearchNode GetOnGoingResearchNode(GameObject source, int player)
+    public ResearchNode GetOnGoingResearchNode(GameObject source, Player player)
     {
         for(int i = 0; i < onGoingResearches[player].Count; i++)
         {
