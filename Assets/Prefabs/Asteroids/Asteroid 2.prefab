@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 23222837826024586}
   - component: {fileID: 7383928322529208304}
   - component: {fileID: 1001635763996335778}
+  - component: {fileID: 5326752680293548243}
   m_Layer: 12
   m_Name: Mesh
   m_TagString: Untagged
@@ -108,6 +109,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tumble: 0.25
+--- !u!114 &5326752680293548243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578974792683800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineWidth: 0.03
 --- !u!1 &1594913485753456
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,11 +300,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1081391813583015352, guid: 7254618abe446d8438ead0e6a41f1e95,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5979675664625261377, guid: 7254618abe446d8438ead0e6a41f1e95,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -305,6 +314,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081391813583015352, guid: 7254618abe446d8438ead0e6a41f1e95,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7254618abe446d8438ead0e6a41f1e95, type: 3}

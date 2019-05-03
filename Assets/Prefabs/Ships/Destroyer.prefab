@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4519308707528984}
   - component: {fileID: 33808560268106500}
   - component: {fileID: 23514557533860578}
+  - component: {fileID: 3993095482334447491}
   m_Layer: 10
   m_Name: 04_TwinChassy_R
   m_TagString: Untagged
@@ -77,6 +78,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &3993095482334447491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080986912671808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1219240905766772
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,6 +101,7 @@ GameObject:
   - component: {fileID: 4216462292598318}
   - component: {fileID: 33508029060891114}
   - component: {fileID: 23240794111009688}
+  - component: {fileID: 4371930546773564339}
   m_Layer: 10
   m_Name: 06_BoosterPlug
   m_TagString: Untagged
@@ -154,6 +168,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &4371930546773564339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219240905766772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1276090057064012
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,6 +191,7 @@ GameObject:
   - component: {fileID: 4625253996800394}
   - component: {fileID: 33714338075115664}
   - component: {fileID: 23295393484277034}
+  - component: {fileID: 3264576615315864724}
   m_Layer: 10
   m_Name: 07_Booster
   m_TagString: Untagged
@@ -231,6 +258,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &3264576615315864724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276090057064012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1277684031402692
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,6 +281,7 @@ GameObject:
   - component: {fileID: 4007723545367682}
   - component: {fileID: 33959347057726722}
   - component: {fileID: 23255121963501170}
+  - component: {fileID: 6914320537180364773}
   m_Layer: 10
   m_Name: 05_Wings
   m_TagString: Untagged
@@ -308,6 +348,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &6914320537180364773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277684031402692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1521845984255736
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +371,7 @@ GameObject:
   - component: {fileID: 4058952444575764}
   - component: {fileID: 33001689588591028}
   - component: {fileID: 23228808372618558}
+  - component: {fileID: 4976697669232150}
   m_Layer: 10
   m_Name: 03_CoreChassy
   m_TagString: Untagged
@@ -385,6 +438,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &4976697669232150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521845984255736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1544020479946130
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,6 +461,7 @@ GameObject:
   - component: {fileID: 4049481602393904}
   - component: {fileID: 33926636191289314}
   - component: {fileID: 23314204968697168}
+  - component: {fileID: 1927678706905790210}
   m_Layer: 10
   m_Name: 04_TwinChassy_L
   m_TagString: Untagged
@@ -462,6 +528,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1927678706905790210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544020479946130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1550141235547342
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,6 +551,7 @@ GameObject:
   - component: {fileID: 4349898971157600}
   - component: {fileID: 33232248824235928}
   - component: {fileID: 23925302153057178}
+  - component: {fileID: 7278730868142266078}
   m_Layer: 10
   m_Name: 01_Cockpit
   m_TagString: Untagged
@@ -539,6 +618,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &7278730868142266078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550141235547342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1718406266474456
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,6 +994,7 @@ GameObject:
   - component: {fileID: 4075258669037844}
   - component: {fileID: 33924418727350968}
   - component: {fileID: 23278061535356422}
+  - component: {fileID: 5289449706118453031}
   m_Layer: 10
   m_Name: 02_CockpitExtension
   m_TagString: Untagged
@@ -969,6 +1061,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &5289449706118453031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780333602965900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3321153726101544419
 GameObject:
   m_ObjectHideFlags: 0
@@ -1117,15 +1221,23 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
+  salvoCount: 0
 --- !u!1 &3800491907525017265
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,15 +1386,23 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
+  salvoCount: 0
 --- !u!1001 &1233717024624031437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1290,16 +1410,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4833495210039794}
     m_Modifications:
-    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
-        type: 3}
-      propertyPath: m_Name
-      value: MinimapIcon
-      objectReference: {fileID: 0}
-    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
-        type: 3}
-      propertyPath: m_Layer
-      value: 14
-      objectReference: {fileID: 0}
     - target: {fileID: 6236121661410868656, guid: 528d07e0af3fe604698c7101c087bf72,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1369,6 +1479,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
+        type: 3}
+      propertyPath: m_Name
+      value: MinimapIcon
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4935862252713924315, guid: 528d07e0af3fe604698c7101c087bf72,
         type: 3}

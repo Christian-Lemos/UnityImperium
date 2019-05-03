@@ -37,7 +37,7 @@ public class MinimapController : MonoBehaviour
         {
             if (value)
             {
-                Color color = Color.red;
+                /*Color color = Color.red;
                 Player goPlayer = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
                 for (int i = 0; i < MapObjecsRenderingController.Instance.players.Length; i++)
                 {
@@ -47,7 +47,7 @@ public class MinimapController : MonoBehaviour
                         break;
                     }
                 }
-                miniMapIcon.GetComponent<SpriteRenderer>().color = color;
+                miniMapIcon.GetComponent<SpriteRenderer>().color = color;*/
                 miniMapIcon.GetComponent<SpriteRenderer>().enabled = true;
             }
             else

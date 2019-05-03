@@ -597,6 +597,7 @@ GameObject:
   - component: {fileID: 33070158533449286}
   - component: {fileID: 23147934971729050}
   - component: {fileID: 95822853234610064}
+  - component: {fileID: 1708834007954829364}
   m_Layer: 10
   m_Name: Mesh
   m_TagString: Untagged
@@ -688,6 +689,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1708834007954829364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780350270397546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1786853244406668
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,11 +862,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4112778870718520}
     m_Modifications:
-    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
-        type: 3}
-      propertyPath: m_Name
-      value: MinimapIcon
-      objectReference: {fileID: 0}
     - target: {fileID: 6236121661410868656, guid: 528d07e0af3fe604698c7101c087bf72,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -908,6 +916,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
+        type: 3}
+      propertyPath: m_Name
+      value: MinimapIcon
       objectReference: {fileID: 0}
     - target: {fileID: 4935862252713924315, guid: 528d07e0af3fe604698c7101c087bf72,
         type: 3}

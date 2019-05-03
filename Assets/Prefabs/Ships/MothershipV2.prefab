@@ -148,15 +148,23 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
+  salvoCount: 0
 --- !u!1 &1184732746638712
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,15 +313,23 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
+  salvoCount: 0
 --- !u!1 &1351748974927008
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,15 +478,23 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
+  salvoCount: 0
 --- !u!1 &1371467540236260
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,15 +643,23 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
+  salvoCount: 0
 --- !u!1 &1441669745222000
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,15 +808,23 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
+  salvoCount: 0
 --- !u!1 &1592329878770818
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,15 +973,23 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
+  salvoCount: 0
 --- !u!1 &1663252061239296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,15 +1138,23 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
+  salvoCount: 0
 --- !u!1 &1738834379677540
 GameObject:
   m_ObjectHideFlags: 0
@@ -1600,15 +1656,23 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
+  salvoCount: 0
 --- !u!1 &1794643463366460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,15 +1821,23 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
+  salvoCount: 0
 --- !u!1 &1827242059760572
 GameObject:
   m_ObjectHideFlags: 0
@@ -1777,6 +1849,7 @@ GameObject:
   - component: {fileID: 4399214621633404}
   - component: {fileID: 33988255457964320}
   - component: {fileID: 23969795995337010}
+  - component: {fileID: 6409660732663609408}
   m_Layer: 10
   m_Name: Default
   m_TagString: Untagged
@@ -1843,6 +1916,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &6409660732663609408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827242059760572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineWidth: 0.15
 --- !u!1001 &7130913274552555945
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1850,11 +1936,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4190174119096174}
     m_Modifications:
-    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
-        type: 3}
-      propertyPath: m_Name
-      value: MinimapIcon
-      objectReference: {fileID: 0}
     - target: {fileID: 6236121661410868656, guid: 528d07e0af3fe604698c7101c087bf72,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1909,6 +1990,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
+        type: 3}
+      propertyPath: m_Name
+      value: MinimapIcon
       objectReference: {fileID: 0}
     - target: {fileID: 4935862252713924315, guid: 528d07e0af3fe604698c7101c087bf72,
         type: 3}

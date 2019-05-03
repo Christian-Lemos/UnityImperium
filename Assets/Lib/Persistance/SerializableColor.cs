@@ -26,6 +26,7 @@ namespace Imperium.Persistance
             G = color.g;
             B = color.b;
             A = color.a;
+            this.color = color;
         }
 
         public SerializableColor(float r, float g, float b, float a)

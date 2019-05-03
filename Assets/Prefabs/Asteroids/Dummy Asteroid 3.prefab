@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5153722960360404622}
   - component: {fileID: 5187414488643403264}
   - component: {fileID: 5177114595417295622}
+  - component: {fileID: 1010834306274961195}
   m_Layer: 12
   m_Name: Mesh
   m_TagString: Untagged
@@ -77,6 +78,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1010834306274961195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5155776600313517598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5156155171541794272
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,11 +256,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1081391813583015352, guid: 7254618abe446d8438ead0e6a41f1e95,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5979675664625261377, guid: 7254618abe446d8438ead0e6a41f1e95,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -272,6 +280,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081391813583015352, guid: 7254618abe446d8438ead0e6a41f1e95,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7254618abe446d8438ead0e6a41f1e95, type: 3}

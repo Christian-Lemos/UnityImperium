@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 23136051997894092}
   - component: {fileID: 929278079572475327}
   - component: {fileID: 2249726262303320460}
+  - component: {fileID: 7041403205991912617}
   m_Layer: 12
   m_Name: Mesh
   m_TagString: Untagged
@@ -108,6 +109,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tumble: 0.25
+--- !u!114 &7041403205991912617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182358771727692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineWidth: 0.03
 --- !u!1 &1217605875423196
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4570888187565428
 Transform:
   m_ObjectHideFlags: 0

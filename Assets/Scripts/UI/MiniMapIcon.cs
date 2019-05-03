@@ -1,18 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Imperium;
 using UnityEngine;
 
 public class MiniMapIcon : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
-    }
+        Player player = PlayerDatabase.Instance.GetObjectPlayer(gameObject.transform.parent.gameObject);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Color color = player != null ? player.SerializableColor.Color : Color.white;
+
+        GetComponent<SpriteRenderer>().color = color;
     }
 }

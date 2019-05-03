@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 33575591956600586}
   - component: {fileID: 23330981233107468}
   - component: {fileID: 8309403046269910009}
+  - component: {fileID: 8228509622793213664}
   - component: {fileID: 4828479879870774738}
   m_Layer: 12
   m_Name: Mesh
@@ -206,6 +207,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8228509622793213664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920488302116628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineWidth: 0.03
 --- !u!114 &4828479879870774738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,11 +305,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1081391813583015352, guid: 7254618abe446d8438ead0e6a41f1e95,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5979675664625261377, guid: 7254618abe446d8438ead0e6a41f1e95,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -320,6 +329,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081391813583015352, guid: 7254618abe446d8438ead0e6a41f1e95,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7254618abe446d8438ead0e6a41f1e95, type: 3}
