@@ -57,8 +57,8 @@ public class CombatStatsCanvasController : MonoBehaviour
     {
         if (active)
         {
-            hp.fillAmount = (float)combatStats.HP / combatStats.maxHP;
-            shields.fillAmount = (float)combatStats.Shields / combatStats.maxShields;
+            hp.fillAmount = (float)combatStats.HP / combatStats.MaxHP;
+            shields.fillAmount = (float)combatStats.Shields / combatStats.MaxShields;
         }
 
         if (MapObjecsRenderingController.Instance.visibleObjects.Contains(gameObject) && (ObjectSelector.Instance.selectedGOs.Contains(gameObject) || mouseOver))

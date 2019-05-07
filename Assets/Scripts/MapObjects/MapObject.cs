@@ -71,13 +71,17 @@ public class MapObject : MonoBehaviour, ISerializable<MapObjectPersitance>
 
     public MapObjectPersitance Serialize()
     {
-        return new MapObjectPersitance(id, transform.localPosition, transform.localScale, transform.localRotation);
+        Transform parent = transform.parent;
+
+        long parentId = parent != null ? parent.gameObject.GetComponent<MapObject>().id : -1;
+
+        return new MapObjectPersitance(id, transform.position, transform.localScale, transform.rotation, parentId);
     }
 
     public ISerializable<MapObjectPersitance> SetObject(MapObjectPersitance serializedObject)
     {
         this.id = serializedObject.id;
-        this.transform.localPosition = serializedObject.localPosition;
+        this.transform.position = serializedObject.localPosition;
         this.transform.rotation = serializedObject.localRotation;
         this.transform.localScale = serializedObject.localScale;
         return this;

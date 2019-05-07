@@ -1,9 +1,9 @@
 ﻿using Imperium.Economy;
 using Imperium.MapObjects;
+using Imperium.Persistance;
 using Imperium.Persistence.MapObjects;
 using System.Collections.Generic;
 using UnityEngine;
-using Imperium.Persistance;
 
 namespace Imperium.Persistence
 {
@@ -14,9 +14,9 @@ namespace Imperium.Persistence
         public List<BulletControllerPersistance> bulletControllerPersistances = new List<BulletControllerPersistance>();
         public Vector2 MapSize;
         public string Name;
+        public long nextMapObjectId;
         public List<PlayerPersistance> players = new List<PlayerPersistance>();
         public ShipConstructionManagerPersistance shipConstructionManagerPersistance;
-        public long nextMapObjectId;
 
         public GameSceneData(string name, Vector2 mapSize, List<PlayerPersistance> players, List<AsteroidFieldControllerPersistance> asteroidFields, long nextMapObjectId)
         {
@@ -39,10 +39,10 @@ namespace Imperium.Persistence
 
         public static GameSceneData NewGameDefault()
         {
-
             long id = 0;
 
             #region Player 1
+
             ///////////////////////////////////Player 1///////////////////////////////////////////////////////
             List<ResourcePersistance> player1Resources = new List<ResourcePersistance>
             {
@@ -53,12 +53,13 @@ namespace Imperium.Persistence
 
             List<ShipControllerPersistance> player1Ships = new List<ShipControllerPersistance>()
             {
-                new ShipControllerPersistance(ShipFactory.getInstance().CreateShip(ShipType.MotherShip), ShipType.MotherShip, new MapObjectPersitance(id++, new Vector3(-15, 0, -20), new Vector3(1, 1, 1), Quaternion.identity), new Navigation.FleetCommandQueue().Serialize(), false)
+                new ShipControllerPersistance(ShipFactory.getInstance().CreateShip(ShipType.MotherShip), ShipType.MotherShip, new MapObjectPersitance(id++, new Vector3(-15, 0, -20), new Vector3(1, 1, 1), Quaternion.identity, -1), new Navigation.FleetCommandQueue().Serialize(), false, null, ShipControllerType.SINGLE)
             };
 
-            #endregion
+            #endregion Player 1
 
             #region Player 2
+
             List<ResourcePersistance> player2Resources = new List<ResourcePersistance>
             {
                 new ResourcePersistance(ResourceType.Metal, 500),
@@ -68,12 +69,10 @@ namespace Imperium.Persistence
 
             List<ShipControllerPersistance> player2Ships = new List<ShipControllerPersistance>()
             {
-                new ShipControllerPersistance(ShipFactory.getInstance().CreateShip(ShipType.MotherShip), ShipType.MotherShip, new MapObjectPersitance(id++, new Vector3(15, 0, 20), new Vector3(1, 1, 1), Quaternion.identity), new Navigation.FleetCommandQueue().Serialize(), false)
+                new ShipControllerPersistance(ShipFactory.getInstance().CreateShip(ShipType.MotherShip), ShipType.MotherShip, new MapObjectPersitance(id++, new Vector3(15, 0, 20), new Vector3(1, 1, 1), Quaternion.identity, -1), new Navigation.FleetCommandQueue().Serialize(), false, null, ShipControllerType.SINGLE)
             };
 
-            #endregion
-
-           
+            #endregion Player 2
 
             List<PlayerPersistance> players = new List<PlayerPersistance>()
             {
@@ -85,9 +84,9 @@ namespace Imperium.Persistence
 
             AsteroidFieldAsteroidSettings asteroidFieldAsteroidSettings = AsteroidFieldAsteroidSettings.CreateDefaultSettings();
 
-            AsteroidFieldControllerPersistance middleAsteroidField = new AsteroidFieldControllerPersistance(asteroidFieldAsteroidSettings.Serialize(), new List<AsteroidControllerPersistance>(), false, new MapObjectPersitance(id++, new Vector3(0, 0, 0), new Vector3(1, 1, 1), Quaternion.identity), new Vector3(15, 3, 15));
+            AsteroidFieldControllerPersistance middleAsteroidField = new AsteroidFieldControllerPersistance(asteroidFieldAsteroidSettings.Serialize(), new List<AsteroidControllerPersistance>(), false, new MapObjectPersitance(id++, new Vector3(0, 0, 0), new Vector3(1, 1, 1), Quaternion.identity, -1), new Vector3(15, 3, 15));
 
-            #endregion
+            #endregion asteroids
 
             return new GameSceneData("New Game", new Vector2(40, 50), players, new List<AsteroidFieldControllerPersistance>() { middleAsteroidField }, id++);
         }

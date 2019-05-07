@@ -178,7 +178,7 @@ public class Spawner : MonoBehaviour
         {
             GameObject newShip = Instantiate(prefab, position, rotation);
             PlayerDatabase.Instance.AddObjectToPlayer(newShip, player);
-            newShip.name += " " + player;
+            newShip.name += " " + player.Number;
 
             newShip.GetComponent<MapObject>().id = id;
             newShip.SetActive(setActive);

@@ -127,7 +127,7 @@ namespace Imperium.Rendering
                 this.mapObjectCombatter = gameObject.GetComponent<MapObjectCombatter>();
                 try
                 {
-                    fovSqr = mapObjectCombatter.combatStats.fieldOfViewDistance * mapObjectCombatter.combatStats.fieldOfViewDistance;
+                    fovSqr = mapObjectCombatter.combatStats.FieldOfView * mapObjectCombatter.combatStats.FieldOfView;
                 }
                 catch
                 {

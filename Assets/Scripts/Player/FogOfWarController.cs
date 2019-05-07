@@ -138,7 +138,7 @@ public class FogOfWarController : MonoBehaviour
             float fogRadius;
             try
             {
-                fogRadius = @object.GetComponent<MapObjectCombatter>().combatStats.fieldOfViewDistance;
+                fogRadius = @object.GetComponent<MapObjectCombatter>().combatStats.FieldOfView;
             }
             catch
             {
@@ -188,7 +188,7 @@ public class FogOfWarController : MonoBehaviour
             float fogRadius;
             try
             {
-                fogRadius = @object.GetComponent<MapObjectCombatter>().combatStats.fieldOfViewDistance;
+                fogRadius = @object.GetComponent<MapObjectCombatter>().combatStats.FieldOfView;
             }
             catch
             {

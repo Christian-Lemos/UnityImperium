@@ -51,11 +51,19 @@ public class PlayerDatabase : MonoBehaviour, ISerializable<List<PlayerPersistanc
     {
         if (IsValidPlayer(player))
         {
-            HashSet<GameObject> playerSet = playerObjects[player];
+            AddObjectToPlayerSet(target, player);
+        }
+    }
 
-            if (!playerSet.Contains(target))
+    private void AddObjectToPlayerSet(GameObject gameObject, Player player)
+    {
+        MapObject[] mapObjects = gameObject.GetComponentsInChildren<MapObject>();
+        HashSet<GameObject> playerSet = playerObjects[player];
+        for (int i = 0; i < mapObjects.Length; i++)
+        {
+            if (!playerSet.Contains(mapObjects[i].gameObject))
             {
-                playerSet.Add(target);
+                playerSet.Add(mapObjects[i].gameObject);
             }
         }
     }

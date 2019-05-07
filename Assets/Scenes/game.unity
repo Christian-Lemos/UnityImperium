@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44956344, g: 0.49661, b: 0.55942327, a: 1}
+  m_IndirectSpecularColor: {r: 0.44956344, g: 0.49661005, b: 0.5594232, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1793,6 +1793,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
         type: 3}
+      propertyPath: trueShipAssociations.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 3}
       propertyPath: trueStationAssociation.Array.data[1].prefab
       value: 
       objectReference: {fileID: 6598094210840810624, guid: 7300767a6fb5d9a43bc4fd0d9b37ad8f,
@@ -1812,6 +1817,17 @@ PrefabInstance:
         type: 3}
       propertyPath: trueStationAssociation.Array.data[1].stationType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 3}
+      propertyPath: trueShipAssociations.Array.data[5].prefab
+      value: 
+      objectReference: {fileID: 1108594579579760421, guid: 12e7214627722b648afad400e3efc49a,
+        type: 3}
+    - target: {fileID: 114063207122363726, guid: 2380862eb8f4b5e438f25fff5ade826e,
+        type: 3}
+      propertyPath: trueShipAssociations.Array.data[5].shipType
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2380862eb8f4b5e438f25fff5ade826e, type: 3}

@@ -2,6 +2,6 @@
 {
     public enum ShipType
     {
-         ConstructionShip, Freighter, Test, Destroyer, MotherShip
+         ConstructionShip, Freighter, Test, Destroyer, MotherShip, FighterSquadron
     }
 }

@@ -116,12 +116,12 @@ public class ObjectSelector : MonoBehaviour
                             return;
                         }
                     }
-                    selectedGOs.Add(selected); //Add object to selected
+                    SelectGameObject(selected); //Add object to selected
                 }
                 else //If the player is not pressing LeftShift, the list of selected object will be cleared and the selected will be added
                 {
                     ClearSelectedGOList();
-                    selectedGOs.Add(selected);
+                    SelectGameObject(selected);
                 }
             }
             else //Clear the selected list if clicked on no ships or stations
@@ -130,6 +130,19 @@ public class ObjectSelector : MonoBehaviour
             }
         }
     }
+
+    private void SelectGameObject(GameObject gameObject)
+    {
+        if(gameObject.GetComponent<SquadronUnit>() != null)
+        {
+            SelectGameObject(gameObject.transform.parent.gameObject);
+        }
+        else
+        {
+            selectedGOs.Add(gameObject);
+        }
+    }
+
 
     private void Start()
     {

@@ -1,11 +1,12 @@
 ﻿using Imperium;
+using Imperium.Combat;
 using Imperium.MapObjects;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StationController : MonoBehaviour, ISerializable<StationControllerPersistance>
+public class StationController : MonoBehaviour, ISerializable<StationControllerPersistance>, IHittable
 {
     
     public float constructionProgress;
@@ -30,7 +31,7 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
             {
                 try
                 {
-                    Station.combatStats.fieldOfViewDistance = 0f;
+                    Station.combatStats.FieldOfView = 0f;
                 }
                 catch
                 {
@@ -40,7 +41,7 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
             }
             else
             {
-                Station.combatStats.fieldOfViewDistance = StationFactory.getInstance().CreateStation(stationType).combatStats.fieldOfViewDistance;
+                Station.combatStats.FieldOfView = StationFactory.getInstance().CreateStation(stationType).combatStats.FieldOfView;
             }
         }
     }
@@ -48,7 +49,7 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
     public void AddConstructionProgress(int progress)
     {
         Station.combatStats.HP += progress;
-        float addedContructionProgress = (100 * (float)progress) / Station.combatStats.maxHP;
+        float addedContructionProgress = (100 * (float)progress) / Station.combatStats.MaxHP;
 
         constructionProgress += addedContructionProgress;
 
@@ -117,7 +118,7 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
         mapObjectCombatter = GetComponent<MapObjectCombatter>();
         mapObjectCombatter.combatStats = Station.combatStats;
 
-        Station.combatStats.HP = (int)(Station.combatStats.maxHP * constructionProgress) / 100;
+        Station.combatStats.HP = (int)(Station.combatStats.MaxHP * constructionProgress) / 100;
 
         if (constructionProgress >= 100)
         {
@@ -139,6 +140,27 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
         if (Constructed)
         {
             mapObjectCombatter.FireAtClosestTarget();
+        }
+    }
+
+    public void TakeHit(Bullet bullet)
+    {
+        int damage = bullet.damage;
+        int shields = Station.combatStats.Shields;
+
+        if (shields <= damage)
+        {
+            int hpDamage = shields - damage;
+            Station.combatStats.Shields = 0;
+            Station.combatStats.HP -= -hpDamage;
+            if (Station.combatStats.HP <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            Station.combatStats.Shields -= damage;
         }
     }
 }

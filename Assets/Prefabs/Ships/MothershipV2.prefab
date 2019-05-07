@@ -1254,6 +1254,7 @@ MonoBehaviour:
     loopFleetCommands: 0
   shipType: 4
   stationConstructor: {fileID: 0}
+  shipControllerType: 0
   initialized: 1
 --- !u!114 &114470675054749188
 MonoBehaviour:
@@ -1314,6 +1315,13 @@ MonoBehaviour:
     - quantity: 1
       resourceType: 1
     shipType: 1
+  - constructionTime: 5
+    resourceCosts:
+    - quantity: 1
+      resourceType: 0
+    - quantity: 1
+      resourceType: 1
+    shipType: 5
 --- !u!114 &114726365497871788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1928,7 +1936,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b565e4de1e127a48ac0a1d7c27a24c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineWidth: 0.15
 --- !u!1001 &7130913274552555945
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1936,6 +1943,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4190174119096174}
     m_Modifications:
+    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
+        type: 3}
+      propertyPath: m_Name
+      value: MinimapIcon
+      objectReference: {fileID: 0}
     - target: {fileID: 6236121661410868656, guid: 528d07e0af3fe604698c7101c087bf72,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1990,11 +2002,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
-        type: 3}
-      propertyPath: m_Name
-      value: MinimapIcon
       objectReference: {fileID: 0}
     - target: {fileID: 4935862252713924315, guid: 528d07e0af3fe604698c7101c087bf72,
         type: 3}

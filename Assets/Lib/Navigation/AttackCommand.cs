@@ -20,7 +20,7 @@ namespace Imperium.Navigation
                 base.destination = target.transform.position;
                 destinationOffset = mapObjectCombatter.lowestTurretRange / 2;
 
-                if (Vector3.Distance(target.transform.position, source.transform.position) <= sourceShipController.Ship.combatStats.fieldOfViewDistance)
+                if (Vector3.Distance(target.transform.position, source.transform.position) <= sourceShipController.Ship.combatStats.FieldOfView)
                 {
                     sourceShipController.FireTurrets(base.target.gameObject);
                 }

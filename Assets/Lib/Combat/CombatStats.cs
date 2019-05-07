@@ -1,55 +1,149 @@
-﻿namespace Imperium.Combat
+﻿using UnityEngine;
+
+namespace Imperium.Combat
 {
     [System.Serializable]
     public class CombatStats
     {
-        public float fieldOfViewDistance;
+        [SerializeField]
+        private float m_fieldOfView;
 
-        //Use proprieties.This is public due serialization simplification
-        public int hp;
+        [SerializeField]
+        private int m_hp;
 
-        public int maxHP;
+        [SerializeField]
+        private int m_maxHP;
 
-        public int maxShields;
-        public int shieldRegen;
-        public int shields;
+        [SerializeField]
+        private int m_maxShields;
+
+        [SerializeField]
+        private int m_shieldRegen;
+
+        [SerializeField]
+        private int m_shields;
 
         public CombatStats(int maxHP, int maxShields, int shieldRegen, float fieldOfViewDistance)
         {
-            this.maxHP = maxHP;
-            this.maxShields = maxShields;
-            this.shieldRegen = shieldRegen;
+            this.MaxHP = maxHP;
+            this.MaxShields = maxShields;
+            this.ShieldRegen = shieldRegen;
             HP = maxHP;
-            Shields = this.maxShields;
-            this.fieldOfViewDistance = fieldOfViewDistance;
+            Shields = this.MaxShields;
+            this.FieldOfView = fieldOfViewDistance;
         }
 
         public CombatStats(int maxHP, int hP, int maxShields, int shields, int shieldRegen, float fieldOfViewDistance)
         {
-            this.maxHP = maxHP;
-            this.maxShields = maxShields;
-            this.shieldRegen = shieldRegen;
+            this.MaxHP = maxHP;
+            this.MaxShields = maxShields;
+            this.ShieldRegen = shieldRegen;
             Shields = shields;
-            this.shieldRegen = shieldRegen;
-            this.fieldOfViewDistance = fieldOfViewDistance;
+            this.ShieldRegen = shieldRegen;
+            this.FieldOfView = fieldOfViewDistance;
+            HP = hP;
+        }
+
+        public CombatStats(CombatStats combatStats)
+        {
+            this.m_maxHP = combatStats.MaxHP;
+            this.m_maxShields = combatStats.Shields;
+
+            this.m_hp = combatStats.HP;
+            this.m_shields = combatStats.Shields;
+
+            this.m_shieldRegen = combatStats.ShieldRegen;
+            this.FieldOfView = combatStats.FieldOfView;
+        }
+
+        public delegate void m_observer(CombatStats combatStats, int hp, int maxHP, int shields, int maxShields, int shieldRegen, float fieldOfView);
+
+        private event m_observer ObserversEvent;
+
+        public float FieldOfView
+        {
+            get => m_fieldOfView; set
+            {
+                float oldValue = m_fieldOfView;
+                if (value < 0)
+                {
+                    value = 0;
+                }
+                m_fieldOfView = value;
+
+                CallObservers(m_hp, m_maxHP, m_shields, m_maxShields, m_shieldRegen, m_fieldOfView - oldValue);
+            }
         }
 
         public int HP
         {
             get
             {
-                return hp;
+                return m_hp;
             }
             set
             {
-                if (value > maxHP)
+                int oldHp = m_hp;
+                if (value > MaxHP)
                 {
-                    hp = maxHP;
+                    m_hp = MaxHP;
                 }
                 else
                 {
-                    hp = value;
+                    m_hp = value;
                 }
+
+                CallObservers(m_hp - oldHp, m_maxHP, m_shields, m_maxShields, m_shieldRegen, m_fieldOfView);
+            }
+        }
+
+        public int MaxHP
+        {
+            get => m_maxHP; set
+            {
+                int oldHp = m_hp;
+                int oldMaxHp = m_maxShields;
+                if (value < 0)
+                {
+                    value = 0;
+                }
+
+                m_maxHP = value;
+                if (m_hp > m_maxHP)
+                {
+                    m_hp = m_maxHP;
+                }
+                CallObservers(m_hp - oldHp, m_maxHP - oldMaxHp, m_shields, m_maxShields, m_shieldRegen, m_fieldOfView);
+            }
+        }
+
+        public int MaxShields
+        {
+            get => m_maxShields; set
+            {
+                int oldShields = m_shields;
+                int oldMaxShields = m_maxShields;
+                if (value < 0)
+                {
+                    value = 0;
+                }
+
+                m_maxShields = value;
+                if (m_shields > m_maxShields)
+                {
+                    m_shields = m_maxShields;
+                }
+                CallObservers(m_hp, m_maxHP, m_shields - oldShields, m_maxShields - oldMaxShields, m_shieldRegen, m_fieldOfView);
+            }
+        }
+
+        public int ShieldRegen
+        {
+            get => m_shieldRegen; set
+            {
+                float oldValue = m_shieldRegen;
+                m_shieldRegen = value;
+                CallObservers(m_hp, m_maxHP, m_maxShields, m_maxShields, m_shieldRegen, m_shieldRegen - oldValue);
             }
         }
 
@@ -57,19 +151,37 @@
         {
             get
             {
-                return shields;
+                return m_shields;
             }
             set
             {
-                if (value > maxShields)
+                int oldShields = m_shields;
+                if (value > MaxShields)
                 {
-                    shields = maxShields;
+                    m_shields = MaxShields;
                 }
                 else
                 {
-                    shields = value;
+                    m_shields = value;
                 }
+
+                CallObservers(m_hp, m_maxHP, m_shields - oldShields, m_maxShields, m_shieldRegen, m_fieldOfView);
             }
+        }
+
+        public void AddObserver(m_observer observer)
+        {
+            ObserversEvent += observer;
+        }
+
+        public void RemoveObserver(m_observer observer)
+        {
+            ObserversEvent -= observer;
+        }
+
+        private void CallObservers(int hp, int maxHP, int shields, int maxShields, int shieldRegen, float fieldOfView)
+        {
+            ObserversEvent(this, hp, maxHP, shields, maxShields, shieldRegen, fieldOfView);
         }
     }
 }

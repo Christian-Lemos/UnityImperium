@@ -1,4 +1,5 @@
 ﻿using Imperium;
+using Imperium.Combat;
 using Imperium.MapObjects;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
@@ -44,11 +45,17 @@ public class BulletController : MonoBehaviour, ISerializable<BulletControllerPer
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<MapObject>() != null && (other.gameObject.layer == (int)ObjectLayers.Ship || other.gameObject.layer == (int)ObjectLayers.Station) && !other.gameObject.Equals(source))
+        if (other.gameObject.GetComponent<MapObject>() != null /*&& (other.gameObject.layer == (int)ObjectLayers.Ship || other.gameObject.layer == (int)ObjectLayers.Station) */ && !other.gameObject.Equals(source) && other.gameObject.GetComponent<IHittable>() != null)
         {
-            MapObjectCombatter mapObjectCombatter = other.gameObject.GetComponent<MapObjectCombatter>();
-            mapObjectCombatter.TakeDamage(bullet.damage);
-            Destroy(gameObject);
+            if(other.gameObject.GetComponent<ShipSquadronController>() == null)
+            {
+                other.gameObject.GetComponent<IHittable>().TakeHit(bullet);
+                Destroy(gameObject);
+            }
+            
+            /*MapObjectCombatter mapObjectCombatter = other.gameObject.GetComponent<MapObjectCombatter>();
+            mapObjectCombatter.TakeDamage(bullet.damage);*/
+            
         }
     }
 }
