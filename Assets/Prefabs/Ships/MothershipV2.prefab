@@ -152,19 +152,19 @@ MonoBehaviour:
     range: 0
     shotsPerSalvo: 0
     shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
   reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoCount: 0
   salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
-  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
-  salvoCount: 0
 --- !u!1 &1184732746638712
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,19 +317,19 @@ MonoBehaviour:
     range: 0
     shotsPerSalvo: 0
     shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
   reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoCount: 0
   salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
-  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
-  salvoCount: 0
 --- !u!1 &1351748974927008
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,19 +482,19 @@ MonoBehaviour:
     range: 0
     shotsPerSalvo: 0
     shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
   reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoCount: 0
   salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
-  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
-  salvoCount: 0
 --- !u!1 &1371467540236260
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,19 +647,19 @@ MonoBehaviour:
     range: 0
     shotsPerSalvo: 0
     shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
   reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoCount: 0
   salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
-  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
-  salvoCount: 0
 --- !u!1 &1441669745222000
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,19 +812,19 @@ MonoBehaviour:
     range: 0
     shotsPerSalvo: 0
     shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
   reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoCount: 0
   salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
-  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
-  salvoCount: 0
 --- !u!1 &1592329878770818
 GameObject:
   m_ObjectHideFlags: 0
@@ -977,19 +977,19 @@ MonoBehaviour:
     range: 0
     shotsPerSalvo: 0
     shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
   reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoCount: 0
   salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
-  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
-  salvoCount: 0
 --- !u!1 &1663252061239296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,19 +1142,19 @@ MonoBehaviour:
     range: 0
     shotsPerSalvo: 0
     shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
   reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoCount: 0
   salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
-  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
-  salvoCount: 0
 --- !u!1 &1738834379677540
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,12 +1170,13 @@ GameObject:
   - component: {fileID: 114470675054749188}
   - component: {fileID: 114909788611761058}
   - component: {fileID: 114726365497871788}
-  - component: {fileID: 114019419506809258}
   - component: {fileID: 114281450588646716}
   - component: {fileID: 120773975483462160}
   - component: {fileID: 114614565060751116}
   - component: {fileID: 4056370439748091061}
   - component: {fileID: 5606150223684647486}
+  - component: {fileID: 8972358615995438056}
+  - component: {fileID: -5553035460229403820}
   m_Layer: 10
   m_Name: MothershipV2
   m_TagString: Untagged
@@ -1250,12 +1251,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb7caaa6a5a8fe408ae51f298c469b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fleetCommandQueue:
+  _fleetCommandQueue:
     loopFleetCommands: 0
+  initialized: 1
   shipType: 4
   stationConstructor: {fileID: 0}
-  shipControllerType: 0
-  initialized: 1
 --- !u!114 &114470675054749188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1315,13 +1315,6 @@ MonoBehaviour:
     - quantity: 1
       resourceType: 1
     shipType: 1
-  - constructionTime: 5
-    resourceCosts:
-    - quantity: 1
-      resourceType: 0
-    - quantity: 1
-      resourceType: 1
-    shipType: 5
 --- !u!114 &114726365497871788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1336,26 +1329,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   mapObjectType: 0
---- !u!114 &114019419506809258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1738834379677540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 102e85aff3453fe45a93c514760aa959, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lowestTurretRange: 0
-  combatStats:
-    fieldOfViewDistance: 0
-    hp: 0
-    maxHP: 0
-    maxShields: 0
-    shieldRegen: 0
-    shields: 0
 --- !u!114 &114281450588646716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1363,7 +1336,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1738834379677540}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 66dbabea7f44ab34aa50ab683f321d13, type: 3}
   m_Name: 
@@ -1373,12 +1346,12 @@ MonoBehaviour:
     type: 3}
   combatCanvasScale: 0.55
   combatStats:
-    fieldOfViewDistance: 0
-    hp: 0
-    maxHP: 0
-    maxShields: 0
-    shieldRegen: 0
-    shields: 0
+    m_fieldOfView: 0
+    m_hp: 0
+    m_maxHP: 0
+    m_maxShields: 0
+    m_shieldRegen: 0
+    m_shields: 0
   hp: {fileID: 0}
   shields: {fileID: 0}
 --- !u!120 &120773975483462160
@@ -1514,6 +1487,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57dd53a3c84715e4bbde1dbc4ecb2d0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8972358615995438056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738834379677540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53ee3f3d7c0ecef4fa1c14ba5bbeadad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5553035460229403820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738834379677540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88febc35afbd4c4428c64054487ec3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1748116252484462
@@ -1668,19 +1665,19 @@ MonoBehaviour:
     range: 0
     shotsPerSalvo: 0
     shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
   reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoCount: 0
   salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
-  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
-  salvoCount: 0
 --- !u!1 &1794643463366460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1833,19 +1830,19 @@ MonoBehaviour:
     range: 0
     shotsPerSalvo: 0
     shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
   reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoCount: 0
   salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
-  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
-  salvoCount: 0
 --- !u!1 &1827242059760572
 GameObject:
   m_ObjectHideFlags: 0

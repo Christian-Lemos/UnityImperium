@@ -1,4 +1,5 @@
-﻿using Imperium;
+﻿using Assets.Lib.Navigation;
+using Imperium;
 using Imperium.Combat;
 using Imperium.MapObjects;
 using Imperium.Navigation;
@@ -9,16 +10,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MapObject))]
-public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersistance>, INonExplorable, IHittable, ISelectable
+public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersistance>, INonExplorable, IHittable, ISelectable, INavigationAgent, ICombatable
 {
-    public FleetCommandQueue fleetCommandQueue = new FleetCommandQueue();
+    public FleetCommandQueue _fleetCommandQueue = new FleetCommandQueue();
 
     public bool initialized = true;
-    public ShipControllerType shipControllerType;
     public ShipType shipType;
     public StationConstructor stationConstructor;
     protected Ship _ship;
-    protected MapObjectCombatter mapObjectCombatter;
 
     public Ship Ship
     {
@@ -32,26 +31,30 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
         }
     }
 
-    public virtual void AddCommand(bool resetCommands, FleetCommand fleetCommand)
+    public FleetCommandQueue FleetCommandQueue => _fleetCommandQueue;
+
+    public CombatStats CombatStats => Ship.combatStats;
+
+    public void AddCommand(bool resetCommands, FleetCommand fleetCommand)
     {
         //Debug.Log("Added: " + fleetCommand);
         if (resetCommands)
         {
-            fleetCommandQueue.ResetCommands();
-            fleetCommandQueue.fleetCommands.Add(fleetCommand);
+            _fleetCommandQueue.ResetCommands();
+            _fleetCommandQueue.fleetCommands.Add(fleetCommand);
         }
         else
         {
-            fleetCommandQueue.fleetCommands.Add(fleetCommand);
+            _fleetCommandQueue.fleetCommands.Add(fleetCommand);
         }
 
-        if (fleetCommandQueue.CurrentFleetCommand == null)
+        if (_fleetCommandQueue.CurrentFleetCommand == null)
         {
-            fleetCommandQueue.CurrentFleetCommand = fleetCommand;
+            _fleetCommandQueue.CurrentFleetCommand = fleetCommand;
         }
     }
 
-    public virtual void AttackTarget(GameObject target, bool resetCommands, bool loopCommands)
+    public void AttackTarget(GameObject target, bool resetCommands, bool loopCommands)
     {
         if (!target.Equals(gameObject))
         {
@@ -59,7 +62,7 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
 
             AddCommand(resetCommands, fleetCommand);
 
-            fleetCommandQueue.loopFleetCommands = loopCommands;
+            _fleetCommandQueue.loopFleetCommands = loopCommands;
 
             TurretController[] turrets = gameObject.GetComponentsInChildren<TurretController>(false);
             foreach (TurretController turret in turrets)
@@ -69,11 +72,11 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
         }
     }
 
-    public virtual void BuildStation(GameObject station, bool resetCommands, bool loopCommands)
+    public void BuildStation(GameObject station, bool resetCommands, bool loopCommands)
     {
         FleetCommand fleetCommand = new BuildCommand(gameObject.GetComponent<MapObject>(), station.GetComponent<MapObject>());
         AddCommand(resetCommands, fleetCommand);
-        fleetCommandQueue.loopFleetCommands = loopCommands;
+        _fleetCommandQueue.loopFleetCommands = loopCommands;
     }
 
     public virtual void FireTurrets(GameObject target)
@@ -85,14 +88,14 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
         }
     }
 
-    public virtual void MineAsteroid(GameObject asteroid, bool resetCommands)
+    public void MineAsteroid(GameObject asteroid, bool resetCommands)
     {
         FleetCommand fleetCommand = new MineCommand(gameObject.GetComponent<MapObject>(), asteroid.GetComponent<MapObject>());
         AddCommand(resetCommands, fleetCommand);
-        fleetCommandQueue.loopFleetCommands = false;
+        _fleetCommandQueue.loopFleetCommands = false;
     }
 
-    public virtual void MoveControl(Vector3 destination)
+    public void MoveControl(Vector3 destination)
     {
         destination.y = 0;
         Quaternion desRotation = Quaternion.LookRotation(destination - transform.position, Vector3.up);
@@ -100,14 +103,14 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
         transform.position += transform.forward * Ship.speed * Time.deltaTime;
     }
 
-    public virtual void MoveToPosition(Vector3 destination, float destinationOffset, bool resetCommands, bool loopCommands)
+    public void MoveToPosition(Vector3 destination, float destinationOffset, bool resetCommands, bool loopCommands)
     {
         FleetCommand fleetCommand = new MoveCommand(gameObject.GetComponent<MapObject>(), destination, destinationOffset);
         AddCommand(resetCommands, fleetCommand);
-        fleetCommandQueue.loopFleetCommands = loopCommands;
+        _fleetCommandQueue.loopFleetCommands = loopCommands;
     }
 
-    public virtual ShipControllerPersistance Serialize()
+    public ShipControllerPersistance Serialize()
     {
         List<TurretControllerPersistance> turretControllerPersistances = new List<TurretControllerPersistance>();
 
@@ -118,7 +121,7 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
             turretControllerPersistances.Add(turretController.Serialize());
         }
 
-        ShipControllerPersistance shipControllerPersistance = new ShipControllerPersistance(Ship, shipType, GetComponent<MapObject>().Serialize(), fleetCommandQueue.Serialize(), turretControllerPersistances, true, null, shipControllerType);
+        ShipControllerPersistance shipControllerPersistance = new ShipControllerPersistance(Ship, shipType, GetComponent<MapObject>().Serialize(), _fleetCommandQueue.Serialize(), turretControllerPersistances, true);
 
         MineController mineController = GetComponent<MineController>();
         ResourceStorageController resourceStorageController = GetComponent<ResourceStorageController>();
@@ -129,16 +132,16 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
         return shipControllerPersistance;
     }
 
-    public virtual void SetIdle()
+    public void SetIdle()
     {
-        fleetCommandQueue.ResetCommands();
-        fleetCommandQueue.loopFleetCommands = false;
+        _fleetCommandQueue.ResetCommands();
+        _fleetCommandQueue.loopFleetCommands = false;
     }
 
-    public virtual ISerializable<ShipControllerPersistance> SetObject(ShipControllerPersistance serializedObject)
+    public ISerializable<ShipControllerPersistance> SetObject(ShipControllerPersistance serializedObject)
     {
-        this.fleetCommandQueue = new FleetCommandQueue();
-        this.fleetCommandQueue.SetObject(serializedObject.fleetCommandQueuePersistance);
+        this._fleetCommandQueue = new FleetCommandQueue();
+        this._fleetCommandQueue.SetObject(serializedObject.fleetCommandQueuePersistance);
 
         MineController mineController = GetComponent<MineController>();
         if (mineController != null)
@@ -163,32 +166,25 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
         return this;
     }
 
-    public virtual void TakeHit(Bullet bullet)
+    public void TakeHit(Bullet bullet)
     {
-        if (shipControllerType != ShipControllerType.SQUADRON_UNIT)
-        {
-            CombatStats combatStats = Ship.combatStats;
-            int damage = bullet.damage;
-            int shields = combatStats.Shields;
+        CombatStats combatStats = Ship.combatStats;
+        int damage = bullet.damage;
+        int shields = combatStats.Shields;
 
-            if (shields <= damage)
+        if (shields <= damage)
+        {
+            int hpDamage = shields - damage;
+            combatStats.Shields = 0;
+            combatStats.HP -= -hpDamage;
+            if (combatStats.HP <= 0)
             {
-                int hpDamage = shields - damage;
-                combatStats.Shields = 0;
-                combatStats.HP -= -hpDamage;
-                if (combatStats.HP <= 0)
-                {
-                    Destroy(gameObject);
-                }
-            }
-            else
-            {
-                combatStats.Shields -= damage;
+                Destroy(gameObject);
             }
         }
-        else 
+        else
         {
-            transform.parent.gameObject.GetComponent<ShipController>().TakeHit(bullet);
+            combatStats.Shields -= damage;
         }
     }
 
@@ -204,7 +200,7 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
         }
     }
 
-    public virtual GameObject Select()
+    public GameObject Select()
     {
         return this.gameObject;
     }
@@ -216,18 +212,14 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
             Ship = ShipFactory.getInstance().CreateShip(shipType);
         }
 
-        mapObjectCombatter = GetComponent<MapObjectCombatter>();
-        mapObjectCombatter.combatStats = Ship.combatStats;
-        StartCoroutine(mapObjectCombatter.ShieldRegeneration());
-
         stationConstructor = GetComponent<StationConstructor>();
     }
 
     private void Update()
     {
-        if (fleetCommandQueue.fleetCommands.Count > 0)
+        if (_fleetCommandQueue.fleetCommands.Count > 0)
         {
-            FleetCommand fleetCommand = fleetCommandQueue.CurrentFleetCommand;
+            FleetCommand fleetCommand = _fleetCommandQueue.CurrentFleetCommand;
 
             if (!fleetCommand.IsFinished())
             {
@@ -235,14 +227,12 @@ public class ShipController : MonoBehaviour, ISerializable<ShipControllerPersist
             }
             else
             {
-                FleetCommand next = fleetCommandQueue.SetNextFleetCommand();
+                FleetCommand next = _fleetCommandQueue.SetNextFleetCommand();
                 if (next == null)
                 {
                     SetIdle();
                 }
             }
         }
-
-        mapObjectCombatter.FireAtClosestTarget();
     }
 }

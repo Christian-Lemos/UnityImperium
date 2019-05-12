@@ -1,23 +1,40 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Assets.Lib;
 using Imperium;
+using Imperium.Combat;
 
 [RequireComponent(typeof(ICombatable))]
 public class TurretManager : MonoBehaviour
 {
 
+    public float LowestTurretRange { get; private set;}
     private ICombatable combatable;
     // Use this for initialization
     void Start()
     {
         combatable = GetComponent<ICombatable>();
+        LowestTurretRange = GetLowestTurretRange();
     }
+
+    public float GetLowestTurretRange()
+    {
+        float lowest = combatable.CombatStats.FieldOfView;
+        TurretController[] turretControllers = gameObject.GetComponentsInChildren<TurretController>(false);
+        foreach (TurretController turretController in turretControllers)
+        {
+            if (turretController.turret.range > lowest)
+            {
+                lowest = turretController.turret.range;
+            }
+        }
+        return lowest;
+    }
+
 
     // Update is called once per frame
     void Update()
     {
-
+        FireAtClosestTarget();
     }
 
     private readonly int fireLayer = 1 << (int)ObjectLayers.Ship | 1 << (int)ObjectLayers.Station;
@@ -30,6 +47,7 @@ public class TurretManager : MonoBehaviour
         GameObject closestTarget = null;
         float smallerSqrMagnitude = 0f;
         Player thisPlayer = PlayerDatabase.Instance.GetObjectPlayer(gameObject);
+
         foreach (Collider collider in colliders)
         {
             if (collider.gameObject.GetComponent<MapObject>() != null && !PlayerDatabase.Instance.IsFromPlayer(collider.gameObject, thisPlayer) && !collider.gameObject.Equals(gameObject))

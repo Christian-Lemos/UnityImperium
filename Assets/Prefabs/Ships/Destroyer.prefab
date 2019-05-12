@@ -653,6 +653,7 @@ GameObject:
   - component: {fileID: 2607117751675823748}
   - component: {fileID: 70406018768439879}
   - component: {fileID: 2647057743568392356}
+  - component: {fileID: 1178106455378963330}
   m_Layer: 10
   m_Name: Destroyer
   m_TagString: Untagged
@@ -809,11 +810,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb7caaa6a5a8fe408ae51f298c469b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fleetCommandQueue:
+  _fleetCommandQueue:
     loopFleetCommands: 0
+  initialized: 1
   shipType: 3
   stationConstructor: {fileID: 0}
-  initialized: 1
 --- !u!114 &447596580273260621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -823,17 +824,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1718406266474456}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 102e85aff3453fe45a93c514760aa959, type: 3}
+  m_Script: {fileID: 11500000, guid: 53ee3f3d7c0ecef4fa1c14ba5bbeadad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowestTurretRange: 0
-  combatStats:
-    fieldOfViewDistance: 0
-    hp: 0
-    maxHP: 0
-    maxShields: 0
-    shieldRegen: 0
-    shields: 0
 --- !u!114 &4110847989224253006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -841,7 +834,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718406266474456}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 66dbabea7f44ab34aa50ab683f321d13, type: 3}
   m_Name: 
@@ -851,12 +844,12 @@ MonoBehaviour:
     type: 3}
   combatCanvasScale: 0.2
   combatStats:
-    fieldOfViewDistance: 0
-    hp: 0
-    maxHP: 0
-    maxShields: 0
-    shieldRegen: 0
-    shields: 0
+    m_fieldOfView: 0
+    m_hp: 0
+    m_maxHP: 0
+    m_maxShields: 0
+    m_shieldRegen: 0
+    m_shields: 0
   hp: {fileID: 0}
   shields: {fileID: 0}
 --- !u!120 &2607117751675823748
@@ -983,6 +976,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1178106455378963330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718406266474456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88febc35afbd4c4428c64054487ec3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1780333602965900
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,19 +1230,19 @@ MonoBehaviour:
     range: 0
     shotsPerSalvo: 0
     shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
   reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoCount: 0
   salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
-  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
-  salvoCount: 0
 --- !u!1 &3800491907525017265
 GameObject:
   m_ObjectHideFlags: 0
@@ -1390,19 +1395,19 @@ MonoBehaviour:
     range: 0
     shotsPerSalvo: 0
     shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
   reloadTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
+  salvoCount: 0
   salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0
-  _fireStage: 0
   target: {fileID: 0}
   turretType: 0
-  salvoCount: 0
 --- !u!1001 &1233717024624031437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1410,6 +1415,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4833495210039794}
     m_Modifications:
+    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
+        type: 3}
+      propertyPath: m_Name
+      value: MinimapIcon
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6236121661410868656, guid: 528d07e0af3fe604698c7101c087bf72,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1479,16 +1494,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
-        type: 3}
-      propertyPath: m_Name
-      value: MinimapIcon
-      objectReference: {fileID: 0}
-    - target: {fileID: 7761134521083766592, guid: 528d07e0af3fe604698c7101c087bf72,
-        type: 3}
-      propertyPath: m_Layer
-      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4935862252713924315, guid: 528d07e0af3fe604698c7101c087bf72,
         type: 3}

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Imperium.MapObjects
+namespace Imperium.Combat
 {
-    public enum ShipControllerType
+    public interface ICombatable
     {
-        SINGLE, SQUADRON, SQUADRON_UNIT
+        CombatStats CombatStats { get; }
     }
 }

@@ -53,7 +53,7 @@ namespace Imperium.Persistence
 
             List<ShipControllerPersistance> player1Ships = new List<ShipControllerPersistance>()
             {
-                new ShipControllerPersistance(ShipFactory.getInstance().CreateShip(ShipType.MotherShip), ShipType.MotherShip, new MapObjectPersitance(id++, new Vector3(-15, 0, -20), new Vector3(1, 1, 1), Quaternion.identity, -1), new Navigation.FleetCommandQueue().Serialize(), false, null, ShipControllerType.SINGLE)
+                new ShipControllerPersistance(ShipFactory.getInstance().CreateShip(ShipType.MotherShip), ShipType.MotherShip, new MapObjectPersitance(id++, new Vector3(-15, 0, -20), new Vector3(1, 1, 1), Quaternion.identity, -1), new Navigation.FleetCommandQueue().Serialize(), false)
             };
 
             #endregion Player 1
@@ -69,7 +69,7 @@ namespace Imperium.Persistence
 
             List<ShipControllerPersistance> player2Ships = new List<ShipControllerPersistance>()
             {
-                new ShipControllerPersistance(ShipFactory.getInstance().CreateShip(ShipType.MotherShip), ShipType.MotherShip, new MapObjectPersitance(id++, new Vector3(15, 0, 20), new Vector3(1, 1, 1), Quaternion.identity, -1), new Navigation.FleetCommandQueue().Serialize(), false, null, ShipControllerType.SINGLE)
+                new ShipControllerPersistance(ShipFactory.getInstance().CreateShip(ShipType.MotherShip), ShipType.MotherShip, new MapObjectPersitance(id++, new Vector3(15, 0, 20), new Vector3(1, 1, 1), Quaternion.identity, -1), new Navigation.FleetCommandQueue().Serialize(), false)
             };
 
             #endregion Player 2

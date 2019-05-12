@@ -71,7 +71,9 @@ MonoBehaviour:
   - prefab: {fileID: 4216296622976248765, guid: db91fc9d7ef4aeb4eb50b269ecd8de01,
       type: 3}
     stationType: 0
-  nextId: 1
+  - prefab: {fileID: 2808702893843065905, guid: ecc7f37d32db14d408d90b2ebbcc74c3,
+      type: 3}
+    stationType: 1
   trueAsteroidsPrefabs:
   - {fileID: 1217605875423196, guid: fa49e460baf435b4780da7196c2ab473, type: 3}
   - {fileID: 1594913485753456, guid: 84cc3cd234dfc9d4d9d2e92c0eb0af75, type: 3}
@@ -90,6 +92,9 @@ MonoBehaviour:
   trueStationAssociation:
   - prefab: {fileID: 1249487277988724, guid: 82e0a040e5e4ecf4d93f94e67b3657df, type: 3}
     stationType: 0
+  - prefab: {fileID: 6598094210840810624, guid: 7300767a6fb5d9a43bc4fd0d9b37ad8f,
+      type: 3}
+    stationType: 1
 --- !u!114 &114962969850159042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,13 +124,14 @@ MonoBehaviour:
     bulletControllerPersistances: []
     MapSize: {x: 0, y: 0}
     Name: 
+    nextMapObjectId: 0
     players: []
     shipConstructionManagerPersistance:
       constructions: []
-    nextMapObjectId: 0
   playerManager: {fileID: 0}
   selectionPanelPrefab: {fileID: 1487339570365478, guid: 49f60bce01df1cc48bb4fd309322940e,
     type: 3}
+  AIStorage: {fileID: 0}
 --- !u!114 &1521141438
 MonoBehaviour:
   m_ObjectHideFlags: 0

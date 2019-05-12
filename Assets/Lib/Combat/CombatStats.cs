@@ -25,23 +25,23 @@ namespace Imperium.Combat
 
         public CombatStats(int maxHP, int maxShields, int shieldRegen, float fieldOfViewDistance)
         {
-            this.MaxHP = maxHP;
-            this.MaxShields = maxShields;
-            this.ShieldRegen = shieldRegen;
-            HP = maxHP;
-            Shields = this.MaxShields;
-            this.FieldOfView = fieldOfViewDistance;
+            this.m_maxHP = maxHP;
+            this.m_maxShields = maxShields;
+            this.m_shieldRegen = shieldRegen;
+            this.m_hp = maxHP;
+            this.m_shields = this.MaxShields;
+            this.m_fieldOfView = fieldOfViewDistance;
         }
 
         public CombatStats(int maxHP, int hP, int maxShields, int shields, int shieldRegen, float fieldOfViewDistance)
         {
-            this.MaxHP = maxHP;
-            this.MaxShields = maxShields;
-            this.ShieldRegen = shieldRegen;
-            Shields = shields;
-            this.ShieldRegen = shieldRegen;
-            this.FieldOfView = fieldOfViewDistance;
-            HP = hP;
+            this.m_maxHP = maxHP;
+            this.m_maxShields = maxShields;
+            this.m_shieldRegen = shieldRegen;
+            this.m_shields = shields;
+            this.m_shieldRegen = shieldRegen;
+            this.m_fieldOfView = fieldOfViewDistance;
+            m_hp = hP;
         }
 
         public CombatStats(CombatStats combatStats)
@@ -181,7 +181,8 @@ namespace Imperium.Combat
 
         private void CallObservers(int hp, int maxHP, int shields, int maxShields, int shieldRegen, float fieldOfView)
         {
-            ObserversEvent(this, hp, maxHP, shields, maxShields, shieldRegen, fieldOfView);
+            ObserversEvent?.Invoke(this, hp, maxHP, shields, maxShields, shieldRegen, fieldOfView);
+
         }
     }
 }

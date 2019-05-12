@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 114066113572409250}
   - component: {fileID: 120718293654392780}
   - component: {fileID: 114698593141773770}
+  - component: {fileID: -3491310254556870673}
   m_Layer: 10
   m_Name: TestShip
   m_TagString: Untagged
@@ -112,11 +113,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb7caaa6a5a8fe408ae51f298c469b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fleetCommandQueue:
+  _fleetCommandQueue:
     loopFleetCommands: 0
+  initialized: 1
   shipType: 2
   stationConstructor: {fileID: 0}
-  initialized: 1
 --- !u!54 &54561347199161464
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -156,17 +157,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1306210491191302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 102e85aff3453fe45a93c514760aa959, type: 3}
+  m_Script: {fileID: 11500000, guid: 53ee3f3d7c0ecef4fa1c14ba5bbeadad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowestTurretRange: 0
-  combatStats:
-    fieldOfViewDistance: 0
-    hp: 0
-    maxHP: 0
-    maxShields: 0
-    shieldRegen: 0
-    shields: 0
 --- !u!114 &114066113572409250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,7 +167,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1306210491191302}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 66dbabea7f44ab34aa50ab683f321d13, type: 3}
   m_Name: 
@@ -184,12 +177,12 @@ MonoBehaviour:
     type: 3}
   combatCanvasScale: 0.07
   combatStats:
-    fieldOfViewDistance: 0
-    hp: 0
-    maxHP: 0
-    maxShields: 0
-    shieldRegen: 0
-    shields: 0
+    m_fieldOfView: 0
+    m_hp: 0
+    m_maxHP: 0
+    m_maxShields: 0
+    m_shieldRegen: 0
+    m_shields: 0
   hp: {fileID: 0}
   shields: {fileID: 0}
 --- !u!120 &120718293654392780
@@ -300,6 +293,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &-3491310254556870673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1306210491191302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88febc35afbd4c4428c64054487ec3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1849178827207046
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,10 +357,18 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  salvoCount: 0
+  salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0

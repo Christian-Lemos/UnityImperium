@@ -41,13 +41,13 @@ public class ShipLineRendererController : MonoBehaviour
 
     private void ActivateIfPossible()
     {
-        if (shipController.fleetCommandQueue.CurrentFleetCommand == null)
+        if (shipController._fleetCommandQueue.CurrentFleetCommand == null)
         {
             Active = false;
         }
         else
         {
-           endPosition = shipController.fleetCommandQueue.CurrentFleetCommand.destination;
+           endPosition = shipController._fleetCommandQueue.CurrentFleetCommand.destination;
             if (!Active)
             {
                 Active = true;
@@ -82,9 +82,9 @@ public class ShipLineRendererController : MonoBehaviour
 
     private void SetLineRendererColor()
     {
-        if (shipController.fleetCommandQueue.CurrentFleetCommand != null)
+        if (shipController._fleetCommandQueue.CurrentFleetCommand != null)
         {
-            CommandType commandType = shipController.fleetCommandQueue.CurrentFleetCommand.commandType;
+            CommandType commandType = shipController._fleetCommandQueue.CurrentFleetCommand.commandType;
             LineRendererColors lineRendererColors = commandColors[commandType];
 
             lineRenderer.startColor = lineRendererColors.startColor;
@@ -107,11 +107,11 @@ public class ShipLineRendererController : MonoBehaviour
         if (gameObjects.Contains(gameObject) || mouseOver)
         {
             UpdateLine(null, null);
-            shipController.fleetCommandQueue.AddCommandObserver(UpdateLine);
+            shipController._fleetCommandQueue.AddCommandObserver(UpdateLine);
         }
         else
         {
-            shipController.fleetCommandQueue.RemoveCommandObserver(UpdateLine);
+            shipController._fleetCommandQueue.RemoveCommandObserver(UpdateLine);
             if (Active)
             {
                 Active = false;
@@ -136,7 +136,7 @@ public class ShipLineRendererController : MonoBehaviour
 
     private void UpdateLineRendererPositions()
     {
-        endPosition = shipController.fleetCommandQueue.CurrentFleetCommand.destination;
+        endPosition = shipController._fleetCommandQueue.CurrentFleetCommand.destination;
         lineRenderer.SetPosition(0, transform.position);
         lineRenderer.SetPosition(1, endPosition);
     }

@@ -28,7 +28,7 @@ namespace Imperium.AI
 
         public override void Execute()
         {
-            if (shipController.fleetCommandQueue.CurrentFleetCommand == null)
+            if (shipController._fleetCommandQueue.CurrentFleetCommand == null)
             {
                 Afk = true;
             }

@@ -4,13 +4,13 @@ namespace Imperium.Navigation
 {
     public class AttackCommand : FleetCommand
     {
-        private MapObjectCombatter mapObjectCombatter;
+        private TurretManager turretManager;
 
         public AttackCommand(MapObject source, MapObject target) : base(source, target, CommandType.Attack)
         {
-            mapObjectCombatter = source.GetComponent<MapObjectCombatter>();
+            turretManager = source.GetComponent<TurretManager>();
             base.destination = target.transform.position;
-            destinationOffset = mapObjectCombatter.lowestTurretRange / 2;
+            destinationOffset = turretManager.LowestTurretRange / 2;
         }
 
         public override void ExecuteCommand()
@@ -18,7 +18,7 @@ namespace Imperium.Navigation
             if (base.target != null)
             {
                 base.destination = target.transform.position;
-                destinationOffset = mapObjectCombatter.lowestTurretRange / 2;
+                destinationOffset = turretManager.LowestTurretRange / 2;
 
                 if (Vector3.Distance(target.transform.position, source.transform.position) <= sourceShipController.Ship.combatStats.FieldOfView)
                 {

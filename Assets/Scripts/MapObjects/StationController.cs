@@ -1,4 +1,5 @@
-﻿using Imperium;
+﻿using Assets.Lib;
+using Imperium;
 using Imperium.Combat;
 using Imperium.MapObjects;
 using Imperium.Persistence;
@@ -6,18 +7,16 @@ using Imperium.Persistence.MapObjects;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StationController : MonoBehaviour, ISerializable<StationControllerPersistance>, IHittable
+public class StationController : MonoBehaviour, ISerializable<StationControllerPersistance>, IHittable, ICombatable
 {
-    
     public float constructionProgress;
 
-    public Station Station { get; set;}
     public StationType stationType;
-
-    private MapObjectCombatter mapObjectCombatter;
-
-
     private bool _constructed;
+    private ShieldRegenerator shieldRegenerator;
+    private TurretManager turretManager;
+    public CombatStats CombatStats => Station.combatStats;
+
     public bool Constructed
     {
         get
@@ -27,7 +26,7 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
         set
         {
             _constructed = value;
-            if(value == false)
+            if (value == false)
             {
                 try
                 {
@@ -35,16 +34,18 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
                 }
                 catch
                 {
-
                 }
-                
             }
             else
             {
                 Station.combatStats.FieldOfView = StationFactory.getInstance().CreateStation(stationType).combatStats.FieldOfView;
             }
+            EnableShieldRegeneration(value);
+            EnableTurrets(value);
         }
     }
+
+    public Station Station { get; set; }
 
     public void AddConstructionProgress(int progress)
     {
@@ -56,7 +57,6 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
         if (constructionProgress >= 100)
         {
             Constructed = true;
-            StartCoroutine(mapObjectCombatter.ShieldRegeneration());
         }
     }
 
@@ -83,7 +83,7 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
             turretControllerPersistances.Add(turretController.Serialize());
         }
 
-        return new StationControllerPersistance(Constructed, constructionProgress, GetComponent<MapObject>().Serialize(), Station, stationType,turretControllerPersistances, true);
+        return new StationControllerPersistance(Constructed, constructionProgress, GetComponent<MapObject>().Serialize(), Station, stationType, turretControllerPersistances, true);
     }
 
     public ISerializable<StationControllerPersistance> SetObject(StationControllerPersistance serializedObject)
@@ -93,54 +93,15 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
         this.Station = serializedObject.station;
         this.stationType = serializedObject.stationType;
 
-        if(serializedObject.initialized)
+        if (serializedObject.initialized)
         {
-            foreach(TurretControllerPersistance turretControllerPersistance in serializedObject.turretControllerPersistances)
+            foreach (TurretControllerPersistance turretControllerPersistance in serializedObject.turretControllerPersistances)
             {
                 transform.GetChild(turretControllerPersistance.turretIndex).GetComponent<TurretController>().SetObject(turretControllerPersistance);
             }
         }
-        
 
         return this;
-    }
-
-    
-
-    private void Start()
-    {
-        if(Station == null)
-        {
-             Station = StationFactory.getInstance().CreateStation(stationType);
-        }
-       
-        
-        mapObjectCombatter = GetComponent<MapObjectCombatter>();
-        mapObjectCombatter.combatStats = Station.combatStats;
-
-        Station.combatStats.HP = (int)(Station.combatStats.MaxHP * constructionProgress) / 100;
-
-        if (constructionProgress >= 100)
-        {
-            Constructed = true;
-            StartCoroutine(mapObjectCombatter.ShieldRegeneration());
-        }
-        else
-        {
-            Station.combatStats.Shields = 0;
-        }
-
-        mapObjectCombatter = GetComponent<MapObjectCombatter>();
-        mapObjectCombatter.combatStats = Station.combatStats;
-    }
-
-    private void Update()
-    {
-        //Debug.Log(mapObjectCombatter.combatStats.hp);
-        if (Constructed)
-        {
-            mapObjectCombatter.FireAtClosestTarget();
-        }
     }
 
     public void TakeHit(Bullet bullet)
@@ -161,6 +122,45 @@ public class StationController : MonoBehaviour, ISerializable<StationControllerP
         else
         {
             Station.combatStats.Shields -= damage;
+        }
+    }
+
+    private void EnableShieldRegeneration(bool value)
+    {
+        if (shieldRegenerator != null)
+        {
+            shieldRegenerator.enabled = value;
+        }
+    }
+
+    private void EnableTurrets(bool value)
+    {
+        if (turretManager != null)
+        {
+            turretManager.enabled = value;
+        }
+    }
+
+    private void Start()
+    {
+        if (Station == null)
+        {
+            Station = StationFactory.getInstance().CreateStation(stationType);
+        }
+
+        shieldRegenerator = GetComponent<ShieldRegenerator>();
+        turretManager = GetComponent<TurretManager>();
+        Station.combatStats.HP = (int)(Station.combatStats.MaxHP * constructionProgress) / 100;
+
+        if (constructionProgress >= 100)
+        {
+            Constructed = true;
+            EnableShieldRegeneration(true);
+        }
+        else
+        {
+            Constructed = false;
+            Station.combatStats.Shields = 0;
         }
     }
 }

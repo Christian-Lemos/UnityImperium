@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 6351416805099282284}
   - component: {fileID: 6211436973372703350}
   - component: {fileID: 8287428103906574694}
+  - component: {fileID: 8340416424653734403}
   m_Layer: 11
   m_Name: mining station
   m_TagString: Untagged
@@ -256,7 +257,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598094210840810624}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 66dbabea7f44ab34aa50ab683f321d13, type: 3}
   m_Name: 
@@ -266,12 +267,12 @@ MonoBehaviour:
     type: 3}
   combatCanvasScale: 0.1
   combatStats:
-    fieldOfViewDistance: 0
-    hp: 0
-    maxHP: 0
-    maxShields: 0
-    shieldRegen: 0
-    shields: 0
+    m_fieldOfView: 0
+    m_hp: 0
+    m_maxHP: 0
+    m_maxShields: 0
+    m_shieldRegen: 0
+    m_shields: 0
   hp: {fileID: 0}
   shields: {fileID: 0}
 --- !u!114 &1518605434242771802
@@ -297,17 +298,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6598094210840810624}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 102e85aff3453fe45a93c514760aa959, type: 3}
+  m_Script: {fileID: 11500000, guid: 53ee3f3d7c0ecef4fa1c14ba5bbeadad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowestTurretRange: 0
-  combatStats:
-    fieldOfViewDistance: 0
-    hp: 0
-    maxHP: 0
-    maxShields: 0
-    shieldRegen: 0
-    shields: 0
 --- !u!114 &6351416805099282284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,3 +343,15 @@ MonoBehaviour:
   progressCanvasPrefab: {fileID: 1907502856949014, guid: 4b4e50f80f464c44b84e91b45119f6ef,
     type: 3}
   scale: 0.1
+--- !u!114 &8340416424653734403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6598094210840810624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88febc35afbd4c4428c64054487ec3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

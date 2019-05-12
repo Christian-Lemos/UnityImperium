@@ -12,7 +12,6 @@ namespace Imperium.Persistence.MapObjects
         public Ship ship;
         public ShipType shipType;
         public bool initialized;
-        public List<ShipControllerPersistance> squadron;
 
         #region ShipModules
 
@@ -23,9 +22,7 @@ namespace Imperium.Persistence.MapObjects
 
         public List<TurretControllerPersistance> turretControllerPersistances = new List<TurretControllerPersistance>();
 
-        public ShipControllerType shipControllerType;
-
-        public ShipControllerPersistance(Ship ship, ShipType shipType, MapObjectPersitance mapObjectPersitance, FleetCommandQueuePersistance fleetCommandQueuePersistance, List<TurretControllerPersistance> turretControllerPersistances, bool initialized, List<ShipControllerPersistance> squadron, ShipControllerType shipControllerType)
+        public ShipControllerPersistance(Ship ship, ShipType shipType, MapObjectPersitance mapObjectPersitance, FleetCommandQueuePersistance fleetCommandQueuePersistance, List<TurretControllerPersistance> turretControllerPersistances, bool initialized)
         {
             this.ship = ship;
             this.shipType = shipType;
@@ -33,19 +30,15 @@ namespace Imperium.Persistence.MapObjects
             this.fleetCommandQueuePersistance = fleetCommandQueuePersistance;
             this.turretControllerPersistances = turretControllerPersistances;
             this.initialized = initialized;
-            this.squadron = squadron;
-            this.shipControllerType = shipControllerType;
         }
 
-        public ShipControllerPersistance(Ship ship, ShipType shipType, MapObjectPersitance mapObjectPersitance, FleetCommandQueuePersistance fleetCommandQueuePersistance, bool initialized, List<ShipControllerPersistance> squadron, ShipControllerType shipControllerType)
+        public ShipControllerPersistance(Ship ship, ShipType shipType, MapObjectPersitance mapObjectPersitance, FleetCommandQueuePersistance fleetCommandQueuePersistance, bool initialized)
         {
             this.ship = ship;
             this.shipType = shipType;
             this.mapObjectPersitance = mapObjectPersitance;
             this.fleetCommandQueuePersistance = fleetCommandQueuePersistance;
             this.initialized = initialized;
-            this.squadron = squadron;
-            this.shipControllerType = shipControllerType;
         }
     }
 }

@@ -45,17 +45,13 @@ public class BulletController : MonoBehaviour, ISerializable<BulletControllerPer
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<MapObject>() != null /*&& (other.gameObject.layer == (int)ObjectLayers.Ship || other.gameObject.layer == (int)ObjectLayers.Station) */ && !other.gameObject.Equals(source) && other.gameObject.GetComponent<IHittable>() != null)
+        IHittable hittable = other.gameObject.GetComponent<IHittable>();
+
+        if(!other.gameObject.Equals(source) && hittable != null)
         {
-            if(other.gameObject.GetComponent<ShipSquadronController>() == null)
-            {
-                other.gameObject.GetComponent<IHittable>().TakeHit(bullet);
-                Destroy(gameObject);
-            }
-            
-            /*MapObjectCombatter mapObjectCombatter = other.gameObject.GetComponent<MapObjectCombatter>();
-            mapObjectCombatter.TakeDamage(bullet.damage);*/
-            
+            hittable.TakeHit(bullet);
+            Destroy(gameObject);
         }
+
     }
 }

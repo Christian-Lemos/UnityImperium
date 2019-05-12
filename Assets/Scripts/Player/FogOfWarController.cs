@@ -1,4 +1,5 @@
 ﻿using Imperium;
+using Imperium.Combat;
 using Imperium.Rendering;
 using System.Collections;
 using System.Collections.Generic;
@@ -138,7 +139,7 @@ public class FogOfWarController : MonoBehaviour
             float fogRadius;
             try
             {
-                fogRadius = @object.GetComponent<MapObjectCombatter>().combatStats.FieldOfView;
+                fogRadius = @object.GetComponent<ICombatable>().CombatStats.FieldOfView;
             }
             catch
             {
@@ -188,7 +189,7 @@ public class FogOfWarController : MonoBehaviour
             float fogRadius;
             try
             {
-                fogRadius = @object.GetComponent<MapObjectCombatter>().combatStats.FieldOfView;
+                fogRadius = @object.GetComponent<ICombatable>().CombatStats.FieldOfView;
             }
             catch
             {

@@ -35,6 +35,10 @@ public class ShieldRegenerator : MonoBehaviour
             m_timer.timerSet = true;
             m_timer.ResetTimer();
         }
-        
+    }
+
+    private void Update()
+    {
+        m_timer.Execute();
     }
 }

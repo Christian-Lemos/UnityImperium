@@ -171,6 +171,7 @@ GameObject:
   - component: {fileID: 114590540281583696}
   - component: {fileID: 114490613920568846}
   - component: {fileID: 114769972726594864}
+  - component: {fileID: 6438748995766860882}
   m_Layer: 11
   m_Name: Test Station
   m_TagString: Untagged
@@ -275,17 +276,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1249487277988724}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 102e85aff3453fe45a93c514760aa959, type: 3}
+  m_Script: {fileID: 11500000, guid: 53ee3f3d7c0ecef4fa1c14ba5bbeadad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowestTurretRange: 0
-  combatStats:
-    fieldOfViewDistance: 0
-    hp: 0
-    maxHP: 0
-    maxShields: 0
-    shieldRegen: 0
-    shields: 0
 --- !u!114 &114490613920568846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,7 +286,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1249487277988724}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 66dbabea7f44ab34aa50ab683f321d13, type: 3}
   m_Name: 
@@ -303,12 +296,12 @@ MonoBehaviour:
     type: 3}
   combatCanvasScale: 0.1
   combatStats:
-    fieldOfViewDistance: 0
-    hp: 0
-    maxHP: 0
-    maxShields: 0
-    shieldRegen: 0
-    shields: 0
+    m_fieldOfView: 0
+    m_hp: 0
+    m_maxHP: 0
+    m_maxShields: 0
+    m_shieldRegen: 0
+    m_shields: 0
   hp: {fileID: 0}
   shields: {fileID: 0}
 --- !u!114 &114769972726594864
@@ -327,6 +320,18 @@ MonoBehaviour:
   progressCanvasPrefab: {fileID: 1907502856949014, guid: 4b4e50f80f464c44b84e91b45119f6ef,
     type: 3}
   scale: 0.1
+--- !u!114 &6438748995766860882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249487277988724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88febc35afbd4c4428c64054487ec3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1691174175901724
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,10 +461,18 @@ MonoBehaviour:
       damage: 0
       prefab: {fileID: 0}
       speed: 0
-    reloadTime: 0
+    salvoReloadTime: 0
     range: 0
+    shotsPerSalvo: 0
+    shotReloadTime: 0
+  _fireStage: 0
   firePriority: {fileID: 0}
-  fireTimer:
+  reloadTimer:
+    duration: 0
+    remainingDuration: 0
+    timerSet: 0
+  salvoCount: 0
+  salvoTimer:
     duration: 0
     remainingDuration: 0
     timerSet: 0

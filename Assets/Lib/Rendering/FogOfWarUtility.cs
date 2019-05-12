@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Imperium.Combat;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -119,15 +120,15 @@ namespace Imperium.Rendering
         private class GameObjectMOC
         {
             public GameObject gameObject;
-            public MapObjectCombatter mapObjectCombatter;
+            public ICombatable combatable;
             public float fovSqr;
             public GameObjectMOC(GameObject gameObject)
             {
                 this.gameObject = gameObject;
-                this.mapObjectCombatter = gameObject.GetComponent<MapObjectCombatter>();
+                this.combatable = gameObject.GetComponent<ICombatable>();
                 try
                 {
-                    fovSqr = mapObjectCombatter.combatStats.FieldOfView * mapObjectCombatter.combatStats.FieldOfView;
+                    fovSqr = combatable.CombatStats.FieldOfView * combatable.CombatStats.FieldOfView;
                 }
                 catch
                 {

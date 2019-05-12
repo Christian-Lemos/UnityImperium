@@ -15,6 +15,9 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
 
     private GameObject @object;
 
+    [SerializeField]
+    private FireStage _fireStage = FireStage.READY;
+
     private AudioSource audioSource;
 
     private IEnumerator fireCoroutine;
@@ -22,15 +25,23 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
     [SerializeField]
     private GameObject firePriority = null;
 
+    private FireStage fireStage;
+
     [SerializeField]
     private Timer reloadTimer = null;
+
+    [SerializeField]
+    private int salvoCount = 0;
 
     [SerializeField]
     private Timer salvoTimer = null;
 
     [SerializeField]
-    //private bool isReloading = false;
-    private FireStage _fireStage = FireStage.READY;
+    private GameObject target = null;
+
+    [SerializeField]
+    private TurretType turretType;
+
     private FireStage FireStage
     {
         get
@@ -39,17 +50,19 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         }
         set
         {
-            switch(value)
+            switch (value)
             {
                 case FireStage.FIRING_SALVO:
                     salvoCount = 1;
                     salvoTimer.timerSet = true;
                     reloadTimer.timerSet = false;
                     break;
+
                 case FireStage.RELOADING:
                     salvoTimer.timerSet = false;
                     reloadTimer.timerSet = true;
                     break;
+
                 case FireStage.READY:
                     reloadTimer.ResetTimer();
                     salvoTimer.ResetTimer();
@@ -62,19 +75,33 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         }
     }
 
-
-    [SerializeField]
-    private GameObject target = null;
-
-    [SerializeField]
-    private TurretType turretType;
-
-
-    private FireStage fireStage;
-
     public void Fire(GameObject target)
     {
         this.target = target;
+    }
+
+    public bool IsInRange(GameObject target)
+    {
+        Player player = PlayerDatabase.Instance.GetObjectPlayer(transform.parent.gameObject);
+
+        if (player.PlayerType == PlayerType.AI)
+        {
+            if (!StrategicAI.playerStrategicAI[player].scoutData.visibleObjetcs.Contains(target))
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (!MapObjecsRenderingController.Instance.visibleObjects.Contains(target))
+            {
+                return false;
+            }
+        }
+
+        float magnitude = (transform.parent.transform.position - target.transform.position).sqrMagnitude;
+
+        return magnitude <= turret.range * turret.range;
     }
 
     public TurretControllerPersistance Serialize()
@@ -85,18 +112,6 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         return new TurretControllerPersistance(targetId, firePriorityId, _fireStage, GetTurretIndex(), reloadTimer, turret, turretType, salvoCount, salvoTimer);
     }
 
-    private int GetTurretIndex()
-    {
-        for(int i = 0; i < transform.parent.childCount; i++)
-        {
-            if(transform.parent.GetChild(i).gameObject.Equals(this.gameObject))
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     public void SetFirePriority(GameObject target)
     {
         firePriority = target;
@@ -104,7 +119,7 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
 
     public ISerializable<TurretControllerPersistance> SetObject(TurretControllerPersistance serializedObject)
     {
-        this.target = serializedObject.targetID != -1 ? MapObject.FindByID(serializedObject.targetID).gameObject : null; 
+        this.target = serializedObject.targetID != -1 ? MapObject.FindByID(serializedObject.targetID).gameObject : null;
         this.firePriority = serializedObject.firePriorityID != -1 ? MapObject.FindByID(serializedObject.firePriorityID).gameObject : null;
         //this.isReloading = serializedObject.isReloading;
         this.FireStage = serializedObject.fireStage;
@@ -116,7 +131,6 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         this.turret = serializedObject.turret;
         this.turretType = serializedObject.turretType;
         return this;
-
     }
 
     private void FireBullet(GameObject target)
@@ -130,7 +144,7 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         //salvoCount++;
         if (this.FireStage == FireStage.READY)
         {
-            if(turret.shotsPerSalvo == 1)
+            if (turret.shotsPerSalvo == 1)
             {
                 this.FireStage = FireStage.RELOADING;
             }
@@ -143,9 +157,21 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         {
             salvoCount++;
         }
-        
+
         //isReloading = true;
         //salvoTimer.timerSet = true;
+    }
+
+    private int GetTurretIndex()
+    {
+        for (int i = 0; i < transform.parent.childCount; i++)
+        {
+            if (transform.parent.GetChild(i).gameObject.Equals(this.gameObject))
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void OnDrawGizmoS()
@@ -159,14 +185,13 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         {
         }
     }
-    [SerializeField]
-    private int salvoCount = 0;
+
     private void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
         turret = TurretFactory.getInstance().CreateTurret(turretType);
-        
-        if(reloadTimer == null || reloadTimer.duration == 0)
+
+        if (reloadTimer == null || reloadTimer.duration == 0)
         {
             reloadTimer = new Timer(turret.salvoReloadTime, false);
         }
@@ -180,26 +205,25 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
 
     private void Update()
     {
-
-        if(this.FireStage == FireStage.READY)
+        if (this.FireStage == FireStage.READY)
         {
             if ((firePriority != null && IsInRange(firePriority)) || (target != null && IsInRange(target)))
             {
                 FireBullet(firePriority != null ? firePriority : target);
             }
         }
-        else if(this.FireStage == FireStage.FIRING_SALVO)
+        else if (this.FireStage == FireStage.FIRING_SALVO)
         {
             salvoTimer.Execute();
 
-            if(salvoTimer.IsFinished)
+            if (salvoTimer.IsFinished)
             {
                 if (firePriority != null || target != null)
                 {
                     FireBullet(firePriority != null ? firePriority : target);
                 }
 
-                if(salvoCount < turret.shotsPerSalvo)
+                if (salvoCount < turret.shotsPerSalvo)
                 {
                     salvoTimer.ResetTimer();
                 }
@@ -209,38 +233,13 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
                 }
             }
         }
-        else if(this.FireStage == FireStage.RELOADING)
+        else if (this.FireStage == FireStage.RELOADING)
         {
             reloadTimer.Execute();
-            if(reloadTimer.IsFinished)
+            if (reloadTimer.IsFinished)
             {
                 FireStage = FireStage.READY;
             }
         }
-
-    }
-
-    public bool IsInRange(GameObject target)
-    {
-        Player player = PlayerDatabase.Instance.GetObjectPlayer(transform.parent.gameObject);
-
-        if(player.PlayerType == PlayerType.AI)
-        {
-            if(!StrategicAI.playerStrategicAI[player].scoutData.visibleObjetcs.Contains(target))
-            {
-                return false;
-            }
-        }
-        else
-        {
-            if(MapObjecsRenderingController.Instance.visibleObjects.Contains(target))
-            {
-                return false;
-            }
-        }
-
-        float magnitude = (transform.parent.transform.position - target.transform.position).sqrMagnitude;
-        
-        return magnitude <= turret.range * turret.range;
     }
 }

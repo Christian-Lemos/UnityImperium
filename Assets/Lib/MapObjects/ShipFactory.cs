@@ -32,7 +32,7 @@ namespace Imperium
                     stats = new CombatStats(2000, 1500, 15, 45f);
                     shipName = "MotherShip";
                     shipIcon = "ship_icon";
-                    speed = 0.4f;
+                    speed = 2f;
                     angularSpeed = 17f;
                     break;
 
@@ -57,13 +57,6 @@ namespace Imperium
                     shipIcon = "destroyer";
                     speed = 2.5f;
                     angularSpeed = 25f;
-                    break;
-                case (ShipType.FighterSquadron):
-                    stats = new CombatStats(100, 100, 4, 15f);
-                    shipName = "Fighter Squadron";
-                    shipIcon = "destroyer";
-                    speed = 3f;
-                    angularSpeed = 90f;
                     break;
 
                 default:
