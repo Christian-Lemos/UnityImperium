@@ -95,54 +95,52 @@ public class ObjectSelector : MonoBehaviour
     private void RaySelector()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
-        {
-            GameObject selected = hit.collider.gameObject;
+        RaycastHit[] raycastHits = Physics.RaycastAll(ray, 1000f);
 
-            if (selected.layer == (int)ObjectLayers.Ship || selected.layer == (int)ObjectLayers.Station)
+        for (int i = 0; i < raycastHits.Length; i++)
+        {
+            RaycastHit raycastHit = raycastHits[i];
+
+            GameObject hitObject = raycastHit.collider.gameObject;
+            ISelectable selectable = hitObject.GetComponent<ISelectable>();
+            if (selectable != null &&  MapObjecsRenderingController.Instance.visibleObjects.Contains(hitObject))
             {
-                if (!MapObjecsRenderingController.Instance.visibleObjects.Contains(selected))
+                
+                if(selectedGOs.Contains(hitObject))
                 {
-                    return;
+                    continue;
                 }
                 else if (Input.GetKey(KeyCode.LeftShift)) //If the player is pressid leftShift, the selected GO must be added to selected
                 {
                     //If selected is already on the selected list, it will be removed;
                     foreach (GameObject go in selectedGOs)
                     {
-                        if (go.Equals(selected))
+                        if (go.Equals(hitObject))
                         {
-                            selectedGOs.Remove(selected); //Remove object from selected
+                            selectedGOs.Remove(hitObject); //Remove object from selected
                             return;
                         }
                     }
-                    SelectGameObject(selected); //Add object to selected
+                    SelectGameObject(hitObject); //Add object to selected
+                    return;
                 }
                 else //If the player is not pressing LeftShift, the list of selected object will be cleared and the selected will be added
                 {
                     ClearSelectedGOList();
-                    SelectGameObject(selected);
+                    SelectGameObject(hitObject);
+                    return;
                 }
             }
-            else //Clear the selected list if clicked on no ships or stations
-            {
-                ClearSelectedGOList();
-            }
         }
+
+        ClearSelectedGOList();
+
     }
 
     private void SelectGameObject(GameObject gameObject)
     {
-        if(gameObject.GetComponent<SquadronUnit>() != null)
-        {
-            SelectGameObject(gameObject.transform.parent.gameObject);
-        }
-        else
-        {
-            selectedGOs.Add(gameObject);
-        }
+        selectedGOs.Add(gameObject);
     }
-
 
     private void Start()
     {

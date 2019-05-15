@@ -1,4 +1,5 @@
-﻿using Imperium;
+﻿using Assets.Lib.Navigation;
+using Imperium;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -83,6 +84,19 @@ public class FleetCommander : MonoBehaviour
                             }
                             break;
                     }
+                }
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            List<GameObject> selectedGOs = ObjectSelector.Instance.selectedGOs;
+            foreach (GameObject gameObject in selectedGOs)
+            {
+                INavigationAgent navigationAgent = gameObject.GetComponent<INavigationAgent>();
+                if(navigationAgent != null)
+                {
+                    navigationAgent.SetIdle();
                 }
             }
         }

@@ -9,6 +9,6 @@ namespace Imperium
 {
     public interface ISelectable
     {
-        GameObject Select();
+        
     }
 }

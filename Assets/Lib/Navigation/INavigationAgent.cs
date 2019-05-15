@@ -18,5 +18,7 @@ namespace Assets.Lib.Navigation
         void MoveControl(Vector3 destination);
 
         void MoveToPosition(Vector3 destination, float destinationOffset, bool resetCommands, bool loopCommands);
+
+        void SetIdle();
     }
 }
