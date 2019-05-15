@@ -13,6 +13,7 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
 {
     public Turret turret;
 
+    private static System.Random random = new System.Random();
     private GameObject @object;
 
     [SerializeField]
@@ -80,6 +81,11 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         this.target = target;
     }
 
+    public double GetRandomNumber(System.Random random, double minimum, double maximum)
+    {
+        return random.NextDouble() * (maximum - minimum) + minimum;
+    }
+
     public bool IsInRange(GameObject target)
     {
         Player player = PlayerDatabase.Instance.GetObjectPlayer(transform.parent.gameObject);
@@ -138,7 +144,11 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         Quaternion desRotation = Quaternion.LookRotation(target.transform.position - transform.position, Vector3.up);
 
         GameObject bullet = Spawner.Instance.SpawnBullet(turret.bullet.prefab, transform.position, desRotation);
+
+        bullet.transform.rotation = Quaternion.LookRotation((SetBulletDirection(target.transform.position) - bullet.transform.position));
+
         turret.salvoReloadTime = 0.0000001f;
+
         bullet.GetComponent<BulletController>().Initiate(@object, turret.bullet);
         audioSource.Play();
         //salvoCount++;
@@ -184,6 +194,23 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
         catch
         {
         }
+    }
+
+    private Vector3 SetBulletDirection(Vector3 targetPosition)
+    {
+        float maximumOffset = 3;
+
+        float offset = (maximumOffset / 100) * turret.accuracy;
+
+        float xOffset = (float)GetRandomNumber(random, -offset, offset);
+        float yOffset = (float)GetRandomNumber(random, -offset, offset);
+        float zOffset = (float)GetRandomNumber(random, -offset, offset);
+
+        Vector3 position = new Vector3(targetPosition.x + xOffset, targetPosition.y + yOffset, targetPosition.z + zOffset);
+
+        Debug.Log(xOffset + " " + yOffset + " " + zOffset);
+
+        return position;
     }
 
     private void Start()
