@@ -42,7 +42,7 @@ public class MapObject : MonoBehaviour, ISerializable<MapObjectPersitance>
 
     public static HashSet<MapObject> GetMapObjects()
     {
-        return mapObjects;
+        return new HashSet<MapObject>(mapObjects);
     }
 
     public static MapObject FindByID(long id)

@@ -208,8 +208,6 @@ public class TurretController : MonoBehaviour, ISerializable<TurretControllerPer
 
         Vector3 position = new Vector3(targetPosition.x + xOffset, targetPosition.y + yOffset, targetPosition.z + zOffset);
 
-        Debug.Log(xOffset + " " + yOffset + " " + zOffset);
-
         return position;
     }
 
