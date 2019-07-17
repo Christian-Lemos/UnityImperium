@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Imperium.Persistance
+namespace Imperium.Persistence
 {
     [Serializable]
     public class SerializableColor
