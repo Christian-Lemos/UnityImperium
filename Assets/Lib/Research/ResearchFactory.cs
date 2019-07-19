@@ -2,11 +2,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Imperium.Economy;
+using System;
+
 namespace Imperium.Research
 {
     public class ResearchFactory
     {
         private static ResearchFactory _instance;
+
         public static ResearchFactory Instance
         {
             get
@@ -18,6 +21,26 @@ namespace Imperium.Research
                 return _instance;
             }
         }
+
+        private Dictionary<ResearchType, List<Type>> researchBehaviours = new Dictionary<ResearchType, List<Type>>()
+        {
+            {
+                ResearchType.Era1, new List<Type>()
+                {
+                    typeof(ShipArmorRB)
+                }
+            }
+        };
+
+        public List<Type> GetBehaviours(ResearchType researchType)
+        {
+            if(!researchBehaviours.ContainsKey(researchType))
+            {
+                researchBehaviours.Add(researchType, new List<Type>());
+            }
+            return researchBehaviours[researchType];
+        }
+
 
         public Research CreateResearch(ResearchType researchType, bool disabled)
         {

@@ -26,6 +26,35 @@ public class Spawner : MonoBehaviour
 
     private Dictionary<Player, HashSet<Action<GameObject>>> playerShipCreationObservers = new Dictionary<Player, HashSet<Action<GameObject>>>();
 
+
+    public delegate void ShipSpawnMiddleware(ref GameObject instance);
+    private HashSet<ShipSpawnMiddleware> shipSpawnMiddlewares = new HashSet<ShipSpawnMiddleware>();
+
+
+    /*private abstract class MiddleWareList<T> 
+    {
+        private List<T> collection = new List<T>();
+        public abstract void Execute();
+    }
+
+    private class ShipMiddleWareList : MiddleWareList<ShipSpawnMiddleware>
+    {
+        public override void Execute()
+        {
+            
+        }
+    }*/
+
+    public void AddShipSpawnMiddleware(ShipSpawnMiddleware shipSpawnMiddleware)
+    {
+        shipSpawnMiddlewares.Add(shipSpawnMiddleware);
+    }
+
+    public void RemoveShipSpawnMiddleware(ShipSpawnMiddleware shipSpawnMiddleware)
+    {
+        shipSpawnMiddlewares.Remove(shipSpawnMiddleware);
+    }
+
     public long CreateID()
     {
         long id = nextId;
@@ -177,6 +206,13 @@ public class Spawner : MonoBehaviour
         else
         {
             GameObject newShip = Instantiate(prefab, position, rotation);
+            //Ship ship = ShipFactory.getInstance().CreateShip(type);
+
+            foreach(ShipSpawnMiddleware middleware in this.shipSpawnMiddlewares)
+            {
+                middleware.Invoke(ref newShip);
+            }
+
             PlayerDatabase.Instance.AddObjectToPlayer(newShip, player);
             newShip.name += " " + player.Number;
 

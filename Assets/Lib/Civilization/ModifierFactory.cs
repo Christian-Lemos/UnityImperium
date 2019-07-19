@@ -36,10 +36,9 @@ namespace Assets.Lib.Civilization
         {
             Type type = GetModifierType(modifierType);
             Modifier existing = (Modifier) gameObject.GetComponent(type);
-            Debug.Log(existing);
+
             if (existing == null)
             {
-                Debug.Log("Creating new");
                 Modifier modifier = (Modifier) gameObject.AddComponent(type);
                 modifier.Level = level;
                 modifier.enabled = enabled;

@@ -7,7 +7,6 @@ using System.Linq;
 public class AuraController : MonoBehaviour
 {
     public HashSet<GameObject> collection = new HashSet<GameObject>();
-    public List<GameObject> test;
     public int level;
     public ModifierType modifierType;
 
@@ -15,7 +14,7 @@ public class AuraController : MonoBehaviour
     private float radius;
 
     private float radius_sqrt;
-    private int selectLayer = (1 << (int)ObjectLayers.Ship) | (1 << (int)ObjectLayers.Station);
+    
     private Type type;
     public float Radius { get => radius; set { radius = value; radius_sqrt = radius * radius; } }
 
@@ -32,7 +31,7 @@ public class AuraController : MonoBehaviour
         HashSet<GameObject> gameObjects = new HashSet<GameObject>();
         
         HashSet<MapObject> mapObjects = MapObject.GetMapObjects();
-        Debug.Log(mapObjects.Count);
+        
 
         mapObjects.RemoveWhere((MapObject g) =>
         {
@@ -84,17 +83,13 @@ public class AuraController : MonoBehaviour
 
         foreach(GameObject go in gameObjects)
         {
-   
-            Debug.Log("Creating modifier in:" + go.name);
             ModifierFactory.getInstance().AddModifierToGameObject(go, modifierType, this.level, true);
-            
         }
 
         foreach(GameObject go in collection)
         {
             if(!gameObjects.Contains(go))
             {
-                Debug.Log("Removing modifier in:" + go.name);
                 Modifier modifier = (Modifier)go.GetComponent(type);
                 if (modifier != null)
                 {

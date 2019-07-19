@@ -2,12 +2,16 @@
 using Imperium.Misc;
 using Imperium.Persistence;
 using Imperium.Research;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ResearchManager : MonoBehaviour
 {
+
+
+
     [System.Serializable]
     public class OnGoingResearch
     {
@@ -22,6 +26,8 @@ public class ResearchManager : MonoBehaviour
             this.researchNode = researchNode;
         }
     }
+
+    private Dictionary<Player, HashSet<ResearchBehaviour>> playerResearchBehaviours = new Dictionary<Player, HashSet<ResearchBehaviour>>();
 
     private Dictionary<Player, List<OnGoingResearch>> onGoingResearches = new Dictionary<Player, List<OnGoingResearch>>();
 
@@ -38,6 +44,10 @@ public class ResearchManager : MonoBehaviour
         foreach(Player player in PlayerDatabase.Instance.players)
         {
             onGoingResearches.Add(player, new List<OnGoingResearch>());
+        }
+        foreach (Player player in PlayerDatabase.Instance.players)
+        {
+            playerResearchBehaviours.Add(player, new HashSet<ResearchBehaviour>());
         }
     }
 
@@ -62,9 +72,19 @@ public class ResearchManager : MonoBehaviour
 
     private void FinishResearch(Player player)
     {
+        List<Type> types = ResearchFactory.Instance.GetBehaviours(onGoingResearches[player][0].researchNode.research.reserachType);
+        foreach(Type type in types)
+        {
+            ResearchBehaviour researchBehaviour = (ResearchBehaviour) this.gameObject.AddComponent(type);
+            researchBehaviour.player = player;
+            this.playerResearchBehaviours[player].Add(researchBehaviour);
+        }
+
         Debug.Log(onGoingResearches[player][0].researchNode.research.name + " completed");
         onGoingResearches[player][0].researchNode.completed = true;
         onGoingResearches[player].RemoveAt(0);
+        
+
     }
 
     public ResearchNode GetOnGoingResearchNode(GameObject source, Player player)

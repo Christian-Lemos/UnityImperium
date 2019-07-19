@@ -9,6 +9,7 @@ public class ShipHPRegen : Modifier
     private ShipController shipController;
 
     private int hpPerLevel = 5;
+
     private Timer timer;
     public override void Modify()
     {

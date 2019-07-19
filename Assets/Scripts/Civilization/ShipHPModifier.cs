@@ -2,6 +2,7 @@
 using System.Collections;
 using Assets.Lib.Civilization;
 using System;
+using Imperium;
 
 [DisallowMultipleComponent]
 public class ShipHPModifier : Modifier
@@ -13,6 +14,10 @@ public class ShipHPModifier : Modifier
     private int porcentagePerLevel = 5;
     private int rawPerLevel = 50;
     public int PorcentagePerLevel { get => porcentagePerLevel; private set => porcentagePerLevel = value; }
+
+
+    public bool heal = false;
+
     public ShipController ShipController
     {
         get
@@ -28,15 +33,20 @@ public class ShipHPModifier : Modifier
 
     public override void Modify()
     {
-        int porcentAddedHP = (int)(baseMaxHP * ((float)(porcentagePerLevel * base.Level) / 100));
-        int rawAddedHP = base.Level * rawPerLevel;
-        ShipController.Ship.combatStats.MaxHP += porcentAddedHP + rawAddedHP;
+        GetHpAdders(out int porcentage, out int raw);
+        ShipController.Ship.combatStats.MaxHP += porcentage + raw;
+        if(heal)
+        {
+            ShipController.Ship.combatStats.HP = ShipController.Ship.combatStats.MaxHP;
+            heal = false;
+        }
         base.active = true;
     }
 
     public override void ReverseModify()
     {
-        this.ShipController.Ship.combatStats.MaxHP = baseMaxHP;
+        GetHpAdders(out int porcentAddedHP, out int rawAddedHP); 
+        this.ShipController.Ship.combatStats.MaxHP -= porcentAddedHP + rawAddedHP;
         base.active = false;
     }
 
@@ -46,9 +56,17 @@ public class ShipHPModifier : Modifier
         base.modifierType = ModifierType.ShipMaxHPBuffer;
         base.ExecuteEveryUpdate = false;
         
-        baseMaxHP = this.ShipController.Ship.combatStats.MaxHP;
-        Debug.Log("Original: " + baseMaxHP);
+        //baseMaxHP = this.ShipController.Ship.combatStats.MaxHP;
+  
+        baseMaxHP = ShipFactory.getInstance().CreateShip(this.ShipController.shipType).combatStats.MaxHP;
+     
         base.Start();
 
+    }
+
+    public void GetHpAdders(out int porcentage, out int raw)
+    {
+        porcentage = (int)(baseMaxHP * ((float)(porcentagePerLevel * base.Level) / 100));
+        raw = base.Level * rawPerLevel;
     }
 }
