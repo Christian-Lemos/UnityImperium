@@ -24,8 +24,12 @@ public class ShieldRegenerator : MonoBehaviour
 
     private void OnDisable()
     {
-        m_timer.timerSet = false;
-        m_timer.ResetTimer();
+        if(m_timer != null)
+        {
+            m_timer.timerSet = false;
+            m_timer.ResetTimer();
+        }
+        
     }
 
     private void OnEnable()

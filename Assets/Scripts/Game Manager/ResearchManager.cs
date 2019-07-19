@@ -75,9 +75,18 @@ public class ResearchManager : MonoBehaviour
         List<Type> types = ResearchFactory.Instance.GetBehaviours(onGoingResearches[player][0].researchNode.research.reserachType);
         foreach(Type type in types)
         {
-            ResearchBehaviour researchBehaviour = (ResearchBehaviour) this.gameObject.AddComponent(type);
-            researchBehaviour.player = player;
-            this.playerResearchBehaviours[player].Add(researchBehaviour);
+            ResearchBehaviour researchBehaviour = (ResearchBehaviour) this.gameObject.GetComponent(type);
+            if(researchBehaviour == null)
+            {
+                researchBehaviour = (ResearchBehaviour) this.gameObject.AddComponent(type);
+                researchBehaviour.player = player;
+                this.playerResearchBehaviours[player].Add(researchBehaviour);
+
+            }
+            else if(researchBehaviour is LeveledResearchBehaviour)
+            {
+                ((LeveledResearchBehaviour) researchBehaviour).UpdateLevel();
+            }
         }
 
         Debug.Log(onGoingResearches[player][0].researchNode.research.name + " completed");
@@ -99,3 +108,4 @@ public class ResearchManager : MonoBehaviour
         return null;
     }
 }
+

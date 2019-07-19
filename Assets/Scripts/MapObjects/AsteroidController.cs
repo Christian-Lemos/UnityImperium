@@ -1,10 +1,11 @@
-﻿using Imperium.Economy;
+﻿using Imperium;
+using Imperium.Economy;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AsteroidController : MonoBehaviour, ISerializable<AsteroidControllerPersistance>
+public class AsteroidController : MonoBehaviour, ISerializable<AsteroidControllerPersistance>, ISelectable
 {
     public delegate void onDestroyDelegate(ResourceType resourceType, GameObject gameObject);
 

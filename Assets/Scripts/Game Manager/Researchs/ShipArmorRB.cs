@@ -4,9 +4,11 @@ using Imperium.MapObjects;
 using System.Collections.Generic;
 using Imperium;
 
-public class ShipArmorRB : ResearchBehaviour
+public class ShipArmorRB : LeveledResearchBehaviour
 {
     
+
+
     protected override void Initiate()
     {
         Spawner.Instance.AddShipSpawnMiddleware(this.MiddleWare);
@@ -34,7 +36,7 @@ public class ShipArmorRB : ResearchBehaviour
     private void AddModifier(GameObject go, bool heal)
     {
         ShipHPModifier shipHPModifier = go.AddComponent<ShipHPModifier>();
-        shipHPModifier.Level = 1;
+        shipHPModifier.Level = this.level;
         shipHPModifier.heal = heal;
     }
 
@@ -43,4 +45,22 @@ public class ShipArmorRB : ResearchBehaviour
         Spawner.Instance.RemoveShipSpawnMiddleware(this.MiddleWare);
     }
 
+    public override void UpdateLevel()
+    {
+        this.level++;
+        
+        HashSet<GameObject> gameObjects = PlayerDatabase.Instance.GetObjects(base.player);
+
+        foreach (GameObject go in gameObjects)
+        {
+            if (go.layer == (int)ObjectLayers.Ship)
+            {
+                ShipHPModifier shipHPModifier = go.GetComponent<ShipHPModifier>();
+                shipHPModifier.Level = this.level;
+                shipHPModifier.Modify();
+            }
+        }
+
+
+    }
 }

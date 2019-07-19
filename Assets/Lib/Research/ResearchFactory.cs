@@ -29,6 +29,12 @@ namespace Imperium.Research
                 {
                     typeof(ShipArmorRB)
                 }
+            },
+            {
+                ResearchType.Era2, new List<Type>()
+                {
+                    typeof(ShipArmorRB)
+                }
             }
         };
 

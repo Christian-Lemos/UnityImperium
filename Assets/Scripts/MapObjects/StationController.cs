@@ -7,7 +7,7 @@ using Imperium.Persistence.MapObjects;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StationController : MonoBehaviour, ISerializable<StationControllerPersistance>, IHittable, ICombatable
+public class StationController : MonoBehaviour, ISerializable<StationControllerPersistance>, IHittable, ICombatable, ISelectable
 {
     public float constructionProgress;
 

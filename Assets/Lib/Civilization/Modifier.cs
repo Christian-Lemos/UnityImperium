@@ -52,5 +52,9 @@ namespace Assets.Lib.Civilization
                 Modify();
             }
         }
+        private void OnDestroy()
+        {
+            ReverseModify();
+        }
     }
 }

@@ -69,4 +69,5 @@ public class ShipHPModifier : Modifier
         porcentage = (int)(baseMaxHP * ((float)(porcentagePerLevel * base.Level) / 100));
         raw = base.Level * rawPerLevel;
     }
+
 }
