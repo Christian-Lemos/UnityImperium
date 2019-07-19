@@ -11,6 +11,13 @@ public class ShipHPRegen : Modifier
     private int hpPerLevel = 5;
 
     private Timer timer;
+
+    public override string Description => "Regenerating " + hpPerLevel + " HP per second";
+
+    public override string Name => "Ship HP regeneration";
+
+    public override string Icon => "ship_regen";
+
     public override void Modify()
     {
         this.timer.Execute();

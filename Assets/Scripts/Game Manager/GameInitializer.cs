@@ -1,4 +1,5 @@
-﻿using Imperium;
+﻿using Assets.Lib.Events;
+using Imperium;
 using Imperium.MapObjects;
 using Imperium.Persistence;
 using Imperium.Persistence.MapObjects;
@@ -54,6 +55,7 @@ public class GameInitializer : MonoBehaviour
         SetUpPlayerManager();
         SetUpAI();
         LoadGameSceneData();
+        MonoBehaviourEvents.cleaner.StartThread();
     }
 
     private void SetUpAI()

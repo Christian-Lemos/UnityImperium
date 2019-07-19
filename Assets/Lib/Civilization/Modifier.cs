@@ -1,6 +1,7 @@
 ﻿using Assets.Lib.Persistance;
 using Imperium.Persistence;
 using UnityEngine;
+using Assets.Lib.Events;
 
 namespace Assets.Lib.Civilization
 {
@@ -15,8 +16,12 @@ namespace Assets.Lib.Civilization
         [SerializeField]
         private int level;
 
+        public abstract string Description { get; }
+
+        public abstract string Icon { get; }
         public bool ExecuteEveryUpdate { get => executeEveryUpdate; protected set => executeEveryUpdate = value; }
         public int Level { get => level; set { if (value != level) { level = value; } } }
+        public abstract string Name { get; }
 
         public abstract void Modify();
 
@@ -52,9 +57,11 @@ namespace Assets.Lib.Civilization
                 Modify();
             }
         }
+
         private void OnDestroy()
         {
             ReverseModify();
+            this.CallDestroyedObservers();
         }
     }
 }

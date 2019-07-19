@@ -3,7 +3,7 @@ using UnityEditor;
 using Imperium.MapObjects;
 using System.Collections.Generic;
 using Imperium;
-
+using Assets.Lib.Events;
 public class ShipArmorRB : LeveledResearchBehaviour
 {
     
@@ -22,7 +22,7 @@ public class ShipArmorRB : LeveledResearchBehaviour
             }
         }
     }
-
+    static int hello = 1;
     private void MiddleWare(ref GameObject instance)
     {
         if (instance == null)
@@ -31,6 +31,11 @@ public class ShipArmorRB : LeveledResearchBehaviour
         }
 
         AddModifier(instance, true);
+        
+        instance.GetComponent<ShipController>().OnDestroyEvent(() =>
+        {
+            Debug.Log("Hello: " + hello++);
+        });
     }
 
     private void AddModifier(GameObject go, bool heal)

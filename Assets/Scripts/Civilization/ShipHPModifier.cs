@@ -1,22 +1,31 @@
-﻿using UnityEngine;
-using System.Collections;
-using Assets.Lib.Civilization;
-using System;
+﻿using Assets.Lib.Civilization;
 using Imperium;
+using UnityEngine;
 
 [DisallowMultipleComponent]
 public class ShipHPModifier : Modifier
 {
-    private ShipController shipController;
+    public bool heal = false;
+
     [SerializeField]
     private int baseMaxHP;
 
     private int porcentagePerLevel = 5;
     private int rawPerLevel = 50;
+    private ShipController shipController;
+
+    public override string Description
+    {
+        get
+        {
+            GetHpAdders(out int porcentage, out int raw);
+            return "Ship HP increased by " + (porcentage + raw);
+        }
+    }
+
+    public override string Icon => "ship_armor";
+    public override string Name => "Ship Armor " + this.Level;
     public int PorcentagePerLevel { get => porcentagePerLevel; private set => porcentagePerLevel = value; }
-
-
-    public bool heal = false;
 
     public ShipController ShipController
     {
@@ -31,11 +40,17 @@ public class ShipHPModifier : Modifier
         set => shipController = value;
     }
 
+    public void GetHpAdders(out int porcentage, out int raw)
+    {
+        porcentage = (int)(baseMaxHP * ((float)(porcentagePerLevel * base.Level) / 100));
+        raw = base.Level * rawPerLevel;
+    }
+
     public override void Modify()
     {
         GetHpAdders(out int porcentage, out int raw);
         ShipController.Ship.combatStats.MaxHP += porcentage + raw;
-        if(heal)
+        if (heal)
         {
             ShipController.Ship.combatStats.HP = ShipController.Ship.combatStats.MaxHP;
             heal = false;
@@ -45,29 +60,21 @@ public class ShipHPModifier : Modifier
 
     public override void ReverseModify()
     {
-        GetHpAdders(out int porcentAddedHP, out int rawAddedHP); 
+        GetHpAdders(out int porcentAddedHP, out int rawAddedHP);
         this.ShipController.Ship.combatStats.MaxHP -= porcentAddedHP + rawAddedHP;
         base.active = false;
     }
 
     // Use this for initialization
-    new void Start()
+    private new void Start()
     {
         base.modifierType = ModifierType.ShipMaxHPBuffer;
         base.ExecuteEveryUpdate = false;
-        
+
         //baseMaxHP = this.ShipController.Ship.combatStats.MaxHP;
-  
+
         baseMaxHP = ShipFactory.getInstance().CreateShip(this.ShipController.shipType).combatStats.MaxHP;
-     
+
         base.Start();
-
     }
-
-    public void GetHpAdders(out int porcentage, out int raw)
-    {
-        porcentage = (int)(baseMaxHP * ((float)(porcentagePerLevel * base.Level) / 100));
-        raw = base.Level * rawPerLevel;
-    }
-
 }
