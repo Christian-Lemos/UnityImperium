@@ -40,6 +40,8 @@ public class ShipHPModifier : Modifier
         set => shipController = value;
     }
 
+    public override bool DoesStack => false;
+
     public void GetHpAdders(out int porcentage, out int raw)
     {
         porcentage = (int)(baseMaxHP * ((float)(porcentagePerLevel * base.Level) / 100));
@@ -70,6 +72,11 @@ public class ShipHPModifier : Modifier
     {
         base.modifierType = ModifierType.ShipMaxHPBuffer;
         base.ExecuteEveryUpdate = false;
+
+        if (this.ShipController == null)
+        {
+            Destroy(this);
+        }
 
         //baseMaxHP = this.ShipController.Ship.combatStats.MaxHP;
 

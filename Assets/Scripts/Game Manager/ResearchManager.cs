@@ -89,7 +89,6 @@ public class ResearchManager : MonoBehaviour
             }
         }
 
-        Debug.Log(onGoingResearches[player][0].researchNode.research.name + " completed");
         onGoingResearches[player][0].researchNode.completed = true;
         onGoingResearches[player].RemoveAt(0);
         

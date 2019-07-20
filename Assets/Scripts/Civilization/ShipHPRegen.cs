@@ -3,7 +3,6 @@ using System.Collections;
 using Assets.Lib.Civilization;
 using Imperium.Misc;
 
-[DisallowMultipleComponent]
 public class ShipHPRegen : Modifier
 {
     private ShipController shipController;
@@ -12,11 +11,15 @@ public class ShipHPRegen : Modifier
 
     private Timer timer;
 
+
+
     public override string Description => "Regenerating " + hpPerLevel + " HP per second";
 
-    public override string Name => "Ship HP regeneration";
+    public override string Name => "Ship HP regeneration " + this.Level;
 
     public override string Icon => "ship_regen";
+
+    public override bool DoesStack => false;
 
     public override void Modify()
     {
@@ -41,9 +44,14 @@ public class ShipHPRegen : Modifier
         base.modifierType = ModifierType.ShipHPRegen;
         base.ExecuteEveryUpdate = true;
         this.shipController = GetComponent<ShipController>();
+        
+        if(this.shipController == null)
+        {
+            Destroy(this);
+        }
 
         this.timer = new Timer(1f, true, AddHP);
-        base.Level = 1;
+        //base.Level = 1;
         
         base.Start();
 

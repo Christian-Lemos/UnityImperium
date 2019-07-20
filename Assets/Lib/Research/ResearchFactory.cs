@@ -33,7 +33,7 @@ namespace Imperium.Research
             {
                 ResearchType.Era2, new List<Type>()
                 {
-                    typeof(ShipArmorRB)
+                    typeof(ShipArmorRB), typeof(FlagshipRegenAuraRB)
                 }
             }
         };
@@ -66,7 +66,7 @@ namespace Imperium.Research
                     {
                         new ResourceQuantity(100, ResourceType.BlackMatter)
                     };
-                    duration = 5;
+                    duration = 2;
                     break;
                 case ResearchType.Era2:
                     name = "Expansion Era";
@@ -76,7 +76,7 @@ namespace Imperium.Research
                     {
                         new ResourceQuantity(200, ResourceType.BlackMatter)
                     };
-                    duration = 5;
+                    duration = 2;
                     break;
                 case ResearchType.Era3:
                     name = "Warfare era";

@@ -1,9 +1,9 @@
 ﻿using Assets.Lib.Civilization;
 using Imperium;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 public class AuraController : MonoBehaviour
 {
     public HashSet<GameObject> collection = new HashSet<GameObject>();
@@ -16,24 +16,18 @@ public class AuraController : MonoBehaviour
     private float radius_sqrt;
     
     private Type type;
+
+    private Player player;
     public float Radius { get => radius; set { radius = value; radius_sqrt = radius * radius; } }
 
-    private void FilterGameObjects(ref HashSet<GameObject> gameObjects)
-    {
-        gameObjects.RemoveWhere((GameObject g) =>
-        {
-            return !PlayerDatabase.Instance.AreFromSamePlayer(this.gameObject, g);
-        });
-    }
 
     private HashSet<GameObject> GetGameObjectsWithinRadius()
     {
         HashSet<GameObject> gameObjects = new HashSet<GameObject>();
         
-        HashSet<MapObject> mapObjects = MapObject.GetMapObjects();
-        
+        HashSet<GameObject> mapObjects = new HashSet<GameObject>(PlayerDatabase.Instance.GetObjects(player));
 
-        mapObjects.RemoveWhere((MapObject g) =>
+        mapObjects.RemoveWhere((GameObject g) =>
         {
             if(g.gameObject.layer != (int)ObjectLayers.Ship && g.gameObject.layer != (int)ObjectLayers.Station)
             {
@@ -64,6 +58,7 @@ public class AuraController : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        player = PlayerDatabase.Instance.GetObjectPlayer(this.gameObject);
         type = ModifierFactory.getInstance().GetModifierType(modifierType);
         Radius = Radius;
       
@@ -71,35 +66,60 @@ public class AuraController : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        this.coroutine = UpdateEnumerator;
+        StartCoroutine(this.coroutine);
     }
 
-    // Update is called once per frame
-    private void Update()
+
+
+    private void UpdateAffectedObjects()
     {
         HashSet<GameObject> gameObjects = GetGameObjectsWithinRadius();
-        
-        FilterGameObjects(ref gameObjects);
-        
 
-        foreach(GameObject go in gameObjects)
+        foreach (GameObject go in gameObjects)
         {
-            ModifierFactory.getInstance().AddModifierToGameObject(go, modifierType, this.level, true);
+            Modifier m = go.AddModifier(type, this.level, true);
+            if (m != null)
+            {
+                m.AddGuardian(this.gameObject);
+            }
+
         }
 
-        foreach(GameObject go in collection)
+        foreach (GameObject go in collection)
         {
-            if(!gameObjects.Contains(go))
+            if (!gameObjects.Contains(go))
             {
                 Modifier modifier = (Modifier)go.GetComponent(type);
                 if (modifier != null)
                 {
-                    modifier.ReverseModify();
-                    Destroy(go.GetComponent(type));
+                    modifier.RemoveGuardian(this.gameObject);
+                    go.RemoveModifier(modifier);
+                    //modifier.ReverseModify();
+                    //Destroy(go.GetComponent(type));
                 }
             }
         }
-
         collection = gameObjects;
- 
+    }
+
+    private IEnumerator coroutine;
+
+    private IEnumerator UpdateEnumerator
+    {
+        get
+        {
+            while (true)
+            {
+                UpdateAffectedObjects();
+                yield return new WaitForSeconds(0.5f);
+            }
+
+        }
+    }
+
+    private void OnDestroy()
+    {
+        StopCoroutine(this.coroutine);
     }
 }
