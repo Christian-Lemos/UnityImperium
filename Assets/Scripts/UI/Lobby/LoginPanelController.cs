@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -72,6 +73,10 @@ namespace Assets.Scripts.UI.Lobby
             HidePanel();
         }
 
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            ShowPanel();
+        }
         #endregion PUN
 
         private void HidePanel()

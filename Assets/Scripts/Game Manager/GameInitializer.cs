@@ -27,6 +27,10 @@ public class GameInitializer : MonoBehaviour
         try
         {
             gameSceneData = SceneManager.Instance.currentGameSceneData;
+            if(gameSceneData == null)
+            {
+                gameSceneData = GameSceneData.NewGameDefault();
+            }
         }
         catch
         {

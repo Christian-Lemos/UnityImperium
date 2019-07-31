@@ -3,6 +3,9 @@ using Imperium.Persistence.MapObjects;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Assets.Lib;
+using Photon.Pun;
+using ExitGames.Client.Photon;
 
 public class SceneManager : MonoBehaviour
 {
@@ -33,6 +36,16 @@ public class SceneManager : MonoBehaviour
         persistantDataManager.CreateGameSceneData(data);
         currentGameSceneData = data;
         UnityEngine.SceneManagement.SceneManager.LoadScene("game", LoadSceneMode.Single);
+    }
+    public void StartMultiplayerGame()
+    {
+        GameSceneData data = GameSceneData.NewGameDefault();
+        currentGameSceneData = data;
+        Hashtable hashTable = PhotonNetwork.CurrentRoom.CustomProperties;
+        hashTable[NetworkHelper.Constants.GAME_SCENE_DATA] = data;
+        
+        PhotonNetwork.LoadLevel("skimirish");
+
     }
 
     public void LoadGame(string gameName)
